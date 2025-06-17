@@ -51,11 +51,36 @@ stopButton.Text = "หยุด"
 stopButton.Position = UDim2.new(0.55, 0, 0.4, 0)
 stopButton.Size = UDim2.new(0.35, 0, 0.25, 0)
 
-local presetBox = Instance.new("TextBox", frame)
-presetBox.PlaceholderText = "เลือกประเภท: A หรือ B"
-presetBox.Position = UDim2.new(0.1, 0, 0.7, 0)
-presetBox.Size = UDim2.new(0.8, 0, 0.2, 0)
-presetBox.Text = ""
+-- ปุ่มเลือก A
+local buttonA = Instance.new("TextButton", frame)
+buttonA.Text = "เลือก A"
+buttonA.Position = UDim2.new(0.1, 0, 0.7, 0)
+buttonA.Size = UDim2.new(0.35, 0, 0.2, 0)
+
+-- ปุ่มเลือก B
+local buttonB = Instance.new("TextButton", frame)
+buttonB.Text = "เลือก B"
+buttonB.Position = UDim2.new(0.55, 0, 0.7, 0)
+buttonB.Size = UDim2.new(0.35, 0, 0.2, 0)
+
+-- ตัวแปรเก็บ preset ที่เลือก
+local selectedPreset = nil
+
+-- เมื่อกดปุ่ม A
+buttonA.MouseButton1Click:Connect(function()
+	selectedPreset = "A"
+	buttonA.BackgroundColor3 = Color3.fromRGB(0, 170, 0)
+	buttonB.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+	print("เลือก A แล้ว")
+end)
+
+-- เมื่อกดปุ่ม B
+buttonB.MouseButton1Click:Connect(function()
+	selectedPreset = "B"
+	buttonB.BackgroundColor3 = Color3.fromRGB(0, 170, 0)
+	buttonA.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+	print("เลือก B แล้ว")
+end)
 
 -- ✅ ปุ่ม P toggle UI
 UserInputService.InputBegan:Connect(function(input, gameProcessed)
