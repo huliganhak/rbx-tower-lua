@@ -52,40 +52,54 @@ stopButton.Text = "หยุด"
 stopButton.Position = UDim2.new(0.55, 0, 0.4, 0)
 stopButton.Size = UDim2.new(0.35, 0, 0.25, 0)
 
--- สร้าง ScrollingFrame สำหรับ ListBox
-local listBox = Instance.new("ScrollingFrame", frame)
-listBox.Position = UDim2.new(0.1, 0, 0.7, 0)
-listBox.Size = UDim2.new(0.8, 0, 0.2, 0)
-listBox.CanvasSize = UDim2.new(0, 0, 0, 200)
-listBox.ScrollBarThickness = 6
-listBox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+-- 🔽 ปุ่มหลักของ Dropdown
+local dropdownMain = Instance.new("TextButton", frame)
+dropdownMain.Position = UDim2.new(0.1, 0, 0.7, 0)
+dropdownMain.Size = UDim2.new(0.8, 0, 0.15, 0)
+dropdownMain.Text = "เลือก World"
+dropdownMain.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+dropdownMain.TextColor3 = Color3.new(1, 1, 1)
 
--- UIListLayout เพื่อจัดเรียงแนวตั้ง
-local layout = Instance.new("UIListLayout", listBox)
+-- 🔽 กล่องรายการที่ซ่อนอยู่
+local dropdownFrame = Instance.new("Frame", frame)
+dropdownFrame.Position = UDim2.new(0.1, 0, 0.85, 0)
+dropdownFrame.Size = UDim2.new(0.8, 0, 0, 0) -- เริ่มต้นความสูง 0 เพื่อซ่อน
+dropdownFrame.ClipsDescendants = true
+dropdownFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+dropdownFrame.BorderSizePixel = 1
+dropdownFrame.Visible = false
+
+local layout = Instance.new("UIListLayout", dropdownFrame)
 layout.Padding = UDim.new(0, 2)
 
--- สร้างปุ่ม World 1 ถึง 8
+-- 🔘 สร้างตัวเลือก 1 - 8
 for i = 1, 8 do
-	local btn = Instance.new("TextButton")
-	btn.Size = UDim2.new(1, -4, 0, 24)
-	btn.Text = "World " .. i
-	btn.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
-	btn.TextColor3 = Color3.new(1, 1, 1)
-	btn.Parent = listBox
+	local option = Instance.new("TextButton")
+	option.Size = UDim2.new(1, 0, 0, 24)
+	option.Text = "World " .. i
+	option.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+	option.TextColor3 = Color3.new(1, 1, 1)
+	option.Parent = dropdownFrame
 
-	btn.MouseButton1Click:Connect(function()
+	option.MouseButton1Click:Connect(function()
 		selectedWorld = "World " .. i
-		print("เลือก: " .. selectedWorld)
-
-		-- เปลี่ยนสีปุ่มที่ถูกเลือก
-		for _, other in ipairs(listBox:GetChildren()) do
-			if other:IsA("TextButton") then
-				other.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
-			end
-		end
-		btn.BackgroundColor3 = Color3.fromRGB(0, 170, 0)
+		dropdownMain.Text = selectedWorld
+		dropdownFrame.Visible = false
+		dropdownFrame.Size = UDim2.new(0.8, 0, 0, 0)
 	end)
 end
+
+-- ⬇️ Toggle dropdown visibility
+local isOpen = false
+dropdownMain.MouseButton1Click:Connect(function()
+	isOpen = not isOpen
+	dropdownFrame.Visible = isOpen
+	if isOpen then
+		dropdownFrame.Size = UDim2.new(0.8, 0, 0, 200) -- เปิด
+	else
+		dropdownFrame.Size = UDim2.new(0.8, 0, 0, 0) -- ปิด
+	end
+end)
 
 -- ✅ ปุ่ม P toggle UI
 UserInputService.InputBegan:Connect(function(input, gameProcessed)
