@@ -13,6 +13,21 @@ if not screenGui then
 	screenGui.Parent = player:WaitForChild("PlayerGui")
 end
 
+local locationPresets = {
+	A = {
+		start = Vector3.new(-3.75, 5, -55),
+		stairs = Vector3.new(-3.75, 5, -60),
+		trophy = Vector3.new(-5, 14410, -65),
+		down = Vector3.new(-3.75, 5, -55),
+	},
+	B = {
+		start = Vector3.new(10, 3, 20),
+		stairs = Vector3.new(10, 3, 25),
+		trophy = Vector3.new(12, 15000, 22),
+		down = Vector3.new(10, 3, 20),
+	}
+}
+
 -- ✅ UI (สร้างใหม่ทุกครั้งแค่ภายใน TeleportUI)
 local frame = Instance.new("Frame", screenGui)
 frame.Position = UDim2.new(0.3, 0, 0.3, 0)
@@ -35,6 +50,12 @@ local stopButton = Instance.new("TextButton", frame)
 stopButton.Text = "หยุด"
 stopButton.Position = UDim2.new(0.55, 0, 0.4, 0)
 stopButton.Size = UDim2.new(0.35, 0, 0.25, 0)
+
+local presetBox = Instance.new("TextBox", frame)
+presetBox.PlaceholderText = "เลือกประเภท: A หรือ B"
+presetBox.Position = UDim2.new(0.1, 0, 0.7, 0)
+presetBox.Size = UDim2.new(0.8, 0, 0.2, 0)
+presetBox.Text = ""
 
 -- ✅ ปุ่ม P toggle UI
 UserInputService.InputBegan:Connect(function(input, gameProcessed)
