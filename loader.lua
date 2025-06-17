@@ -55,16 +55,15 @@ end
 
 for i = 1, 5 do
     TpPosStart()
-    wait(1)
+    wait(2)
 
     WalkToStairs()
-    wait(1)
+    wait(2)
 
     WalkUp()
-    wait(1)
 
     TpPosTrophy()
-    wait(1)
+    wait(2)
 
     WalkDown()
     wait(5)
