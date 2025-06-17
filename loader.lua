@@ -89,5 +89,5 @@ for i = 1, 5 do
     wait(1)
 
     WalkDown()
-    wait(15)
+    wait(5)
 end
