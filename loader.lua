@@ -22,25 +22,14 @@ humanoid:MoveTo(destination)
 end
 
 function WalkUp()
-local RunService = game:GetService("RunService")
-local Players = game:GetService("Players")
+    local Players = game:GetService("Players")
+    local player = Players.LocalPlayer
+    local character = player.Character or player.CharacterAdded:Wait()
+    local humanoid = character:WaitForChild("Humanoid")
 
-local player = Players.LocalPlayer
-local startTime = tick()
-
-	RunService:BindToRenderStep("move", Enum.RenderPriority.Character.Value + 1, function()
-		if tick() - startTime > 1 then
-			RunService:UnbindFromRenderStep("move")
-			return
-		end
-
-		if player.Character then
-			local humanoid = player.Character:FindFirstChild("Humanoid")
-			if humanoid then
-				humanoid:Move(Vector3.new(0, 0, -50), true)
-			end
-		end
-	end)
+    local destination = Vector3.new(-3.75, 5, -110)
+    humanoid:MoveTo(destination)
+    humanoid.MoveToFinished:Wait()
 end
 
 function TpPosTrophy()
@@ -54,25 +43,14 @@ function TpPosTrophy()
 end
 
 function WalkDown()
-local RunService = game:GetService("RunService")
-local Players = game:GetService("Players")
+    local Players = game:GetService("Players")
+    local player = Players.LocalPlayer
+    local character = player.Character or player.CharacterAdded:Wait()
+    local humanoid = character:WaitForChild("Humanoid")
 
-local player = Players.LocalPlayer
-local startTime = tick()
-
-	RunService:BindToRenderStep("move", Enum.RenderPriority.Character.Value + 1, function()
-		if tick() - startTime > 5 then
-			RunService:UnbindFromRenderStep("move")
-			return
-		end
-
-		if player.Character then
-			local humanoid = player.Character:FindFirstChild("Humanoid")
-			if humanoid then
-				humanoid:Move(Vector3.new(0, 0, 50), true)
-			end
-		end
-	end)
+    local destination = Vector3.new(-3.75, 5, -60)
+    humanoid:MoveTo(destination)
+    humanoid.MoveToFinished:Wait()
 end
 
 for i = 1, 5 do
