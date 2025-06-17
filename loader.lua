@@ -32,7 +32,7 @@ local locationPresets = {
 -- ✅ UI (สร้างใหม่ทุกครั้งแค่ภายใน TeleportUI)
 local frame = Instance.new("Frame", screenGui)
 frame.Position = UDim2.new(0.3, 0, 0.3, 0)
-frame.Size = UDim2.new(0, 250, 0, 150)
+frame.Size = UDim2.new(0, 300, 0, 250)
 frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 frame.Visible = true
 
@@ -87,6 +87,20 @@ for i = 1, 8 do
 		dropdownFrame.Visible = false
 		dropdownFrame.Size = UDim2.new(0.8, 0, 0, 0)
 	end)
+end
+
+local detailBox = Instance.new("TextBox", frame)
+detailBox.Position = UDim2.new(0.05, 0, 0.88, 0)
+detailBox.Size = UDim2.new(0.9, 0, 0.1, 0)
+detailBox.Text = "สถานะ..."
+detailBox.ClearTextOnFocus = false
+detailBox.TextEditable = false
+detailBox.TextWrapped = true
+detailBox.TextColor3 = Color3.new(1, 1, 1)
+detailBox.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+
+local function updateStatus(msg)
+	detailBox.Text = msg
 end
 
 -- ⬇️ Toggle dropdown visibility
@@ -212,21 +226,25 @@ end
 startButton.MouseButton1Click:Connect(function()
 	local rounds = tonumber(roundsBox.Text)
 	if not selectedWorld then
-		warn("กรุณาเลือก World ก่อนเริ่ม")
+		updateStatus("⚠️ กรุณาเลือก World ก่อนเริ่ม")
 		return
 	end
 
 	if rounds and rounds > 0 then
 		if not loopRunning then
 			task.spawn(function()
-				print("เริ่มรอบใน " .. selectedWorld)
+				updateStatus("✅ เริ่มรอบใน " .. selectedWorld)
 				RunLoop(rounds)
+				updateStatus("⏹️ เสร็จสิ้นการทำงาน")
 			end)
 		end
+	else
+		updateStatus("❌ จำนวนรอบไม่ถูกต้อง")
 	end
 end)
 
 -- ✅ หยุดลูป
 stopButton.MouseButton1Click:Connect(function()
 	loopRunning = false
+	updateStatus("⏹️ หยุดการทำงานแล้ว")
 end)
