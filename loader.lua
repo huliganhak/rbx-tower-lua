@@ -1,14 +1,19 @@
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
-local player = Players.LocalPlayer
+local UserInputService = game:GetService("UserInputService")
 
--- ✅ ตัวแปรควบคุม
+local player = Players.LocalPlayer
 local loopRunning = false
 
--- ✅ UI สร้างจาก Script
-local screenGui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
-screenGui.Name = "TeleportUI"
+-- 🔧 ตรวจสอบว่ามี UI เดิมอยู่หรือไม่
+local screenGui = player:WaitForChild("PlayerGui"):FindFirstChild("TeleportUI")
+if not screenGui then
+	screenGui = Instance.new("ScreenGui")
+	screenGui.Name = "TeleportUI"
+	screenGui.Parent = player:WaitForChild("PlayerGui")
+end
 
+-- ✅ UI (สร้างใหม่ทุกครั้งแค่ภายใน TeleportUI)
 local frame = Instance.new("Frame", screenGui)
 frame.Position = UDim2.new(0.3, 0, 0.3, 0)
 frame.Size = UDim2.new(0, 250, 0, 150)
@@ -31,16 +36,14 @@ stopButton.Text = "หยุด"
 stopButton.Position = UDim2.new(0.55, 0, 0.4, 0)
 stopButton.Size = UDim2.new(0.35, 0, 0.25, 0)
 
--- ✅ กด P เพื่อเปิด/ปิด UI
-game:GetService("UserInputService").InputBegan:Connect(function(input, gameProcessed)
+-- ✅ ปุ่ม P toggle UI
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
 	if input.KeyCode == Enum.KeyCode.P and not gameProcessed then
 		frame.Visible = not frame.Visible
 	end
 end)
 
--- ✅ Drag UI ด้วยเมาส์
-local UserInputService = game:GetService("UserInputService")
-
+-- ✅ Drag UI
 local dragging = false
 local dragInput, dragStart, startPos
 
@@ -140,7 +143,7 @@ local function RunLoop(rounds)
 	end
 end
 
--- ✅ เริ่มเมื่อกดปุ่ม "เริ่ม"
+-- ✅ เริ่มลูป
 startButton.MouseButton1Click:Connect(function()
 	local rounds = tonumber(roundsBox.Text)
 	if rounds and rounds > 0 then
@@ -152,7 +155,7 @@ startButton.MouseButton1Click:Connect(function()
 	end
 end)
 
--- ✅ หยุดลูปเมื่อกด "หยุด"
+-- ✅ หยุดลูป
 stopButton.MouseButton1Click:Connect(function()
 	loopRunning = false
 end)
