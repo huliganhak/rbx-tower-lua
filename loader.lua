@@ -90,7 +90,7 @@ startButton.Size = UDim2.new(0.30, 0, 0.15, 0)
 
 local stopButton = Instance.new("TextButton", frame)
 stopButton.Text = "หยุด"
-stopButton.Position = UDim2.new(0.70, 0, 0.35, 0)
+stopButton.Position = UDim2.new(0.55, 0, 0.35, 0)
 stopButton.Size = UDim2.new(0.30, 0, 0.15, 0)
 
 -- 🔽 ปุ่มหลักของ Dropdown
