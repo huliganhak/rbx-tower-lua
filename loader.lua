@@ -27,7 +27,7 @@ function WalkUp()
     local character = player.Character or player.CharacterAdded:Wait()
     local humanoid = character:WaitForChild("Humanoid")
 
-    local destination = Vector3.new(-3.75, 300, -100)
+    local destination = Vector3.new(-3.75, 500, -70)
     humanoid:MoveTo(destination)
     humanoid.MoveToFinished:Wait()
 end
@@ -55,16 +55,16 @@ end
 
 for i = 1, 5 do
     TpPosStart()
-    wait(2)
+    wait(1)
 
     WalkToStairs()
-    wait(2)
+    wait(1)
 
     WalkUp()
-    wait(2)
+    wait(1)
 
     TpPosTrophy()
-    wait(2)
+    wait(1)
 
     WalkDown()
     wait(5)
