@@ -44,11 +44,11 @@ local startTime = tick()
 end
 
 function TpPosTrophy()
-	-- ย้ายไปหน้าบรรได
+	-- ย้ายไปข้างบนสุด
     local player = game.Players.LocalPlayer
 
     if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-        local location = Vector3.new(-5, 14410, -120.60)
+        local location = Vector3.new(-5, 14410, -65)
         player.Character.HumanoidRootPart.CFrame = CFrame.new(location)
     end
 end
