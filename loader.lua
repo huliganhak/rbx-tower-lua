@@ -19,7 +19,6 @@ local destination = Vector3.new(-3.75, 5, -60)
 
 -- สั่งให้เดินไปตำแหน่งนั้น
 humanoid:MoveTo(destination)
-wait(1)
 end
 
 function WalkUp()
@@ -77,7 +76,11 @@ local startTime = tick()
 end
 
 TpPosStart()
+wait(1)
 WalkToStairs()
+wait(1)
 WalkUp()
+wait(1)
 TpPosTrophy()
+wait(1)
 WalkDown()
