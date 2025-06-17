@@ -86,12 +86,12 @@ roundsBox.Text = ""
 local startButton = Instance.new("TextButton", frame)
 startButton.Text = "เริ่ม"
 startButton.Position = UDim2.new(0.1, 0, 0.35, 0)
-startButton.Size = UDim2.new(0.30, 0, 0.15, 0)
+startButton.Size = UDim2.new(0.35, 0, 0.15, 0)
 
 local stopButton = Instance.new("TextButton", frame)
 stopButton.Text = "หยุด"
-stopButton.Position = UDim2.new(0.80, 0, 0.35, 0)
-stopButton.Size = UDim2.new(0.30, 0, 0.15, 0)
+stopButton.Position = UDim2.new(0.55, 0, 0.35, 0)
+stopButton.Size = UDim2.new(0.35, 0, 0.15, 0)
 
 -- 🔽 ปุ่มหลักของ Dropdown
 local dropdownMain = Instance.new("TextButton", frame)
