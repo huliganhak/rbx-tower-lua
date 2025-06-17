@@ -14,11 +14,6 @@ if not screenGui then
 	screenGui.Parent = player:WaitForChild("PlayerGui")
 end
 
-local function getLocation()
-	if not selectedWorld then return nil end
-	return locationPresets[selectedWorld]
-end
-
 local locationPresets = {
 	World1 = {
 		start = Vector3.new(-3.75, 5, -55),
@@ -33,6 +28,11 @@ local locationPresets = {
 		down = Vector3.new(10, 3, 20),
 	}
 }
+
+local function getLocation()
+	if not selectedWorld then return nil end
+	return locationPresets[selectedWorld]
+end
 
 -- ✅ UI (สร้างใหม่ทุกครั้งแค่ภายใน TeleportUI)
 local frame = Instance.new("Frame", screenGui)
