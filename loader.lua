@@ -22,14 +22,30 @@ humanoid:MoveTo(destination)
 end
 
 function WalkUp()
-    local Players = game:GetService("Players")
-    local player = Players.LocalPlayer
-    local character = player.Character or player.CharacterAdded:Wait()
-    local humanoid = character:WaitForChild("Humanoid")
+	local RunService = game:GetService("RunService")
+	local Players = game:GetService("Players")
 
-    local destination = Vector3.new(-3.75, 5, -110)
-    humanoid:MoveTo(destination)
-    humanoid.MoveToFinished:Wait()
+	local player = Players.LocalPlayer
+	local character = player.Character or player.CharacterAdded:Wait()
+	local humanoid = character:WaitForChild("Humanoid")
+
+	local moveDuration = 3 -- เดินนานกี่วินาที
+	local startTime = tick()
+
+	-- ป้องกันซ้ำ
+	RunService:UnbindFromRenderStep("WalkUpMove")
+
+	-- เดินไปข้างหน้า (ทิศทาง -Z ตามที่ตัวหัน)
+	RunService:BindToRenderStep("WalkUpMove", Enum.RenderPriority.Character.Value + 1, function()
+		if tick() - startTime > moveDuration then
+			RunService:UnbindFromRenderStep("WalkUpMove")
+			return
+		end
+
+		if humanoid and humanoid.Parent then
+			humanoid:Move(Vector3.new(0, 0, -1), true)
+		end
+	end)
 end
 
 function TpPosTrophy()
@@ -61,7 +77,7 @@ for i = 1, 5 do
     wait(1)
 
     WalkUp()
-    wait(1)
+    wait(3)
 	
     TpPosTrophy()
     wait(1)
