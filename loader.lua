@@ -211,9 +211,15 @@ end
 -- ✅ เริ่มลูป
 startButton.MouseButton1Click:Connect(function()
 	local rounds = tonumber(roundsBox.Text)
+	if not selectedWorld then
+		warn("กรุณาเลือก World ก่อนเริ่ม")
+		return
+	end
+
 	if rounds and rounds > 0 then
 		if not loopRunning then
 			task.spawn(function()
+				print("เริ่มรอบใน " .. selectedWorld)
 				RunLoop(rounds)
 			end)
 		end
