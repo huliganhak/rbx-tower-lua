@@ -22,10 +22,16 @@ local locationPresets = {
 		down = Vector3.new(-3.75, 5, -55),
 	},
 	World2 = {
-		start = Vector3.new(10, 3, 20),
-		stairs = Vector3.new(10, 3, 25),
-		trophy = Vector3.new(12, 15000, 22),
-		down = Vector3.new(10, 3, 20),
+		start = Vector3.new(5000, 5, -60),
+		stairs = Vector3.new(5000, 5, -65),
+		trophy = Vector3.new(5000, 14410, -70),
+		down = Vector3.new(5000, 5, -60),
+	},
+	World3 = {
+		start = Vector3.new(10001, 5, -30),
+		stairs = Vector3.new(10001, 5, -35),
+		trophy = Vector3.new(10001, 14410, -40),
+		down = Vector3.new(10001, 5, -30),
 	}
 }
 
