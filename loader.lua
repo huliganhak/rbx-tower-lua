@@ -14,14 +14,19 @@ if not screenGui then
 	screenGui.Parent = player:WaitForChild("PlayerGui")
 end
 
+local function getLocation()
+	if not selectedWorld then return nil end
+	return locationPresets[selectedWorld]
+end
+
 local locationPresets = {
-	A = {
+	World1 = {
 		start = Vector3.new(-3.75, 5, -55),
 		stairs = Vector3.new(-3.75, 5, -60),
 		trophy = Vector3.new(-5, 14410, -65),
 		down = Vector3.new(-3.75, 5, -55),
 	},
-	B = {
+	World2 = {
 		start = Vector3.new(10, 3, 20),
 		stairs = Vector3.new(10, 3, 25),
 		trophy = Vector3.new(12, 15000, 22),
@@ -72,17 +77,17 @@ dropdownFrame.Visible = false
 local layout = Instance.new("UIListLayout", dropdownFrame)
 layout.Padding = UDim.new(0, 2)
 
--- 🔘 สร้างตัวเลือก 1 - 8
-for i = 1, 8 do
+-- 🔘 สร้างตัวเลือก
+for name, _ in pairs(locationPresets) do
 	local option = Instance.new("TextButton")
 	option.Size = UDim2.new(1, 0, 0, 24)
-	option.Text = "World " .. i
+	option.Text = name
 	option.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
 	option.TextColor3 = Color3.new(1, 1, 1)
 	option.Parent = dropdownFrame
 
 	option.MouseButton1Click:Connect(function()
-		selectedWorld = "World " .. i
+		selectedWorld = name
 		dropdownMain.Text = selectedWorld
 		dropdownFrame.Visible = false
 		dropdownFrame.Size = UDim2.new(0.8, 0, 0, 0)
@@ -158,18 +163,31 @@ end)
 
 -- ✅ ฟังก์ชัน Teleport/Walk ต่าง ๆ (ย่อเพื่ออ่านง่าย)
 local function TpPosStart()
-	if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-		player.Character.HumanoidRootPart.CFrame = CFrame.new(-3.75, 5, -55)
-	end
+	local loc = getLocation()
+	if not loc then return end
+	
+	if not selectedWorld then return end
+	local pos = locationPresets[selectedWorld].start
+	local character = player.Character or player.CharacterAdded:Wait()
+	local hrp = character:WaitForChild("HumanoidRootPart")
+	hrp.CFrame = CFrame.new(pos)
 end
 
 local function WalkToStairs()
+	local loc = getLocation()
+	if not loc then return end
+	
+	if not selectedWorld then return end
+	local pos = locationPresets[selectedWorld].stairs
 	local character = player.Character or player.CharacterAdded:Wait()
 	local humanoid = character:WaitForChild("Humanoid")
-	humanoid:MoveTo(Vector3.new(-3.75, 5, -60))
+	humanoid:MoveTo(pos)
 end
 
 local function WalkUp()
+	local loc = getLocation()
+	if not loc then return end
+	
 	local humanoid = player.Character:FindFirstChild("Humanoid")
 	local moveDuration = 3
 	local startTime = tick()
@@ -187,16 +205,25 @@ local function WalkUp()
 end
 
 local function TpPosTrophy()
-	if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-		player.Character.HumanoidRootPart.CFrame = CFrame.new(-5, 14410, -65)
-	end
+	local loc = getLocation()
+	if not loc then return end
+	
+	if not selectedWorld then return end
+	local pos = locationPresets[selectedWorld].trophy
+	local character = player.Character or player.CharacterAdded:Wait()
+	local hrp = character:WaitForChild("HumanoidRootPart")
+	hrp.CFrame = CFrame.new(pos)
 end
 
 local function WalkDown()
-	local humanoid = player.Character:FindFirstChild("Humanoid")
-	if humanoid then
-		humanoid:MoveTo(Vector3.new(-3.75, 5, -55))
-	end
+	local loc = getLocation()
+	if not loc then return end
+	
+	if not selectedWorld then return end
+	local pos = locationPresets[selectedWorld].down
+	local character = player.Character or player.CharacterAdded:Wait()
+	local humanoid = character:WaitForChild("Humanoid")
+	humanoid:MoveTo(pos)
 end
 
 -- ✅ ฟังก์ชันรันลูป
