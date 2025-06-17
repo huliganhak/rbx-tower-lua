@@ -75,12 +75,19 @@ local startTime = tick()
 	end)
 end
 
-TpPosStart()
-wait(1)
-WalkToStairs()
-wait(1)
-WalkUp()
-wait(1)
-TpPosTrophy()
-wait(1)
-WalkDown()
+for i = 1, 5 do
+    TpPosStart()
+    wait(1)
+
+    WalkToStairs()
+    wait(1)
+
+    WalkUp()
+    wait(1)
+
+    TpPosTrophy()
+    wait(1)
+
+    WalkDown()
+    wait(15)
+end
