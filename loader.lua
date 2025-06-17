@@ -38,23 +38,23 @@ frame.Visible = true
 
 local roundsBox = Instance.new("TextBox", frame)
 roundsBox.PlaceholderText = "จำนวนรอบ"
-roundsBox.Position = UDim2.new(0.1, 0, 0.1, 0)
-roundsBox.Size = UDim2.new(0.8, 0, 0.2, 0)
+roundsBox.Position = UDim2.new(0.1, 0, 0.17, 0)
+roundsBox.Size = UDim2.new(0.8, 0, 0.15, 0)
 roundsBox.Text = ""
 
 local startButton = Instance.new("TextButton", frame)
 startButton.Text = "เริ่ม"
-startButton.Position = UDim2.new(0.1, 0, 0.4, 0)
+startButton.Position = UDim2.new(0.1, 0, 0.35, 0)
 startButton.Size = UDim2.new(0.35, 0, 0.25, 0)
 
 local stopButton = Instance.new("TextButton", frame)
 stopButton.Text = "หยุด"
-stopButton.Position = UDim2.new(0.55, 0, 0.4, 0)
+stopButton.Position = UDim2.new(0.55, 0, 0.35, 0)
 stopButton.Size = UDim2.new(0.35, 0, 0.25, 0)
 
 -- 🔽 ปุ่มหลักของ Dropdown
 local dropdownMain = Instance.new("TextButton", frame)
-dropdownMain.Position = UDim2.new(0.1, 0, 0.7, 0)
+dropdownMain.Position = UDim2.new(0.1, 0, 0.65, 0)
 dropdownMain.Size = UDim2.new(0.8, 0, 0.15, 0)
 dropdownMain.Text = "เลือก World"
 dropdownMain.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
@@ -62,8 +62,8 @@ dropdownMain.TextColor3 = Color3.new(1, 1, 1)
 
 -- 🔽 กล่องรายการที่ซ่อนอยู่
 local dropdownFrame = Instance.new("Frame", frame)
-dropdownFrame.Position = UDim2.new(0.1, 0, 0.85, 0)
-dropdownFrame.Size = UDim2.new(0.8, 0, 0, 0) -- เริ่มต้นความสูง 0 เพื่อซ่อน
+dropdownFrame.Position = UDim2.new(0.1, 0, 0.8, 0)
+dropdownFrame.Size = UDim2.new(0.8, 0, 0, 0)
 dropdownFrame.ClipsDescendants = true
 dropdownFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 dropdownFrame.BorderSizePixel = 1
@@ -90,7 +90,7 @@ for i = 1, 8 do
 end
 
 local detailBox = Instance.new("TextBox", frame)
-detailBox.Position = UDim2.new(0.05, 0, 0.88, 0)
+detailBox.Position = UDim2.new(0.05, 0, 0.05, 0)
 detailBox.Size = UDim2.new(0.9, 0, 0.1, 0)
 detailBox.Text = "สถานะ..."
 detailBox.ClearTextOnFocus = false
