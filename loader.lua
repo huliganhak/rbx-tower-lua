@@ -27,7 +27,7 @@ function WalkUp()
     local character = player.Character or player.CharacterAdded:Wait()
     local humanoid = character:WaitForChild("Humanoid")
 
-    local destination = Vector3.new(-3.75, 5, -110)
+    local destination = Vector3.new(-3.75, 5, -70)
     humanoid:MoveTo(destination)
     humanoid.MoveToFinished:Wait()
 end
@@ -48,7 +48,7 @@ function WalkDown()
     local character = player.Character or player.CharacterAdded:Wait()
     local humanoid = character:WaitForChild("Humanoid")
 
-    local destination = Vector3.new(-3.75, 15, -60)
+    local destination = Vector3.new(-3.75, 5, -55)
     humanoid:MoveTo(destination)
     humanoid.MoveToFinished:Wait()
 end
