@@ -4,6 +4,7 @@ local UserInputService = game:GetService("UserInputService")
 
 local player = Players.LocalPlayer
 local loopRunning = false
+local selectedWorld = nil
 
 -- 🔧 ตรวจสอบว่ามี UI เดิมอยู่หรือไม่
 local screenGui = player:WaitForChild("PlayerGui"):FindFirstChild("TeleportUI")
@@ -51,36 +52,40 @@ stopButton.Text = "หยุด"
 stopButton.Position = UDim2.new(0.55, 0, 0.4, 0)
 stopButton.Size = UDim2.new(0.35, 0, 0.25, 0)
 
--- ปุ่มเลือก A
-local buttonA = Instance.new("TextButton", frame)
-buttonA.Text = "เลือก A"
-buttonA.Position = UDim2.new(0.1, 0, 0.7, 0)
-buttonA.Size = UDim2.new(0.35, 0, 0.2, 0)
+-- สร้าง ScrollingFrame สำหรับ ListBox
+local listBox = Instance.new("ScrollingFrame", frame)
+listBox.Position = UDim2.new(0.1, 0, 0.7, 0)
+listBox.Size = UDim2.new(0.8, 0, 0.2, 0)
+listBox.CanvasSize = UDim2.new(0, 0, 0, 200)
+listBox.ScrollBarThickness = 6
+listBox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 
--- ปุ่มเลือก B
-local buttonB = Instance.new("TextButton", frame)
-buttonB.Text = "เลือก B"
-buttonB.Position = UDim2.new(0.55, 0, 0.7, 0)
-buttonB.Size = UDim2.new(0.35, 0, 0.2, 0)
+-- UIListLayout เพื่อจัดเรียงแนวตั้ง
+local layout = Instance.new("UIListLayout", listBox)
+layout.Padding = UDim.new(0, 2)
 
--- ตัวแปรเก็บ preset ที่เลือก
-local selectedPreset = nil
+-- สร้างปุ่ม World 1 ถึง 8
+for i = 1, 8 do
+	local btn = Instance.new("TextButton")
+	btn.Size = UDim2.new(1, -4, 0, 24)
+	btn.Text = "World " .. i
+	btn.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+	btn.TextColor3 = Color3.new(1, 1, 1)
+	btn.Parent = listBox
 
--- เมื่อกดปุ่ม A
-buttonA.MouseButton1Click:Connect(function()
-	selectedPreset = "A"
-	buttonA.BackgroundColor3 = Color3.fromRGB(0, 170, 0)
-	buttonB.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-	print("เลือก A แล้ว")
-end)
+	btn.MouseButton1Click:Connect(function()
+		selectedWorld = "World " .. i
+		print("เลือก: " .. selectedWorld)
 
--- เมื่อกดปุ่ม B
-buttonB.MouseButton1Click:Connect(function()
-	selectedPreset = "B"
-	buttonB.BackgroundColor3 = Color3.fromRGB(0, 170, 0)
-	buttonA.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-	print("เลือก B แล้ว")
-end)
+		-- เปลี่ยนสีปุ่มที่ถูกเลือก
+		for _, other in ipairs(listBox:GetChildren()) do
+			if other:IsA("TextButton") then
+				other.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+			end
+		end
+		btn.BackgroundColor3 = Color3.fromRGB(0, 170, 0)
+	end)
+end
 
 -- ✅ ปุ่ม P toggle UI
 UserInputService.InputBegan:Connect(function(input, gameProcessed)
