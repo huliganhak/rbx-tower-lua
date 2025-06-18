@@ -14,6 +14,8 @@ local loopRunning = false
 local selectedWorld = nil
 local hatchLoopRunning = false
 local hatchLoopCount = 0
+local teleporting = false
+local isWalkingUp = false
 
 -------------------------------------------------------
 -- 🗺️ Preset ตำแหน่งของแต่ละ World
