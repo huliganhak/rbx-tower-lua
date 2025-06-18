@@ -304,15 +304,12 @@ end)
 hatchButton.MouseButton1Click:Connect(function()
 	hatchLoopRunning = not hatchLoopRunning
 	if hatchLoopRunning then
+			for i = 1, rounds do
 		hatchButton.Text = "Hatch(ON)"
 		hatchLoopCount = 0
-		task.spawn(function()
-			
-				HatchEgg()
-
-				updateStatus("🥚 กำลังฟักไข่ (รอบ " .. hatchLoopCount .. ")")
-			
-		end)
+		HatchEgg()
+		updateStatus("🥚 กำลังฟักไข่ (รอบ " .. hatchLoopCount .. ")")
+				end
 	else
 		hatchButton.Text = "Hatch(OFF)"
 	end
