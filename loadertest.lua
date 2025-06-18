@@ -79,6 +79,15 @@ local stopButton = createButton(frame, "หยุด", UDim2.new(0.55, 0, 0.35, 
 local dropdownMain = createButton(frame, "เลือก World", UDim2.new(0.1, 0, 0.65, 0), UDim2.new(0.8, 0, 0.15, 0))
 dropdownMain.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
 
+-- ปุ่มเปิด/ปิดปุ่ม Hatch
+local toggleHatchButton = createButton(frame, "Hatch Egg", UDim2.new(0.1, 0, 0.52, 0), UDim2.new(0.8, 0, 0.1, 0))
+toggleHatchButton.BackgroundColor3 = Color3.fromRGB(80, 60, 60)
+
+-- ปุ่ม Hatch Egg (เริ่มปิด)
+local hatchButton = createButton(frame, "Hatch Egg", UDim2.new(0.1, 0, 0.63, 0), UDim2.new(0.8, 0, 0.1, 0))
+hatchButton.BackgroundColor3 = Color3.fromRGB(100, 100, 80)
+hatchButton.Visible = false
+
 -- กรอบ dropdown รายการ (ซ่อนตอนเริ่ม)
 local dropdownFrame = Instance.new("Frame", frame)
 dropdownFrame.Position = UDim2.new(0.1, 0, 0.8, 0)
@@ -228,6 +237,11 @@ local function WalkDown()
 	walkTo(loc.down)
 end
 
+local function HatchEgg()
+	local args = {7000020,3}
+	game:GetService("ReplicatedStorage"):WaitForChild("Tool"):WaitForChild("DrawUp"):WaitForChild("Msg"):WaitForChild("DrawHero"):InvokeServer(unpack(args))
+end
+
 -- ลูปรัน teleport/walk ตามจำนวนรอบ
 local function RunLoop(rounds)
 	loopRunning = true
@@ -278,23 +292,6 @@ stopButton.MouseButton1Click:Connect(function()
 	loopRunning = false
 	updateStatus("⏹️ หยุดการทำงานแล้ว")
 end)
-
-function HatchEgg()
-	local args = {
-		7000020,
-		3
-	}
-	game:GetService("ReplicatedStorage"):WaitForChild("Tool"):WaitForChild("DrawUp"):WaitForChild("Msg"):WaitForChild("DrawHero"):InvokeServer(unpack(args))
-end
-
--- ปุ่มเปิด/ปิดปุ่ม Hatch
-local toggleHatchButton = createButton(frame, "🔽 Hatch Egg", UDim2.new(0.1, 0, 0.52, 0), UDim2.new(0.8, 0, 0.1, 0))
-toggleHatchButton.BackgroundColor3 = Color3.fromRGB(80, 60, 60)
-
--- ปุ่ม Hatch Egg (เริ่มปิด)
-local hatchButton = createButton(frame, "🥚 Hatch Egg", UDim2.new(0.1, 0, 0.63, 0), UDim2.new(0.8, 0, 0.1, 0))
-hatchButton.BackgroundColor3 = Color3.fromRGB(100, 100, 80)
-hatchButton.Visible = false
 
 -- Toggle การแสดงปุ่ม hatch
 toggleHatchButton.MouseButton1Click:Connect(function()
