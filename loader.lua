@@ -81,18 +81,14 @@ frame.Draggable = false
 -------------------------------------------------------
 -- 🔢 UI Elements (TextBox / Button)
 -------------------------------------------------------
-local detailBox = createTextBox(frame, "สถานะ...", UDim2.new(0.1, 0, 0.05, 0), UDim2.new(0.8, 0, 0.1, 0))
-detailBox.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-
-local roundsBox = createTextBox(frame, "จำนวนรอบ", UDim2.new(0.1, 0, 0.20, 0), UDim2.new(0.8, 0, 0.10, 0))
-
+local detailBox = createTextBox(frame, "สถานะ...", UDim2.new(0.1, 0, 0.05, 0), UDim2.new(0.8, 0, 0.15, 0))
+local roundsBox = createTextBox(frame, "จำนวนรอบ", UDim2.new(0.1, 0, 0.20, 0), UDim2.new(0.8, 0, 0.15, 0))
 local startButton = createButton(frame, "เริ่ม", UDim2.new(0.1, 0, 0.35, 0), UDim2.new(0.35, 0, 0.15, 0))
 local stopButton = createButton(frame, "หยุด", UDim2.new(0.55, 0, 0.35, 0), UDim2.new(0.35, 0, 0.15, 0))
+local fetchButton = createButton(frame, "ค้นหาเซิร์ฟเวอร์", UDim2.new(0.1, 0, 0.55, 0), UDim2.new(0.8, 0, 0.1, 0))
 
 local hatchButton = createButton(frame, "Hatch", UDim2.new(0.1, 0, 0.45, 0), UDim2.new(0.8, 0, 0.15, 0))
 hatchButton.BackgroundColor3 = Color3.fromRGB(100, 100, 80)
-
-local fetchButton = createButton(frame, "ค้นหาเซิร์ฟเวอร์", UDim2.new(0.1, 0, 0.55, 0), UDim2.new(0.8, 0, 0.1, 0))
 
 local dropdownMain = createButton(frame, "เลือก World", UDim2.new(0.1, 0, 0.65, 0), UDim2.new(0.8, 0, 0.15, 0))
 local dropdownFrame = Instance.new("Frame", frame)
