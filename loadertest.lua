@@ -278,3 +278,33 @@ stopButton.MouseButton1Click:Connect(function()
 	loopRunning = false
 	updateStatus("⏹️ หยุดการทำงานแล้ว")
 end)
+
+function HatchEgg()
+	local args = {
+		7000020,
+		3
+	}
+	game:GetService("ReplicatedStorage"):WaitForChild("Tool"):WaitForChild("DrawUp"):WaitForChild("Msg"):WaitForChild("DrawHero"):InvokeServer(unpack(args))
+end
+
+-- ปุ่มเปิด/ปิดปุ่ม Hatch
+local toggleHatchButton = createButton(frame, "🔽 Hatch Egg", UDim2.new(0.1, 0, 0.52, 0), UDim2.new(0.8, 0, 0.1, 0))
+toggleHatchButton.BackgroundColor3 = Color3.fromRGB(80, 60, 60)
+
+-- ปุ่ม Hatch Egg (เริ่มปิด)
+local hatchButton = createButton(frame, "🥚 Hatch Egg", UDim2.new(0.1, 0, 0.63, 0), UDim2.new(0.8, 0, 0.1, 0))
+hatchButton.BackgroundColor3 = Color3.fromRGB(100, 100, 80)
+hatchButton.Visible = false
+
+-- Toggle การแสดงปุ่ม hatch
+toggleHatchButton.MouseButton1Click:Connect(function()
+	hatchButton.Visible = not hatchButton.Visible
+	toggleHatchButton.Text = hatchButton.Visible and "🔼 Hide Hatch" or "🔽 Hatch Egg"
+end)
+
+-- เมื่อกดปุ่ม hatch
+hatchButton.MouseButton1Click:Connect(function()
+	HatchEgg()
+	updateStatus("✅ เรียกใช้งาน Hatch Egg สำเร็จ")
+end)
+
