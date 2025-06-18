@@ -83,7 +83,7 @@ local dropdownMain = createButton(frame, "เลือก World", UDim2.new(0.1,
 dropdownMain.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
 
 -- ปุ่ม Hatch Egg (เริ่มปิด)
-local hatchButton = createButton(frame, "Hatch", UDim2.new(0.1, 0, 0.55, 0), UDim2.new(0.8, 0, 0.1, 0))
+local hatchButton = createButton(frame, "Hatch", UDim2.new(0.1, 0, 0.45, 0), UDim2.new(0.8, 0, 0.1, 0))
 hatchButton.BackgroundColor3 = Color3.fromRGB(100, 100, 80)
 
 -- กรอบ dropdown รายการ (ซ่อนตอนเริ่ม)
