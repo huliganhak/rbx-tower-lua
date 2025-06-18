@@ -86,12 +86,11 @@ local roundsBox = createTextBox(frame, "จำนวนรอบ", UDim2.new(0.1
 
 local startButton = createButton(frame, "เริ่ม", UDim2.new(0.1, 0, 0.35, 0), UDim2.new(0.35, 0, 0.15, 0))
 local stopButton = createButton(frame, "หยุด", UDim2.new(0.55, 0, 0.35, 0), UDim2.new(0.35, 0, 0.15, 0))
+local fetchButton = createButton(frame, "ค้นหาเซิร์ฟเวอร์", UDim2.new(0.8, 0, 0, 50), UDim2.new(0.1, 0, 0.7, 0))
 local hatchButton = createButton(frame, "Hatch", UDim2.new(0.1, 0, 0.45, 0), UDim2.new(0.8, 0, 0.1, 0))
 hatchButton.BackgroundColor3 = Color3.fromRGB(100, 100, 80)
 
 local dropdownMain = createButton(frame, "เลือก World", UDim2.new(0.1, 0, 0.65, 0), UDim2.new(0.8, 0, 0.15, 0))
-local fetchButton = createTextBox(frame, "ค้นหาเซิร์ฟเวอร์", UDim2.new(0.8, 0, 0, 50), UDim2.new(0.1, 0, 0.7, 0))
-
 local dropdownFrame = Instance.new("Frame", frame)
 dropdownFrame.Position = UDim2.new(0.1, 0, 0.8, 0)
 dropdownFrame.Size = UDim2.new(0.8, 0, 0, 0)
@@ -178,7 +177,7 @@ local function walkUp(duration)
 			RunService:UnbindFromRenderStep("WalkUpMove")
 			return
 		end
-		hum:Move(Vector3.new(0, 0, -1), true)
+		hum:MoveTo(Vector3.new(0, 0, -1), true)
 	end)
 end
 
@@ -254,13 +253,13 @@ end
 -------------------------------------------------------
 
 rejoinButton.MouseButton1Click:Connect(function()
-	if selectedJobId then
-		updateStatus("⏳ กำลังย้ายไป server: " .. selectedJobId)
-		-- Teleport ไปยัง placeId + jobId (server)
-		TeleportService:TeleportToPlaceInstance(placeId, selectedJobId, player)
-	else
+	if not selectedJobId or teleporting then
 		updateStatus("⚠️ ยังไม่มี server ที่เลือกได้")
+		return
 	end
+	teleporting = true
+	updateStatus("⏳ กำลังย้ายไป server: " .. selectedJobId)
+	TeleportService:TeleportToPlaceInstance(placeId, selectedJobId, player)
 end)
 
 startButton.MouseButton1Click:Connect(function()
