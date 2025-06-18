@@ -72,7 +72,7 @@ end
 
 local frame = Instance.new("Frame", screenGui)
 frame.Position = UDim2.new(0.3, 0, 0.3, 0)
-frame.Size = UDim2.new(0, 300, 0, 280)
+frame.Size = UDim2.new(0, 300, 0, 350)
 frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 frame.Visible = true
 frame.Active = true
