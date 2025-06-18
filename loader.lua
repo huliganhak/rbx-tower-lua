@@ -1,11 +1,15 @@
 -------------------------------------------------------
 -- 🔧 Services & ตัวแปรเริ่มต้น
 -------------------------------------------------------
+local HttpService = game:GetService("HttpService")
+local TeleportService = game:GetService("TeleportService")
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
 local player = Players.LocalPlayer
 
+local placeId = game.PlaceId
+local selectedJobId = nil
 local loopRunning = false
 local selectedWorld = nil
 local hatchLoopRunning = false
@@ -99,6 +103,9 @@ local layout = Instance.new("UIListLayout", dropdownFrame)
 layout.Padding = UDim.new(0, 4)
 layout.SortOrder = Enum.SortOrder.LayoutOrder
 
+local rejoinButton = createButton(frame, "Rejoin Server", UDim2.new(0.1, 0, 0.82, 0), UDim2.new(0.8, 0, 0.1, 0))
+rejoinButton.BackgroundColor3 = Color3.fromRGB(80, 120, 80)
+
 -------------------------------------------------------
 -- 🌍 ปุ่มเลือก World ภายใน dropdown
 -------------------------------------------------------
@@ -175,6 +182,39 @@ local function walkUp(duration)
 end
 
 -------------------------------------------------------
+-- 🧭 ฟังก์ชันดึง Job ID Server
+-------------------------------------------------------
+local function fetchServersAndSelect()
+	updateStatus("⏳ กำลังดึงข้อมูล server...")
+	
+	local url = string.format("https://games.roblox.com/v1/games/%d/servers/Public?sortOrder=Asc&limit=100", placeId)
+	
+	local success, response = pcall(function()
+		return HttpService:GetAsync(url)
+	end)
+	
+	if success then
+		local data = HttpService:JSONDecode(response)
+		selectedJobId = nil
+		
+		for _, server in ipairs(data.data) do
+			if server.playing == 0 or server.playing == 1 then
+				selectedJobId = server.id
+				break
+			end
+		end
+		
+		if selectedJobId then
+			updateStatus("✅ พบ server ว่าง: " .. selectedJobId)
+		else
+			updateStatus("⚠️ ไม่มี server ว่าง (0 หรือ 1 ผู้เล่น)")
+		end
+	else
+		updateStatus("❌ ดึงข้อมูล server ล้มเหลว: " .. tostring(response))
+	end
+end
+
+-------------------------------------------------------
 -- 🧭 ฟังก์ชันย่อยแต่ละขั้นตอน
 -------------------------------------------------------
 local function TpPosStart() local l = getLocation() if l then teleportTo(l.start) end end
@@ -204,8 +244,29 @@ local function RunLoop(rounds)
 end
 
 -------------------------------------------------------
--- 🖱️ ปุ่มเริ่ม / หยุด / Hatch
+-- 🖱️ ปุ่มเริ่ม / หยุด / Hatch / Rejoin Server
 -------------------------------------------------------
+
+dropdownMain.MouseButton1Click:Connect(function()
+	isOpen = not isOpen
+	dropdownFrame.Visible = isOpen
+	dropdownFrame.Size = isOpen and UDim2.new(0.8, 0, 0, 200) or UDim2.new(0.8, 0, 0, 0)
+	
+	if isOpen then
+		fetchServersAndSelect()
+	end
+end)
+
+rejoinButton.MouseButton1Click:Connect(function()
+	if selectedJobId then
+		updateStatus("⏳ กำลังย้ายไป server: " .. selectedJobId)
+		-- Teleport ไปยัง placeId + jobId (server)
+		TeleportService:TeleportToPlaceInstance(placeId, selectedJobId, player)
+	else
+		updateStatus("⚠️ ยังไม่มี server ที่เลือกได้")
+	end
+end)
+
 startButton.MouseButton1Click:Connect(function()
 	local rounds = tonumber(roundsBox.Text)
 	if not selectedWorld then updateStatus("⚠️ กรุณาเลือก World ก่อนเริ่ม") return end
