@@ -302,16 +302,40 @@ end)
 
 -- Toggle การแสดงปุ่ม hatch
 hatchButton.MouseButton1Click:Connect(function()
-	hatchLoopRunning = not hatchLoopRunning
 	if hatchLoopRunning then
-			for i = 1, rounds do
-		hatchButton.Text = "Hatch(ON)"
-		hatchLoopCount = 0
-		HatchEgg()
-		updateStatus("🥚 กำลังฟักไข่ (รอบ " .. hatchLoopCount .. ")")
-				end
-	else
-		hatchButton.Text = "Hatch(OFF)"
+		-- ถ้ากำลังทำงานอยู่ ให้หยุดก่อน
+		hatchLoopRunning = false
+		hatchButton.Text = "Hatch (OFF)"
+		updateStatus("⏹️ หยุดฟักไข่แล้ว (รวม " .. hatchLoopCount .. " รอบ)")
+		return
 	end
+	
+	local rounds = tonumber(roundsBox.Text)
+	if not rounds or rounds <= 0 then
+		updateStatus("❌ จำนวนรอบไม่ถูกต้อง")
+		return
+	end
+	
+	if loopRunning then
+		updateStatus("⚠️ กำลังทำงาน Start อยู่ กรุณาหยุดก่อน")
+		return
+	end
+	
+	hatchLoopRunning = true
+	hatchLoopCount = 0
+	hatchButton.Text = "Hatch (ON)"
+	
+	task.spawn(function()
+		while hatchLoopRunning and hatchLoopCount < rounds do
+			HatchEgg()
+			hatchLoopCount = hatchLoopCount + 1
+			updateStatus("🥚 กำลังฟักไข่ (รอบ " .. hatchLoopCount .. " / " .. rounds .. ")")
+			task.wait(3)
+		end
+		
+		hatchLoopRunning = false
+		hatchButton.Text = "Hatch (OFF)"
+		updateStatus("⏹️ ฟักไข่เสร็จสิ้น (รวม " .. hatchLoopCount .. " รอบ)")
+	end)
 end)
 
