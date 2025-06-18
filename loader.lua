@@ -235,6 +235,14 @@ local function HatchEgg()
 	local args = {7000020, 3}
 	game:GetService("ReplicatedStorage"):WaitForChild("Tool"):WaitForChild("DrawUp"):WaitForChild("Msg"):WaitForChild("DrawHero"):InvokeServer(unpack(args))
 end
+local function ClaimRewardWins()
+	local args = {"\233\162\134\229\143\150\230\165\188\233\161\182wins"}
+	game:GetService("ReplicatedStorage"):WaitForChild("Msg"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
+end
+local function ClaimRewardMagicToken()
+	local args = {"\233\162\134\229\143\150\230\165\188\233\161\182MagicToken"}
+	game:GetService("ReplicatedStorage"):WaitForChild("Msg"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
+end
 
 -------------------------------------------------------
 -- 🔁 ลูปการทำงานหลัก
@@ -247,6 +255,8 @@ local function RunLoop(rounds)
 		WalkToStairs() task.wait(1)
 		WalkUp() task.wait(3)
 		TpPosTrophy() task.wait(1)
+		ClaimRewardWins() task.wait(1)
+		ClaimRewardMagicToken() task.wait(1)
 		WalkDown() task.wait(5)
 	end
 	loopRunning = false
