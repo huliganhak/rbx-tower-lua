@@ -46,7 +46,7 @@ local function createButton(parent, text, position, size)
 end
 
 local function createTextBox(parent, placeholder, position, size, editable)
-	local box = Instance.new()
+	local box = Instance.new("")
 	box.PlaceholderText = placeholder or ""
 	box.Position = position
 	box.Size = size
