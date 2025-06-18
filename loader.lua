@@ -284,13 +284,7 @@ stopButton.MouseButton1Click:Connect(function()
 end)
 
 fetchButton.MouseButton1Click:Connect(function()
-	isOpen = not isOpen
-	dropdownFrame.Visible = isOpen
-	dropdownFrame.Size = isOpen and UDim2.new(0.8, 0, 0, 200) or UDim2.new(0.8, 0, 0, 0)
-	
-	if isOpen then
-		fetchServersAndSelect()
-	end
+	fetchServersAndSelect()
 end)
 
 hatchButton.MouseButton1Click:Connect(function()
