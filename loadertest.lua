@@ -83,11 +83,11 @@ local dropdownMain = createButton(frame, "เลือก World", UDim2.new(0.1,
 dropdownMain.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
 
 -- ปุ่มเปิด/ปิดปุ่ม Hatch
-local toggleHatchButton = createButton(frame, "Hatch Egg", UDim2.new(0.1, 0, 0.52, 0), UDim2.new(0.8, 0, 0.1, 0))
+local toggleHatchButton = createButton(frame, "Hatch", UDim2.new(0.1, 0, 0.52, 0), UDim2.new(0.8, 0, 0.1, 0))
 toggleHatchButton.BackgroundColor3 = Color3.fromRGB(80, 60, 60)
 
 -- ปุ่ม Hatch Egg (เริ่มปิด)
-local hatchButton = createButton(frame, "Hatch Egg", UDim2.new(0.1, 0, 0.63, 0), UDim2.new(0.8, 0, 0.1, 0))
+local hatchButton = createButton(frame, "Hatch", UDim2.new(0.1, 0, 0.63, 0), UDim2.new(0.8, 0, 0.1, 0))
 hatchButton.BackgroundColor3 = Color3.fromRGB(100, 100, 80)
 hatchButton.Visible = false
 
@@ -296,12 +296,11 @@ stopButton.MouseButton1Click:Connect(function()
 	updateStatus("⏹️ หยุดการทำงานแล้ว")
 end)
 
-hatchButton.Text = "Hatch Egg (OFF)"
 -- Toggle การแสดงปุ่ม hatch
 hatchButton.MouseButton1Click:Connect(function()
 	hatchLoopRunning = not hatchLoopRunning
 	if hatchLoopRunning then
-		hatchButton.Text = "Hatch Egg (ON)"
+		hatchButton.Text = "Hatch(ON)"
 		hatchLoopCount = 0
 		task.spawn(function()
 			while hatchLoopRunning do
@@ -313,7 +312,7 @@ hatchButton.MouseButton1Click:Connect(function()
 			updateStatus("⏹️ หยุดฟักไข่แล้ว (รวม " .. hatchLoopCount .. " รอบ)")
 		end)
 	else
-		hatchButton.Text = "Hatch Egg (OFF)"
+		hatchButton.Text = "Hatch(OFF)"
 	end
 end)
 
