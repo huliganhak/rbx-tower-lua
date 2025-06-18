@@ -190,7 +190,6 @@ local function fetchServersAndSelect()
     updateStatus("⏳ กำลังดึงข้อมูล server...")
 
     local url = "https://games.roblox.com/v1/games/" .. placeId .. "/servers/Public?sortOrder=Asc&limit=100"
-
     local req = (syn and syn.request) or (http and http.request) or request
 
     local success, response = pcall(function()
@@ -204,17 +203,22 @@ local function fetchServersAndSelect()
         local data = HttpService:JSONDecode(response.Body)
         selectedJobId = nil
 
+        local lowestPlayers = math.huge -- เริ่มจากจำนวนมากๆ
         for _, server in ipairs(data.data) do
-            if server.playing == 0 or server.playing == 1 then
+            if server.playing < lowestPlayers then
+                lowestPlayers = server.playing
                 selectedJobId = server.id
-                break
+                -- ถ้าเจอ server 0 คน ก็เลือกเลย ไม่ต้องหาอีก
+                if lowestPlayers == 0 then
+                    break
+                end
             end
         end
 
         if selectedJobId then
-            updateStatus("✅ พบ server ว่าง: " .. selectedJobId)
+            updateStatus("✅ พบ server คนเล่นน้อยสุด: " .. selectedJobId .. " (" .. tostring(lowestPlayers) .. " คน)")
         else
-            updateStatus("⚠️ ไม่มี server ว่าง (0 หรือ 1 ผู้เล่น)")
+            updateStatus("⚠️ ไม่พบ server ที่เข้าได้")
         end
     else
         updateStatus("❌ ดึงข้อมูล server ล้มเหลว: " .. tostring(response))
