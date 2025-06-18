@@ -85,7 +85,7 @@ local detailBox = createTextBox(frame, nil, UDim2.new(0.05, 0, 0.05, 0), UDim2.n
 detailBox.Text = "สถานะ..."
 detailBox.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 
-local roundsBox = createTextBox(frame, "จำนวนรอบ", UDim2.new(0.1, 0, 0.12, 0), UDim2.new(0.8, 0, 0.5, 0), true)
+local roundsBox = createTextBox(frame, "จำนวนรอบ", UDim2.new(0.1, 0, 0.10, 0), UDim2.new(0.8, 0, 0.10, 0), true)
 
 local startButton = createButton(frame, "เริ่ม", UDim2.new(0.1, 0, 0.35, 0), UDim2.new(0.35, 0, 0.15, 0))
 local stopButton = createButton(frame, "หยุด", UDim2.new(0.55, 0, 0.35, 0), UDim2.new(0.35, 0, 0.15, 0))
