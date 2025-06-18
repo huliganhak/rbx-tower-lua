@@ -6,6 +6,9 @@ local player = Players.LocalPlayer
 local loopRunning = false
 local selectedWorld = nil
 
+local hatchLoopRunning = false
+local hatchLoopCount = 0
+
 -- ตรวจสอบและสร้าง ScreenGui ถ้าไม่มี
 local screenGui = player:WaitForChild("PlayerGui"):FindFirstChild("TeleportUI")
 if not screenGui then
@@ -293,15 +296,24 @@ stopButton.MouseButton1Click:Connect(function()
 	updateStatus("⏹️ หยุดการทำงานแล้ว")
 end)
 
+hatchButton.Text = "Hatch Egg (OFF)"
 -- Toggle การแสดงปุ่ม hatch
-toggleHatchButton.MouseButton1Click:Connect(function()
-	hatchButton.Visible = not hatchButton.Visible
-	toggleHatchButton.Text = hatchButton.Visible and "🔼 Hide Hatch" or "🔽 Hatch Egg"
-end)
-
--- เมื่อกดปุ่ม hatch
 hatchButton.MouseButton1Click:Connect(function()
-	HatchEgg()
-	updateStatus("✅ เรียกใช้งาน Hatch Egg สำเร็จ")
+	hatchLoopRunning = not hatchLoopRunning
+	if hatchLoopRunning then
+		hatchButton.Text = "Hatch Egg (ON)"
+		hatchLoopCount = 0
+		task.spawn(function()
+			while hatchLoopRunning do
+				HatchEgg()
+				hatchLoopCount += 1
+				updateStatus("🥚 กำลังฟักไข่ (รอบ " .. hatchLoopCount .. ")")
+				task.wait(3)
+			end
+			updateStatus("⏹️ หยุดฟักไข่แล้ว (รวม " .. hatchLoopCount .. " รอบ)")
+		end)
+	else
+		hatchButton.Text = "Hatch Egg (OFF)"
+	end
 end)
 
