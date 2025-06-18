@@ -90,6 +90,9 @@ local fetchButton = createButton(frame, "ค้นหาเซิร์ฟเว
 local hatchButton = createButton(frame, "Hatch", UDim2.new(0.1, 0, 0.65, 0), UDim2.new(0.8, 0, 0.15, 0))
 hatchButton.BackgroundColor3 = Color3.fromRGB(100, 100, 80)
 
+local rejoinButton = createButton(frame, "Rejoin Server", UDim2.new(0.1, 0, 0.95, 0), UDim2.new(0.8, 0, 0.1, 0))
+rejoinButton.BackgroundColor3 = Color3.fromRGB(80, 120, 80)
+
 local dropdownMain = createButton(frame, "เลือก World", UDim2.new(0.1, 0, 0.75, 0), UDim2.new(0.8, 0, 0.15, 0))
 local dropdownFrame = Instance.new("Frame", frame)
 dropdownFrame.Position = UDim2.new(0.1, 0, 0.8, 0)
@@ -102,9 +105,6 @@ dropdownFrame.Visible = false
 local layout = Instance.new("UIListLayout", dropdownFrame)
 layout.Padding = UDim.new(0, 4)
 layout.SortOrder = Enum.SortOrder.LayoutOrder
-
-local rejoinButton = createButton(frame, "Rejoin Server", UDim2.new(0.1, 0, 0.95, 0), UDim2.new(0.8, 0, 0.1, 0))
-rejoinButton.BackgroundColor3 = Color3.fromRGB(80, 120, 80)
 
 -------------------------------------------------------
 -- 🌍 ปุ่มเลือก World ภายใน dropdown
