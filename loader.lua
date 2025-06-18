@@ -189,7 +189,7 @@ end
 local function fetchServersAndSelect()
     updateStatus("⏳ กำลังดึงข้อมูล server...")
 
-    local url = string.format("https://games.roblox.com/v1/games/" .. placeId .. "/servers/Public?sortOrder=Asc&limit=100")
+    local url = "https://games.roblox.com/v1/games/" .. placeId .. "/servers/Public?sortOrder=Asc&limit=100"
 
     local req = (syn and syn.request) or (http and http.request) or request
 
