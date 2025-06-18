@@ -82,18 +82,9 @@ local stopButton = createButton(frame, "หยุด", UDim2.new(0.55, 0, 0.35, 
 local dropdownMain = createButton(frame, "เลือก World", UDim2.new(0.1, 0, 0.65, 0), UDim2.new(0.8, 0, 0.15, 0))
 dropdownMain.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
 
--- ปุ่มเปิด/ปิดปุ่ม Hatch
-local toggleHatchButton = createButton(frame, "Hatch", UDim2.new(0.1, 0, 0.52, 0), UDim2.new(0.8, 0, 0.1, 0))
-toggleHatchButton.BackgroundColor3 = Color3.fromRGB(80, 60, 60)
-
 -- ปุ่ม Hatch Egg (เริ่มปิด)
 local hatchButton = createButton(frame, "Hatch", UDim2.new(0.1, 0, 0.63, 0), UDim2.new(0.8, 0, 0.1, 0))
 hatchButton.BackgroundColor3 = Color3.fromRGB(100, 100, 80)
-hatchButton.Visible = false
-
-toggleHatchButton.MouseButton1Click:Connect(function()
-	hatchButton.Visible = not hatchButton.Visible
-end)
 
 -- กรอบ dropdown รายการ (ซ่อนตอนเริ่ม)
 local dropdownFrame = Instance.new("Frame", frame)
