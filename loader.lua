@@ -55,6 +55,7 @@ local function createTextBox(parent, placeholder, position, size, editable)
 	box.ClearTextOnFocus = false
 	box.TextEditable = editable ~= false
 	box.TextWrapped = true
+	box.Text = ""
 	box.Parent = parent
 	return box
 end
