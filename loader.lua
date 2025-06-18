@@ -185,33 +185,38 @@ end
 -- 🧭 ฟังก์ชันดึง Job ID Server
 -------------------------------------------------------
 local function fetchServersAndSelect()
-	updateStatus("⏳ กำลังดึงข้อมูล server...")
-	
-	local url = string.format("https://games.roblox.com/v1/games/%d/servers/Public?sortOrder=Asc&limit=100", placeId)
-	
-	local success, response = pcall(function()
-		return HttpService:GetAsync(url)
-	end)
-	
-	if success then
-		local data = HttpService:JSONDecode(response)
-		selectedJobId = nil
-		
-		for _, server in ipairs(data.data) do
-			if server.playing == 0 or server.playing == 1 then
-				selectedJobId = server.id
-				break
-			end
-		end
-		
-		if selectedJobId then
-			updateStatus("✅ พบ server ว่าง: " .. selectedJobId)
-		else
-			updateStatus("⚠️ ไม่มี server ว่าง (0 หรือ 1 ผู้เล่น)")
-		end
-	else
-		updateStatus("❌ ดึงข้อมูล server ล้มเหลว: " .. tostring(response))
-	end
+    updateStatus("⏳ กำลังดึงข้อมูล server...")
+
+    local url = string.format("https://games.roblox.com/v1/games/%d/servers/Public?sortOrder=Asc&limit=100", placeId)
+
+    local req = (syn and syn.request) or (http and http.request) or request
+
+    local success, response = pcall(function()
+        return req({
+            Url = url,
+            Method = "GET"
+        })
+    end)
+
+    if success and response and response.Body then
+        local data = HttpService:JSONDecode(response.Body)
+        selectedJobId = nil
+
+        for _, server in ipairs(data.data) do
+            if server.playing == 0 or server.playing == 1 then
+                selectedJobId = server.id
+                break
+            end
+        end
+
+        if selectedJobId then
+            updateStatus("✅ พบ server ว่าง: " .. selectedJobId)
+        else
+            updateStatus("⚠️ ไม่มี server ว่าง (0 หรือ 1 ผู้เล่น)")
+        end
+    else
+        updateStatus("❌ ดึงข้อมูล server ล้มเหลว: " .. tostring(response))
+    end
 end
 
 -------------------------------------------------------
