@@ -91,6 +91,10 @@ local hatchButton = createButton(frame, "Hatch", UDim2.new(0.1, 0, 0.63, 0), UDi
 hatchButton.BackgroundColor3 = Color3.fromRGB(100, 100, 80)
 hatchButton.Visible = false
 
+toggleHatchButton.MouseButton1Click:Connect(function()
+	hatchButton.Visible = not hatchButton.Visible
+end)
+
 -- กรอบ dropdown รายการ (ซ่อนตอนเริ่ม)
 local dropdownFrame = Instance.new("Frame", frame)
 dropdownFrame.Position = UDim2.new(0.1, 0, 0.8, 0)
