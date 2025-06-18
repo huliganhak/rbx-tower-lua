@@ -90,6 +90,7 @@ local hatchButton = createButton(frame, "Hatch", UDim2.new(0.1, 0, 0.45, 0), UDi
 hatchButton.BackgroundColor3 = Color3.fromRGB(100, 100, 80)
 
 local dropdownMain = createButton(frame, "เลือก World", UDim2.new(0.1, 0, 0.65, 0), UDim2.new(0.8, 0, 0.15, 0))
+local fetchButton = createTextBox(frame, "ค้นหาเซิร์ฟเวอร์", UDim2.new(0.8, 0, 0, 50), UDim2.new(0.1, 0, 0.7, 0))
 
 local dropdownFrame = Instance.new("Frame", frame)
 dropdownFrame.Position = UDim2.new(0.1, 0, 0.8, 0)
@@ -252,16 +253,6 @@ end
 -- 🖱️ ปุ่มเริ่ม / หยุด / Hatch / Rejoin Server
 -------------------------------------------------------
 
-dropdownMain.MouseButton1Click:Connect(function()
-	isOpen = not isOpen
-	dropdownFrame.Visible = isOpen
-	dropdownFrame.Size = isOpen and UDim2.new(0.8, 0, 0, 200) or UDim2.new(0.8, 0, 0, 0)
-	
-	if isOpen then
-		fetchServersAndSelect()
-	end
-end)
-
 rejoinButton.MouseButton1Click:Connect(function()
 	if selectedJobId then
 		updateStatus("⏳ กำลังย้ายไป server: " .. selectedJobId)
@@ -289,6 +280,16 @@ end)
 stopButton.MouseButton1Click:Connect(function()
 	loopRunning = false
 	updateStatus("⏹️ หยุดการทำงานแล้ว")
+end)
+
+fetchButton.MouseButton1Click:Connect(function()
+	isOpen = not isOpen
+	dropdownFrame.Visible = isOpen
+	dropdownFrame.Size = isOpen and UDim2.new(0.8, 0, 0, 200) or UDim2.new(0.8, 0, 0, 0)
+	
+	if isOpen then
+		fetchServersAndSelect()
+	end
 end)
 
 hatchButton.MouseButton1Click:Connect(function()
