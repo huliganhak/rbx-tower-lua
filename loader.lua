@@ -177,7 +177,7 @@ local function walkUp(duration)
 			RunService:UnbindFromRenderStep("WalkUpMove")
 			return
 		end
-		hum:MoveTo(Vector3.new(0, 0, -1), true)
+		hum:Move(Vector3.new(0, 0, -1), true)
 	end)
 end
 
