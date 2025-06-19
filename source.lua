@@ -930,7 +930,27 @@ do
 		})
 	
 		table.insert(self.modules, textbox)
+		
+		local input = textbox.Textbox
 	
+		-- Callback เรียกเมื่อพิมพ์
+		input:GetPropertyChangedSignal("Text"):Connect(function()
+			if callback then
+				callback(input.Text, false, function(...)
+					self:updateTextbox(textbox, ...)
+				end)
+			end
+		end)
+	
+		-- Callback เมื่อพิมพ์เสร็จ (Enter / คลิกนอก)
+		input.FocusLost:Connect(function()
+			if callback then
+				callback(input.Text, true, function(...)
+					self:updateTextbox(textbox, ...)
+				end)
+			end
+		end)
+		
 		return textbox
 	end
 
