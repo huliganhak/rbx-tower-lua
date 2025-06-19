@@ -924,7 +924,8 @@ do
 				Text = defaultText or "",
 				TextColor3 = themes.TextColor,
 				TextSize = 12,
-				TextXAlignment = Enum.TextXAlignment.Center
+				TextXAlignment = Enum.TextXAlignment.Center,
+				TextEditable = false 
 			})
 		})
 	
