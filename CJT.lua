@@ -97,7 +97,7 @@ local Rejoinsection1 = page:addSection("Rejoin Server Setting")
 
 local textRejoin = Rejoinsection1:addWideLabel("สถานะ...", Color3.fromRGB(255, 0, 0))
 Rejoinsection1:addButton("Search Server", function()
-       
+       statusLabel.Text = "⏳ กำลังดึงข้อมูล..."
 end)
 Rejoinsection1:addButton("Rejoin Server", function(value)
         
