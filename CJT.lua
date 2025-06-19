@@ -146,7 +146,7 @@ Farmsection1:addButton("Start", function(value)
 	if roundsBoxFarm and roundsBoxFarm > 0 and not FarmloopRunning then
 		task.spawn(function()
 			updateStatustextFarm("✅ เริ่มรอบใน " .. selectedWorld)
-			RunLoopFarm(rounds)
+			RunLoopFarm(roundsBoxFarm)
 			updateStatustextFarm("⏹️ เสร็จสิ้นการทำงาน")
 		end)
 	else
