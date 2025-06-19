@@ -129,6 +129,9 @@ local function fetchServersAndSelect()
             updateStatusfetchServers("⚠️ ไม่พบ server ที่เข้าได้")
         end
     else
+        updateStatusfetchServers("❌ ดึงข้อมูล server ล้มเหลว: " .. tostring(response))
+    end
+end
 		
 -------------------------------------------------------
 -- Rejoin Server Page
@@ -173,6 +176,3 @@ end
 -- load
 -------------------------------------------------------
 venyx:SelectPage(venyx.pages[1], true)
-        updateStatusfetchServers("❌ ดึงข้อมูล server ล้มเหลว: " .. tostring(response))
-    end
-end
