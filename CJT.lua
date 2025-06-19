@@ -69,8 +69,9 @@ end)
 local page = venyx:addPage("RejoinServer", 5012544693)
 local Rejoinsection1 = page:addSection("Rejoin Server Setting")
 
-local display = Rejoinsection1:addWideTextbox("สถานะ...")
-display.Textbox.TextEditable = false -- แสดงอย่างเดียว ไม่ให้พิมพ์
+Rejoinsection1:addWideTextbox("สถานะ.....", function(value)
+	print("Text updated:", value)
+end)
 Rejoinsection1:addButton("Search Server", function(value)
         
 end)
