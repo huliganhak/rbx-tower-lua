@@ -24,6 +24,9 @@ local textRejoin = nil
 local roundsBoxFarm = 0
 local roundsBoxHatch = 0
 
+local shouldClaimWins = true
+local shouldClaimCrystal = true
+
 -------------------------------------------------------
 -- 🗺️ Preset ตำแหน่งของแต่ละ World
 -------------------------------------------------------
@@ -127,13 +130,13 @@ local Farmsection1 = Farmpage:addSection("Section 1")
 
 textFarm = Farmsection1:addWideLabel("สถานะ...", Color3.fromRGB(255, 0, 0))
 Farmsection1:addTextbox("จำนวนรอบ", nil, function(value)
-    roundsBoxFarm = tonumber(value) -- แปลงค่า value เป็น number ก่อนใช้งาน
+	roundsBoxFarm = tonumber(value) -- แปลงค่า value เป็น number ก่อนใช้งาน
 end)
 Farmsection1:addToggle("เก็บถ้วย", nil, function(value)
-    print("เก็บถ้วย", value)
+	shouldClaimWins = value
 end)
 Farmsection1:addToggle("เก็บคริสตัล", nil, function(value)
-    print("เก็บคริสตัล", value)
+	shouldClaimCrystal = value
 end)
 Farmsection1:addDropdown("Please select world", {"World1", "World2", "World3", "World4", "World5", "World6", "World7", "World8"}, function(text)
     selectedWorld = text
@@ -189,7 +192,7 @@ Hatchsection1:addButton("Start Hatch", function(value)
 		return
 	end
 		
-	if loopRunning then 
+	if hatchLoopRunning then 
 		updateStatustextHatch("⚠️ กำลังทำงาน Start อยู่ กรุณาหยุดก่อน") 
 		return 
 	end
