@@ -709,9 +709,7 @@ do
 			utility:Tween(button.Title, {TextSize = 12}, 0.2)
 			
 			if callback then
-				callback(function(...)
-					self:updateButton(button, ...)
-				end)
+				callback()
 			end
 			
 			debounce = false
