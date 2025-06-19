@@ -88,6 +88,16 @@ local function walkUp(duration)
 	end)
 end
 
+local function ClaimRewardWins()
+	local args = {"\233\162\134\229\143\150\230\165\188\233\161\182wins"}
+	game:GetService("ReplicatedStorage"):WaitForChild("Msg"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
+end
+
+local function ClaimRewardMagicToken()
+	local args = {"\233\162\134\229\143\150\230\165\188\233\161\182MagicToken"}
+	game:GetService("ReplicatedStorage"):WaitForChild("Msg"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
+end
+
 local function TpPosStart() local l = getLocation() if l then teleportTo(l.start) end end
 local function WalkToStairs() local l = getLocation() if l then walkTo(l.stairs) end end
 local function WalkUp() walkUp(3) end
