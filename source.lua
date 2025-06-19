@@ -906,7 +906,7 @@ do
 			Name = "WideTextbox",
 			Parent = self.container,
 			BackgroundTransparency = 1,
-			Size = UDim2.new(1, -20, 0, 30),
+			Size = UDim2.new(1, 0, 0, 30),
 			Position = UDim2.new(0, 10, 0, 0),
 			ZIndex = 2,
 			Image = "rbxassetid://5028857472",
