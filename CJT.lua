@@ -103,7 +103,7 @@ local Rejoinsection1 = RejoinSerpage:addSection("Rejoin Server Setting")
 
 textRejoin = Rejoinsection1:addWideLabel("สถานะ...", Color3.fromRGB(255, 0, 0))
 Rejoinsection1:addButton("Search Server", function()
-	updateStatusfetchServers("Test")
+	updateStatusfetchServers("⏳ กำลังดึงข้อมูล server...")
 	print("Rejoin Button Click")
 end)
 Rejoinsection1:addButton("Rejoin Server", function(value)
