@@ -92,6 +92,45 @@ Hatchsection1:addButton("Stop", function(value)
 end)
 
 -------------------------------------------------------
+-- 🧭 ฟังก์ชันดึง Job ID Server -- ของ -- Rejoin Server Page
+-------------------------------------------------------
+local function fetchServersAndSelect()
+    updateStatusfetchServers("⏳ กำลังดึงข้อมูล server...")
+
+    local url = "https://games.roblox.com/v1/games/" .. placeId .. "/servers/Public?sortOrder=Asc&limit=100"
+    local req = (syn and syn.request) or (http and http.request) or request
+
+    local success, response = pcall(function()
+        return req({
+            Url = url,
+            Method = "GET"
+        })
+    end)
+
+    if success and response and response.Body then
+        local data = HttpService:JSONDecode(response.Body)
+        selectedJobId = nil
+
+        local lowestPlayers = math.huge -- เริ่มจากจำนวนมากๆ
+        for _, server in ipairs(data.data) do
+            if server.playing < lowestPlayers then
+                lowestPlayers = server.playing
+                selectedJobId = server.id
+                -- ถ้าเจอ server 0 คน ก็เลือกเลย ไม่ต้องหาอีก
+                if lowestPlayers == 0 then
+                    break
+                end
+            end
+        end
+
+        if selectedJobId then
+            updateStatusfetchServers("✅ พบ server คนเล่นน้อยสุด: " .. selectedJobId .. " (" .. tostring(lowestPlayers) .. " คน)")
+        else
+            updateStatusfetchServers("⚠️ ไม่พบ server ที่เข้าได้")
+        end
+    else
+		
+-------------------------------------------------------
 -- Rejoin Server Page
 -------------------------------------------------------
 local function updateStatusfetchServers(msg)
@@ -134,45 +173,6 @@ end
 -- load
 -------------------------------------------------------
 venyx:SelectPage(venyx.pages[1], true)
-
--------------------------------------------------------
--- 🧭 ฟังก์ชันดึง Job ID Server
--------------------------------------------------------
-local function fetchServersAndSelect()
-    updateStatusfetchServers("⏳ กำลังดึงข้อมูล server...")
-
-    local url = "https://games.roblox.com/v1/games/" .. placeId .. "/servers/Public?sortOrder=Asc&limit=100"
-    local req = (syn and syn.request) or (http and http.request) or request
-
-    local success, response = pcall(function()
-        return req({
-            Url = url,
-            Method = "GET"
-        })
-    end)
-
-    if success and response and response.Body then
-        local data = HttpService:JSONDecode(response.Body)
-        selectedJobId = nil
-
-        local lowestPlayers = math.huge -- เริ่มจากจำนวนมากๆ
-        for _, server in ipairs(data.data) do
-            if server.playing < lowestPlayers then
-                lowestPlayers = server.playing
-                selectedJobId = server.id
-                -- ถ้าเจอ server 0 คน ก็เลือกเลย ไม่ต้องหาอีก
-                if lowestPlayers == 0 then
-                    break
-                end
-            end
-        end
-
-        if selectedJobId then
-            updateStatusfetchServers("✅ พบ server คนเล่นน้อยสุด: " .. selectedJobId .. " (" .. tostring(lowestPlayers) .. " คน)")
-        else
-            updateStatusfetchServers("⚠️ ไม่พบ server ที่เข้าได้")
-        end
-    else
         updateStatusfetchServers("❌ ดึงข้อมูล server ล้มเหลว: " .. tostring(response))
     end
 end
