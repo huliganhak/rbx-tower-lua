@@ -38,11 +38,13 @@ local dropdown = Section1:CreateDropdown("Refresh Dropdown ", {
        print(value)
 end)
 
-
-
 Section1:CreateButton("Refresh Example", function ()
    local newlist = {"resf", "uwua", "fsk"}
    dropdown:Clear()
    wait(1)
    dropdown:Add(newlist)
+end)
+
+Section1:CreateKeybind("Keybind Example", Enum.KeyCode.F, function(key)
+	print("กดปุ่ม:", key)
 end)
