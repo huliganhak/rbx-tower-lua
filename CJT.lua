@@ -129,12 +129,12 @@ local function fetchServersAndSelect()
         end
 
         if selectedJobId then
-            updateStatus("✅ พบ server คนเล่นน้อยสุด: " .. selectedJobId .. " (" .. tostring(lowestPlayers) .. " คน)")
+            updateStatusfetchServers("✅ พบ server คนเล่นน้อยสุด: " .. selectedJobId .. " (" .. tostring(lowestPlayers) .. " คน)")
         else
-            updateStatus("⚠️ ไม่พบ server ที่เข้าได้")
+            updateStatusfetchServers("⚠️ ไม่พบ server ที่เข้าได้")
         end
     else
-        updateStatus("❌ ดึงข้อมูล server ล้มเหลว: " .. tostring(response))
+        updateStatusfetchServers("❌ ดึงข้อมูล server ล้มเหลว: " .. tostring(response))
     end
 end
 
