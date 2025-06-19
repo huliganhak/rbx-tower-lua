@@ -17,7 +17,7 @@ local hatchLoopCount = 0
 local teleporting = false
 local isWalkingUp = false
 
-local textRejoin
+local textRejoin = nil
 
 -------------------------------------------------------
 -- 🗺️ Preset ตำแหน่งของแต่ละ World
@@ -99,8 +99,8 @@ local Rejoinsection1 = RejoinSerpage:addSection("Rejoin Server Setting")
 
 textRejoin = Rejoinsection1:addWideLabel("สถานะ...", Color3.fromRGB(255, 0, 0))
 Rejoinsection1:addButton("Search Server", function()
-	updateStatusfetchServers("888")
-	print("Rejoin Button Click")
+	-- updateStatusfetchServers("888")
+	print("Rejoin Button Click", textRejoin.Label.Text)
 end)
 Rejoinsection1:addButton("Rejoin Server", function(value)
         
