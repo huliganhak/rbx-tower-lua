@@ -95,16 +95,36 @@ local Hatchsection1 = Hatchpage:addSection("Section 1")
 
 textHatch = Hatchsection1:addWideLabel("สถานะ...", Color3.fromRGB(255, 0, 0))
 Hatchsection1:addTextbox("จำนวนรอบ", nil, function(value)
-    roundsBoxHatch = value
+	roundsBoxHatch = value
 end)
 Hatchsection1:addDropdown("Please select Incubator", {"Incubator1", "Incubator2", "Incubato3"}, function(text)
-    print("Selected", text)
+	print("Selected", text)
 end)
 Hatchsection1:addButton("Start", function(value)
-    print("Start จำนวนรอบคือ", roundsBoxHatch)
+	print("Start จำนวนรอบคือ", roundsBoxHatch)
+	if not roundsBoxHatch or roundsBoxHatch <= 0 then updateStatustextHatch("❌ จำนวนรอบไม่ถูกต้อง") return end
+	if loopRunning then updateStatustextHatch("⚠️ กำลังทำงาน Start อยู่ กรุณาหยุดก่อน") return end
+
+	hatchLoopRunning = true
+	hatchLoopCount = 0
+	task.spawn(function()
+		while hatchLoopRunning and hatchLoopCount < roundsBoxHatch do
+			HatchEgg()
+			hatchLoopCount += 1
+			updateStatustextHatch("🥚 กำลังฟักไข่ (รอบ " .. hatchLoopCount .. " / " .. roundsBoxHatch .. ")")
+			task.wait(3)
+		end
+		hatchLoopRunning = false
+		updateStatustextHatch("⏹️ ฟักไข่เสร็จสิ้น (รวม " .. hatchLoopCount .. " รอบ)")
+	end)
 end)
 Hatchsection1:addButton("Stop", function(value)
-    print("Stop +++ ", roundsBoxHatch)
+	print("Stop +++ ", roundsBoxHatch)
+	if hatchLoopRunning then
+		hatchLoopRunning = false
+		updateStatustextHatch("⏹️ หยุดฟักไข่แล้ว (รวม " .. hatchLoopCount .. " รอบ)")
+		return
+	end
 end)
 
 
