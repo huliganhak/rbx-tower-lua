@@ -24,8 +24,8 @@ local textRejoin = nil
 local roundsBoxFarm = 0
 local roundsBoxHatch = 0
 
-local shouldClaimWins = true
-local shouldClaimCrystal = true
+local shouldClaimWins = false
+local shouldClaimCrystal = false
 
 -------------------------------------------------------
 -- 🗺️ Preset ตำแหน่งของแต่ละ World
