@@ -111,31 +111,6 @@ Rejoinsection1:addButton("Rejoin Server", function(value)
 end)
 
 -------------------------------------------------------
--- Theme page
--------------------------------------------------------
-local theme = venyx:addPage("Theme", 5012544693)
-local Themesetting = theme:addSection("Setting")
-local Themecolors = theme:addSection("Colors Setting")
-
-Themesetting:addKeybind("Toggle Keybind", Enum.KeyCode.One, function()
-	print("Activated Keybind")
-		venyx:toggle()
-	end, function()
-	print("Changed Keybind")
-end)
-
-for theme, color in pairs(themes) do -- all in one theme changer, i know, im cool
-	Themecolors:addColorPicker(theme, color, function(color3)
-		venyx:setTheme(theme, color3)
-	end)
-end
-
--------------------------------------------------------
--- load
--------------------------------------------------------
-venyx:SelectPage(venyx.pages[1], true)
-
--------------------------------------------------------
 -- 🧭 ฟังก์ชันดึง Job ID Server -- ของ -- Rejoin Server Page
 -------------------------------------------------------
 local function fetchServersAndSelect()
@@ -176,3 +151,28 @@ local function fetchServersAndSelect()
         updateStatusfetchServers("❌ ดึงข้อมูล server ล้มเหลว: " .. tostring(response))
     end
 end
+
+-------------------------------------------------------
+-- Theme page
+-------------------------------------------------------
+local theme = venyx:addPage("Theme", 5012544693)
+local Themesetting = theme:addSection("Setting")
+local Themecolors = theme:addSection("Colors Setting")
+
+Themesetting:addKeybind("Toggle Keybind", Enum.KeyCode.One, function()
+	print("Activated Keybind")
+		venyx:toggle()
+	end, function()
+	print("Changed Keybind")
+end)
+
+for theme, color in pairs(themes) do -- all in one theme changer, i know, im cool
+	Themecolors:addColorPicker(theme, color, function(color3)
+		venyx:setTheme(theme, color3)
+	end)
+end
+
+-------------------------------------------------------
+-- load
+-------------------------------------------------------
+venyx:SelectPage(venyx.pages[1], true)
