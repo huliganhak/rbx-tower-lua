@@ -110,6 +110,8 @@ local function WalkDown() local l = getLocation() if l then walkTo(l.down) end e
 local function RunLoopFarm(roundsBoxFarm)
 	for i = 1, roundsBoxFarm do
 		if not FarmloopRunning then break end
+		
+		updateStatustextFarm("🔁 รอบที่ " .. i .. "/" .. roundsBoxFarm)
 		TpPosStart() task.wait(1)
 		WalkToStairs() task.wait(1)
 		WalkUp() task.wait(3)
@@ -126,6 +128,7 @@ local function RunLoopFarm(roundsBoxFarm)
 		
 		WalkDown() task.wait(5)
 	end
+	updateStatustextFarm("✅ ครบ " .. roundsBoxFarm .. " รอบแล้ว")
 	FarmloopRunning = false -- จบ loop แล้วค่อย reset
 end
 
