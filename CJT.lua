@@ -91,7 +91,7 @@ end
 -- Hatch Page
 -------------------------------------------------------
 local Hatchpage = venyx:addPage("Hatch", 5012544693)
-local Hatchsection1 = Hatchpage:addSection("Section 1")
+local Hatchsection1 = Hatchpage:addSection("Hatch Setting")
 
 textHatch = Hatchsection1:addWideLabel("สถานะ...", Color3.fromRGB(255, 0, 0))
 Hatchsection1:addTextbox("จำนวนรอบ", nil, function(value)
@@ -100,8 +100,7 @@ end)
 Hatchsection1:addDropdown("Please select Incubator", {"Incubator1", "Incubator2", "Incubato3"}, function(text)
 	print("Selected", text)
 end)
-Hatchsection1:addButton("Start", function(value)
-	print("Start จำนวนรอบคือ", roundsBoxHatch)
+Hatchsection1:addButton("Start Hatch", function(value)
 	if not roundsBoxHatch or roundsBoxHatch <= 0 then updateStatustextHatch("❌ จำนวนรอบไม่ถูกต้อง") return end
 	if loopRunning then updateStatustextHatch("⚠️ กำลังทำงาน Start อยู่ กรุณาหยุดก่อน") return end
 
@@ -118,8 +117,7 @@ Hatchsection1:addButton("Start", function(value)
 		updateStatustextHatch("⏹️ ฟักไข่เสร็จสิ้น (รวม " .. hatchLoopCount .. " รอบ)")
 	end)
 end)
-Hatchsection1:addButton("Stop", function(value)
-	print("Stop +++ ", roundsBoxHatch)
+Hatchsection1:addButton("Stop Hatch", function(value)
 	if hatchLoopRunning then
 		hatchLoopRunning = false
 		updateStatustextHatch("⏹️ หยุดฟักไข่แล้ว (รวม " .. hatchLoopCount .. " รอบ)")
