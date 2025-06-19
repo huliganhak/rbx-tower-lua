@@ -108,7 +108,6 @@ local function TpPosTrophy() local l = getLocation() if l then teleportTo(l.trop
 local function WalkDown() local l = getLocation() if l then walkTo(l.down) end end
 
 local function RunLoopFarm(roundsBoxFarm)
-	FarmloopRunning = true
 	for i = 1, roundsBoxFarm do
 		if not FarmloopRunning then break end
 		TpPosStart() task.wait(1)
@@ -127,7 +126,7 @@ local function RunLoopFarm(roundsBoxFarm)
 		
 		WalkDown() task.wait(5)
 	end
-	FarmloopRunning = false
+	FarmloopRunning = false -- จบ loop แล้วค่อย reset
 end
 
 -------------------------------------------------------
@@ -138,7 +137,12 @@ local Farmsection1 = Farmpage:addSection("Section 1")
 
 textFarm = Farmsection1:addWideLabel("สถานะ...", Color3.fromRGB(255, 0, 0))
 Farmsection1:addTextbox("จำนวนรอบ", nil, function(value)
-	roundsBoxFarm = tonumber(value) -- แปลงค่า value เป็น number ก่อนใช้งาน
+	local number = tonumber(value) -- แปลงค่า value เป็น number ก่อนใช้งาน
+	if number and number > 0 then
+		roundsBoxFarm = number
+	else
+		updateStatustextFarm("❌ โปรดใส่เลขที่ถูกต้อง")
+	end
 end)
 Farmsection1:addToggle("เก็บถ้วย", nil, function(value)
 	shouldClaimWins = value
@@ -155,11 +159,13 @@ Farmsection1:addButton("Start", function(value)
 		return
 	end
 	if roundsBoxFarm and roundsBoxFarm > 0 and not FarmloopRunning then
+		FarmloopRunning = true -- ✅ เริ่มป้องกัน loop
 		task.spawn(function()
 			updateStatustextFarm("✅ เริ่มรอบใน " .. selectedWorld)
 			RunLoopFarm(roundsBoxFarm)
 			updateStatustextFarm("⏹️ เสร็จสิ้นการทำงาน")
 		end)
+		FarmloopRunning = false
 	else
 		updateStatustextFarm("❌ จำนวนรอบไม่ถูกต้อง")
 	end
@@ -189,7 +195,12 @@ local Hatchsection1 = Hatchpage:addSection("Hatch Setting")
 
 textHatch = Hatchsection1:addWideLabel("สถานะ...", Color3.fromRGB(255, 0, 0))
 Hatchsection1:addTextbox("จำนวนรอบ", nil, function(value)
-	roundsBoxHatch = tonumber(value) -- แปลงค่า value เป็น number ก่อนใช้งาน
+	local number = tonumber(value)  -- แปลงค่า value เป็น number ก่อนใช้งาน
+	if number and number > 0 then
+		roundsBoxHatch = number
+	else
+		updateStatustextFarm("❌ โปรดใส่เลขที่ถูกต้อง")
+	end
 end)
 Hatchsection1:addDropdown("Please select Incubator", {"Incubator1", "Incubator2", "Incubato3"}, function(text)
 	print("Selected", text)
