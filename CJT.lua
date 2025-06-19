@@ -69,7 +69,7 @@ end)
 local page = venyx:addPage("RejoinServer", 5012544693)
 local Rejoinsection1 = page:addSection("Rejoin Server Setting")
 
-Rejoinsection1:addWideLabel("สถานะ.....")
+Rejoinsection1:addWideLabel("สถานะ.....", Color3.fromRGB(255, 0, 0))
 Rejoinsection1:addButton("Search Server", function(value)
         
 end)
