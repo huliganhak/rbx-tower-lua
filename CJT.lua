@@ -17,7 +17,10 @@ local hatchLoopCount = 0
 local teleporting = false
 local isWalkingUp = false
 
+local textHatch = nil
 local textRejoin = nil
+
+local roundsBoxHatch = 0
 
 -------------------------------------------------------
 -- 🗺️ Preset ตำแหน่งของแต่ละ World
@@ -74,12 +77,23 @@ Farmsection1:addButton("Stop", function(value)
 end)
 
 -------------------------------------------------------
+-- 🧭 ฟังก์ชั่นสุ่มไข่ ของ Hatch Page และ อัพเดท textHatch
+-------------------------------------------------------
+local function updateStatustextHatch(msg)
+    textHatch.Label.Text = msg
+end
+
+local function HatchEgg()
+	local args = {7000020, 3}
+	game:GetService("ReplicatedStorage"):WaitForChild("Tool"):WaitForChild("DrawUp"):WaitForChild("Msg"):WaitForChild("DrawHero"):InvokeServer(unpack(args))
+end
+-------------------------------------------------------
 -- Hatch Page
 -------------------------------------------------------
 local Hatchpage = venyx:addPage("Hatch", 5012544693)
 local Hatchsection1 = Hatchpage:addSection("Section 1")
 
-Hatchsection1:addWideLabel("สถานะ...", Color3.fromRGB(255, 0, 0))
+textHatch = Hatchsection1:addWideLabel("สถานะ...", Color3.fromRGB(255, 0, 0))
 Hatchsection1:addTextbox("จำนวนรอบ", nil, function(value)
     print("จำนวนรอบ", value)
 end)
@@ -93,7 +107,7 @@ end)
 
 
 -------------------------------------------------------
--- 🧭 ฟังก์ชันดึง Job ID Server ของ Rejoin Server Page และอัพเดท
+-- 🧭 ฟังก์ชันดึง Job ID Server ของ Rejoin Server Page และ อัพเดท textRejoin
 -------------------------------------------------------
 local function updateStatusfetchServers(msg)
     textRejoin.Label.Text = msg
