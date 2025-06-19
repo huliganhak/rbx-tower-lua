@@ -902,20 +902,34 @@ do
 	end
 
 	function section:addWideLabel(text, color)
-	    local label = utility:Create("TextLabel", {
-	        Name = "WideLabel",
-	        Parent = self.container,
-	        Size = UDim2.new(1, 0, 0, 30),
-	        BackgroundTransparency = 1,
-	        Font = Enum.Font.Gotham,
-	        Text = text or "",
-	        TextColor3 = color or themes.TextColor,
-	        TextSize = 12,
-	        TextXAlignment = Enum.TextXAlignment.Center
-	    })
+		local label = utility:Create("ImageLabel", {
+			Name = "WideLabel",
+			Parent = self.container,
+			BackgroundTransparency = 1,
+			Size = UDim2.new(1, 0, 0, 30),
+			Position = UDim2.new(0, 10, 0, 0),
+			ZIndex = 2,
+			Image = "rbxassetid://5028857472",
+			ImageColor3 = themes.DarkContrast,
+			ScaleType = Enum.ScaleType.Slice,
+			SliceCenter = Rect.new(2, 2, 298, 298)
+		}, {
+			utility:Create("TextLabel", {
+				Name = "Label",
+				BackgroundTransparency = 1,
+				Position = UDim2.new(0, 5, 0, 0),
+				Size = UDim2.new(1, -10, 1, 0),
+				ZIndex = 3,
+				Font = Enum.Font.GothamSemibold,
+				Text = text or "",
+				TextColor3 = color or themes.TextColor, -- 🔸 ใช้สีที่กำหนด หรือ fallback
+				TextSize = 12,
+				TextXAlignment = Enum.TextXAlignment.Center
+			})
+		})
 	
-	    table.insert(self.modules, label)
-	    return label
+		table.insert(self.modules, label)
+		return label
 	end
 
 	function section:addKeybind(title, default, callback, changedCallback)
