@@ -17,6 +17,8 @@ local hatchLoopCount = 0
 local teleporting = false
 local isWalkingUp = false
 
+local textRejoin = nil 
+
 -------------------------------------------------------
 -- 🗺️ Preset ตำแหน่งของแต่ละ World
 -------------------------------------------------------
@@ -95,7 +97,7 @@ end)
 local RejoinSerpage = venyx:addPage("RejoinServer", 5012544693)
 local Rejoinsection1 = RejoinSerpage:addSection("Rejoin Server Setting")
 
-local textRejoin = Rejoinsection1:addWideLabel("สถานะ...", Color3.fromRGB(255, 0, 0))
+textRejoin = Rejoinsection1:addWideLabel("สถานะ...", Color3.fromRGB(255, 0, 0))
 Rejoinsection1:addButton("Search Server", function()
 	updateStatusfetchServers("888")
 	print("Rejoin Button Click")
