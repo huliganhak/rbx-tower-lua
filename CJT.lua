@@ -14,7 +14,7 @@ TextColor = Color3.fromRGB(255, 255, 255)
 -------------------------------------------------------
 -- Farm Page
 -------------------------------------------------------
-local page = venyx:addPage("Farm Page", 5012544693)
+local page = venyx:addPage("Farm", 5012544693)
 local Farmsection1 = page:addSection("Section 1")
 
 Farmsection1:addTextbox("สถานะ", nil, function(value)
@@ -40,7 +40,7 @@ end)
 -------------------------------------------------------
 -- Hatch Page
 -------------------------------------------------------
-local page = venyx:addPage("Hatch Page", 5012544693)
+local page = venyx:addPage("Hatch", 5012544693)
 local Hatchsection1 = page:addSection("Section 1")
 
 Hatchsection1:addTextbox("สถานะ", nil, function(value)
@@ -66,7 +66,7 @@ end)
 -------------------------------------------------------
 -- Rejoin Server Page
 -------------------------------------------------------
-local page = venyx:addPage("Rejoin Page", 5012544693)
+local page = venyx:addPage("RejoinServer", 5012544693)
 local Rejoinsection1 = page:addSection("Section 1")
 
 Rejoinsection1:addTextbox("สถานะ", nil, function(value)
