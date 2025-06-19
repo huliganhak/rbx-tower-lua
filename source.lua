@@ -901,9 +901,9 @@ do
 		return textbox
 	end
 
-	function section:addWideTextbox(defaultText, callback)
-		local textbox = utility:Create("ImageLabel", {
-			Name = "WideTextbox",
+	function section:addWideLabel(text)
+		local label = utility:Create("ImageLabel", {
+			Name = "WideLabel",
 			Parent = self.container,
 			BackgroundTransparency = 1,
 			Size = UDim2.new(1, 0, 0, 30),
@@ -914,44 +914,23 @@ do
 			ScaleType = Enum.ScaleType.Slice,
 			SliceCenter = Rect.new(2, 2, 298, 298)
 		}, {
-			utility:Create("TextBox", {
-				Name = "Textbox", 
+			utility:Create("TextLabel", {
+				Name = "Label",
 				BackgroundTransparency = 1,
 				Position = UDim2.new(0, 5, 0, 0),
 				Size = UDim2.new(1, -10, 1, 0),
 				ZIndex = 3,
 				Font = Enum.Font.GothamSemibold,
-				Text = defaultText or "",
+				Text = text or "",
 				TextColor3 = themes.TextColor,
 				TextSize = 12,
-				TextXAlignment = Enum.TextXAlignment.Center,
-				TextEditable = false
+				TextXAlignment = Enum.TextXAlignment.Center
 			})
 		})
 	
-		table.insert(self.modules, textbox)
-		
-		local input = textbox.Textbox
+		table.insert(self.modules, label)
 	
-		-- Callback เรียกเมื่อพิมพ์
-		input:GetPropertyChangedSignal("Text"):Connect(function()
-			if callback then
-				callback(input.Text, false, function(...)
-					self:updateTextbox(textbox, ...)
-				end)
-			end
-		end)
-	
-		-- Callback เมื่อพิมพ์เสร็จ (Enter / คลิกนอก)
-		input.FocusLost:Connect(function()
-			if callback then
-				callback(input.Text, true, function(...)
-					self:updateTextbox(textbox, ...)
-				end)
-			end
-		end)
-		
-		return textbox
+		return label
 	end
 
 	function section:addKeybind(title, default, callback, changedCallback)
