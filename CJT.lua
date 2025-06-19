@@ -89,7 +89,7 @@ end)
 Farmsection1:addButton("Start", function(value)
 	if not selectedWorld then 
 		updateStatustextFarm("⚠️ กรุณาเลือก World ก่อนเริ่ม") 
-		return 
+		return
 	end
 	if roundsBoxFarm and roundsBoxFarm > 0 and not FarmloopRunning then
 		task.spawn(function()
