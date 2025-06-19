@@ -97,7 +97,7 @@ local Rejoinsection1 = RejoinSerpage:addSection("Rejoin Server Setting")
 
 local textRejoin = Rejoinsection1:addWideLabel("สถานะ...", Color3.fromRGB(255, 0, 0))
 Rejoinsection1:addButton("Search Server", function()
-	print("ข้อความปัจจุบันคือ1:", textRejoin.Label.Text)
+	updateStatusfetchServers("⏳ กำลังดึงข้อมูล server...")
 	print("Rejoin Button Click")
 end)
 Rejoinsection1:addButton("Rejoin Server", function(value)
@@ -132,7 +132,7 @@ venyx:SelectPage(venyx.pages[1], true)
 -------------------------------------------------------
 -- 🧭 ฟังก์ชันดึง Job ID Server
 -------------------------------------------------------
-local function updateStatusfetchServers(msg) textRejoin.Text = msg end
+local function updateStatusfetchServers(msg) textRejoin.Label.Text = msg end
 local function fetchServersAndSelect()
     updateStatusfetchServers("⏳ กำลังดึงข้อมูล server...")
 
