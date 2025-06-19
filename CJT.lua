@@ -84,7 +84,7 @@ Farmsection1:addToggle("เก็บคริสตัล", nil, function(value)
     print("เก็บคริสตัล", value)
 end)
 Farmsection1:addDropdown("Please select world", {"World1", "World2", "World3", "World4", "World5", "World6", "World7", "World8"}, function(text)
-    print("Selected", text)
+    selectedWorld = text
 end)
 Farmsection1:addButton("Start", function(value)
 	if not selectedWorld then 
@@ -94,7 +94,7 @@ Farmsection1:addButton("Start", function(value)
 	if roundsBoxFarm and roundsBoxFarm > 0 and not FarmloopRunning then
 		task.spawn(function()
 			updateStatustextFarm("✅ เริ่มรอบใน " .. selectedWorld)
-			RunLoopFarm(rounds)
+			--RunLoopFarm(rounds)
 			updateStatustextFarm("⏹️ เสร็จสิ้นการทำงาน")
 		end)
 	else
