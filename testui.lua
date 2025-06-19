@@ -4,7 +4,7 @@ local windowz = uilibrary:CreateWindow("UI Library", "Game Name", true)
 local Page1 = windowz:CreatePage("Page I")
 
 
-local Section1 = Page1:CreateSection("Section Name")
+local Section1 = Page1:CreateSection("Section Name 888")
 
 Section1:CreateSlider("Slider Example", {Min = 16, Max = 500, DefaultValue = 30}, function(Value)
    print(Value)
