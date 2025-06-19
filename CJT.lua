@@ -10,16 +10,18 @@ local player = Players.LocalPlayer
 
 local placeId = game.PlaceId
 local selectedJobId = nil
-local loopRunning = false
+local FarmloopRunning = false
 local selectedWorld = nil
 local hatchLoopRunning = false
 local hatchLoopCount = 0
 local teleporting = false
 local isWalkingUp = false
 
+local textFarm = nil
 local textHatch = nil
 local textRejoin = nil
 
+local roundsBoxFarm = 0
 local roundsBoxHatch = 0
 
 -------------------------------------------------------
@@ -44,13 +46,35 @@ local venyx = library.new("Venyx", 5013109572)
 
 -- themes
 local themes = {
-Background = Color3.fromRGB(24, 24, 24),
-Glow = Color3.fromRGB(0, 0, 0),
-Accent = Color3.fromRGB(10, 10, 10),
-LightContrast = Color3.fromRGB(20, 20, 20),
-DarkContrast = Color3.fromRGB(14, 14, 14),  
-TextColor = Color3.fromRGB(255, 255, 255)
+	Background = Color3.fromRGB(24, 24, 24),
+	Glow = Color3.fromRGB(0, 0, 0),
+	Accent = Color3.fromRGB(10, 10, 10),
+	LightContrast = Color3.fromRGB(20, 20, 20),
+	DarkContrast = Color3.fromRGB(14, 14, 14),  
+	TextColor = Color3.fromRGB(255, 255, 255)
 }
+
+-------------------------------------------------------
+-- 🧭 ฟังก์ชั่นของ Farm Page และ อัพเดท textFarm
+-------------------------------------------------------
+local function updateStatustextFarm(msg)
+    textFarm.Label.Text = msg
+end
+
+local function RunLoopFarm(roundsBoxFarm)
+	FarmloopRunning = true
+	for i = 1, roundsBoxFarm do
+		if not FarmloopRunning then break end
+		TpPosStart() task.wait(1)
+		WalkToStairs() task.wait(1)
+		WalkUp() task.wait(3)
+		TpPosTrophy() task.wait(1)
+		ClaimRewardWins() task.wait(1)
+		ClaimRewardMagicToken() task.wait(1)
+		WalkDown() task.wait(5)
+	end
+	FarmloopRunning = false
+end
 
 -------------------------------------------------------
 -- Farm Page
@@ -87,6 +111,7 @@ local function HatchEgg()
 	local args = {7000020, 3}
 	game:GetService("ReplicatedStorage"):WaitForChild("Tool"):WaitForChild("DrawUp"):WaitForChild("Msg"):WaitForChild("DrawHero"):InvokeServer(unpack(args))
 end
+
 -------------------------------------------------------
 -- Hatch Page
 -------------------------------------------------------
@@ -131,7 +156,6 @@ Hatchsection1:addButton("Stop Hatch", function(value)
 		return
 	end
 end)
-
 
 -------------------------------------------------------
 -- 🧭 ฟังก์ชันดึง Job ID Server ของ Rejoin Server Page และ อัพเดท textRejoin
