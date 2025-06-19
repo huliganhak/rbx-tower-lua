@@ -40,7 +40,7 @@ end)
 -------------------------------------------------------
 -- Hatch Page
 -------------------------------------------------------
-local page = venyx:addPage("Farm Page", 5012544693)
+local page = venyx:addPage("Hatch Page", 5012544693)
 local section1 = page:addSection("Section 1")
 local section2 = page:addSection("Section 2")
 
