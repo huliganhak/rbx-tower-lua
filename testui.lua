@@ -17,7 +17,7 @@ end)
 local btn = Section1:CreateButton("Button Ex", function()
    print("Button Clicked!")
 end)
-btn.Size = UDim2.new(0.5, 0, 0, 40)
+btn.Size = UDim2.new(1, 0, 0, 60)
 
 Section1:CreateTextbox("TextBox", false, function (vv)
    print(vv)
