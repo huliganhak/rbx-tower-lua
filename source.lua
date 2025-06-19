@@ -708,8 +708,8 @@ do
 			wait(0.2)
 			utility:Tween(button.Title, {TextSize = 12}, 0.2)
 			
-			if callback then
-				callback()
+			if type(callback) == "function" then
+			    callback()
 			end
 			
 			debounce = false
