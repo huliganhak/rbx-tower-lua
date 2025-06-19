@@ -901,7 +901,7 @@ do
 		return textbox
 	end
 
-	function section:addWideLabel(text)
+	function section:addWideLabel(text, color)
 		local label = utility:Create("ImageLabel", {
 			Name = "WideLabel",
 			Parent = self.container,
@@ -922,14 +922,13 @@ do
 				ZIndex = 3,
 				Font = Enum.Font.GothamSemibold,
 				Text = text or "",
-				TextColor3 = themes.TextColor,
+				TextColor3 = color or themes.TextColor, -- 🔸 ใช้สีที่กำหนด หรือ fallback
 				TextSize = 12,
 				TextXAlignment = Enum.TextXAlignment.Center
 			})
 		})
 	
 		table.insert(self.modules, label)
-	
 		return label
 	end
 
