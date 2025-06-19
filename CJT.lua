@@ -97,7 +97,10 @@ local Rejoinsection1 = RejoinSerpage:addSection("Rejoin Server Setting")
 
 local textRejoin = Rejoinsection1:addWideLabel("สถานะ...", Color3.fromRGB(255, 0, 0))
 Rejoinsection1:addButton("Search Server", function()
-	updateStatusfetchServers("⏳ กำลังดึงข้อมูล server...")
+	local label = textRejoin:FindFirstChild("Label")
+	if label and label:IsA("TextLabel") then
+		label.Text = "test"
+	end
 	print("Rejoin Button Click")
 end)
 Rejoinsection1:addButton("Rejoin Server", function(value)
