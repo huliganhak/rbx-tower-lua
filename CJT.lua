@@ -115,8 +115,16 @@ local function RunLoopFarm(roundsBoxFarm)
 		WalkToStairs() task.wait(1)
 		WalkUp() task.wait(3)
 		TpPosTrophy() task.wait(1)
-		ClaimRewardWins() task.wait(1)
-		ClaimRewardMagicToken() task.wait(1)
+		
+		if shouldClaimWins then 
+		    ClaimRewardWins() 
+		    task.wait(1) 
+		end	
+		if shouldClaimCrystal then 
+		    ClaimRewardMagicToken() 
+		    task.wait(1) 
+		end
+		
 		WalkDown() task.wait(5)
 	end
 	FarmloopRunning = false
