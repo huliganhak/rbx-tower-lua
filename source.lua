@@ -900,7 +900,59 @@ do
 		
 		return textbox
 	end
+
+	function section:addWideTextbox(defaultText, callback)
+		local textbox = utility:Create("ImageLabel", {
+			Name = "WideTextbox",
+			Parent = self.container,
+			BackgroundTransparency = 1,
+			Size = UDim2.new(1, -20, 0, 30),
+			Position = UDim2.new(0, 10, 0, 0),
+			ZIndex = 2,
+			Image = "rbxassetid://5028857472",
+			ImageColor3 = themes.LightContrast,
+			ScaleType = Enum.ScaleType.Slice,
+			SliceCenter = Rect.new(2, 2, 298, 298)
+		}, {
+			utility:Create("TextBox", {
+				Name = "Textbox", 
+				BackgroundTransparency = 1,
+				Position = UDim2.new(0, 5, 0, 0),
+				Size = UDim2.new(1, -10, 1, 0),
+				ZIndex = 3,
+				Font = Enum.Font.GothamSemibold,
+				Text = defaultText or "",
+				TextColor3 = themes.TextColor,
+				TextSize = 12,
+				TextXAlignment = Enum.TextXAlignment.Left
+			})
+		})
 	
+		table.insert(self.modules, textbox)
+	
+		local input = textbox.Textbox
+	
+		-- Callback เรียกเมื่อพิมพ์
+		input:GetPropertyChangedSignal("Text"):Connect(function()
+			if callback then
+				callback(input.Text, false, function(...)
+					self:updateTextbox(textbox, ...)
+				end)
+			end
+		end)
+	
+		-- Callback เมื่อพิมพ์เสร็จ (Enter / คลิกนอก)
+		input.FocusLost:Connect(function()
+			if callback then
+				callback(input.Text, true, function(...)
+					self:updateTextbox(textbox, ...)
+				end)
+			end
+		end)
+	
+		return textbox
+	end
+
 	function section:addKeybind(title, default, callback, changedCallback)
 		local keybind = utility:Create("ImageButton", {
 			Name = "Keybind",
