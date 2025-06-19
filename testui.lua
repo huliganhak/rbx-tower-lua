@@ -14,7 +14,7 @@ Section1:CreateToggle("Toggle Example", {Toggled=false , Description = false}, f
    print(Value)
 end)
 
-local btn = Section1:CreateButton("Button Ex", function()
+local btn = Section1:CreateButton("Button Ex0", function()
    print("Button Clicked!")
 end)
 btn.Size = UDim2.new(1, 0, 0, 60)
