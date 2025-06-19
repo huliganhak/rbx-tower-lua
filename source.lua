@@ -910,7 +910,7 @@ do
 			Position = UDim2.new(0, 10, 0, 0),
 			ZIndex = 2,
 			Image = "rbxassetid://5028857472",
-			ImageColor3 = themes.LightContrast,
+			ImageColor3 = themes.DarkContrast,
 			ScaleType = Enum.ScaleType.Slice,
 			SliceCenter = Rect.new(2, 2, 298, 298)
 		}, {
@@ -924,7 +924,7 @@ do
 				Text = defaultText or "",
 				TextColor3 = themes.TextColor,
 				TextSize = 12,
-				TextXAlignment = Enum.TextXAlignment.Left
+				TextXAlignment = Enum.TextXAlignment.Center
 			})
 		})
 	
