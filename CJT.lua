@@ -83,7 +83,7 @@ local function walkUp(duration)
 	local startTime = tick()
 	RunService:UnbindFromRenderStep("WalkUpMove")
 	RunService:BindToRenderStep("WalkUpMove", Enum.RenderPriority.Character.Value + 1, function()
-		if tick() - startTime > duration or not loopRunning then
+		if tick() - startTime > duration or not FarmloopRunning then
 			RunService:UnbindFromRenderStep("WalkUpMove")
 			return
 		end
