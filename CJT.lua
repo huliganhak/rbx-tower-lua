@@ -50,8 +50,8 @@ TextColor = Color3.fromRGB(255, 255, 255)
 -------------------------------------------------------
 -- Farm Page
 -------------------------------------------------------
-local page = venyx:addPage("Farm", 5012544693)
-local Farmsection1 = page:addSection("Section 1")
+local Farmpage = venyx:addPage("Farm", 5012544693)
+local Farmsection1 = Farmpage:addSection("Section 1")
 
 Farmsection1:addWideLabel("สถานะ...", Color3.fromRGB(255, 0, 0))
 Farmsection1:addTextbox("จำนวนรอบ", nil, function(value)
@@ -74,8 +74,8 @@ end)
 -------------------------------------------------------
 -- Hatch Page
 -------------------------------------------------------
-local page = venyx:addPage("Hatch", 5012544693)
-local Hatchsection1 = page:addSection("Section 1")
+local Hatchpage = venyx:addPage("Hatch", 5012544693)
+local Hatchsection1 = Hatchpage:addSection("Section 1")
 
 Hatchsection1:addWideLabel("สถานะ...", Color3.fromRGB(255, 0, 0))
 Hatchsection1:addTextbox("จำนวนรอบ", nil, function(value)
@@ -92,8 +92,8 @@ end)
 -------------------------------------------------------
 -- Rejoin Server Page
 -------------------------------------------------------
-local page = venyx:addPage("RejoinServer", 5012544693)
-local Rejoinsection1 = page:addSection("Rejoin Server Setting")
+local RejoinSerpage = venyx:addPage("RejoinServer", 5012544693)
+local Rejoinsection1 = RejoinSerpage:addSection("Rejoin Server Setting")
 
 local textRejoin = Rejoinsection1:addWideLabel("สถานะ...", Color3.fromRGB(255, 0, 0))
 Rejoinsection1:addButton("Search Server", function()
