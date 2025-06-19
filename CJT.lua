@@ -165,7 +165,6 @@ Farmsection1:addButton("Start", function(value)
 			RunLoopFarm(roundsBoxFarm)
 			updateStatustextFarm("⏹️ เสร็จสิ้นการทำงาน")
 		end)
-		FarmloopRunning = false
 	else
 		updateStatustextFarm("❌ จำนวนรอบไม่ถูกต้อง")
 	end
