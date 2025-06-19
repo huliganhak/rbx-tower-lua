@@ -17,7 +17,7 @@ local hatchLoopCount = 0
 local teleporting = false
 local isWalkingUp = false
 
-local textRejoin = nil 
+local textRejoin
 
 -------------------------------------------------------
 -- 🗺️ Preset ตำแหน่งของแต่ละ World
