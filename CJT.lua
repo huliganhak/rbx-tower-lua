@@ -131,7 +131,7 @@ venyx:SelectPage(venyx.pages[1], true)
 -------------------------------------------------------
 -- 🧭 ฟังก์ชันดึง Job ID Server
 -------------------------------------------------------
-local function updateStatusfetchServers(msg) textRejoin.Label.Text = msg end
+local function updateStatusfetchServers(msg) textRejoin.Text = msg end
 local function fetchServersAndSelect()
     updateStatusfetchServers("⏳ กำลังดึงข้อมูล server...")
 
