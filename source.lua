@@ -925,7 +925,6 @@ do
 				TextColor3 = themes.TextColor,
 				TextSize = 12,
 				TextXAlignment = Enum.TextXAlignment.Center
-				readonly = true 
 			})
 		})
 	
