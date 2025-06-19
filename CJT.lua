@@ -95,14 +95,16 @@ local Hatchsection1 = Hatchpage:addSection("Section 1")
 
 textHatch = Hatchsection1:addWideLabel("สถานะ...", Color3.fromRGB(255, 0, 0))
 Hatchsection1:addTextbox("จำนวนรอบ", nil, function(value)
-    print("จำนวนรอบ", value)
+    roundsBoxHatch = value
 end)
 Hatchsection1:addDropdown("Please select Incubator", {"Incubator1", "Incubator2", "Incubato3"}, function(text)
     print("Selected", text)
 end)
 Hatchsection1:addButton("Start", function(value)
+    print("Start จำนวนรอบคือ", roundsBoxHatch)
 end)
 Hatchsection1:addButton("Stop", function(value)
+    print("Stop +++ ", roundsBoxHatch)
 end)
 
 
