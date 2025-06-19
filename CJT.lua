@@ -11,8 +11,10 @@ DarkContrast = Color3.fromRGB(14, 14, 14),
 TextColor = Color3.fromRGB(255, 255, 255)
 }
 
--- first page
-local page = venyx:addPage("Test", 5012544693)
+-------------------------------------------------------
+-- Farm Page
+-------------------------------------------------------
+local page = venyx:addPage("Farm Page", 5012544693)
 local section1 = page:addSection("Section 1")
 local section2 = page:addSection("Section 2")
 
@@ -27,6 +29,36 @@ section1:addToggle("เก็บถ้วย", nil, function(value)
 end)
 section1:addToggle("เก็บคริสตัล", nil, function(value)
     print("เก็บคริสตัล", value)
+end)
+section1:addDropdown("Dropdown", {"World1", "World2", "World3", "World4", "World5", "World6", "World7", "World8"}, function(text)
+    print("Selected", text)
+end)
+section1:addButton("Start", function(value)
+end)
+section1:addButton("Stop", function(value)
+end)
+
+-------------------------------------------------------
+-- Hatch Page
+-------------------------------------------------------
+local page = venyx:addPage("Farm Page", 5012544693)
+local section1 = page:addSection("Section 1")
+local section2 = page:addSection("Section 2")
+
+section1:addTextbox("สถานะ", nil, function(value)
+    print("สถานะ", value)
+end)
+section1:addTextbox("จำนวนรอบ", nil, function(value)
+    print("จำนวนรอบ", value)
+end)
+section1:addToggle("เก็บถ้วย", nil, function(value)
+    print("เก็บถ้วย", value)
+end)
+section1:addToggle("เก็บคริสตัล", nil, function(value)
+    print("เก็บคริสตัล", value)
+end)
+section1:addDropdown("Dropdown", {"World1", "World2", "World3", "World4", "World5", "World6", "World7", "World8"}, function(text)
+    print("Selected", text)
 end)
 section1:addButton("Start", function(value)
 end)
@@ -50,7 +82,9 @@ print("Selected", text)
 end)
 section2:addButton("Button")
 
+-------------------------------------------------------
 -- Theme page
+-------------------------------------------------------
 local theme = venyx:addPage("Theme", 5012544693)
 local colors = theme:addSection("Colors Setting")
 
@@ -60,5 +94,7 @@ venyx:setTheme(theme, color3)
 end)
 end
 
+-------------------------------------------------------
 -- load
+-------------------------------------------------------
 venyx:SelectPage(venyx.pages[1], true)
