@@ -1,96 +1,61 @@
-local Luminosity = loadstring(game:HttpGet("https://raw.githubusercontent.com/huliganhak/rbx-tower-lua/main/source.lua", true))()
-local Window = Luminosity.new("Luminosity UI", "v1.0.0", 4370345701)
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/huliganhak/rbx-tower-lua/main/source.lua"))()
+local venyx = library.new("Venyx", 5013109572)
 
-local Tab1 = Window.Tab("Tab 1", 6026568198)
-local Folder = Tab1.Folder("Options", "A bunch of options you can use")
-Folder.Button("Button", "Click", function()
-    print("Button Clicked")
-end)
-Folder.Switch("Switch", function(Status)
-    print("Switch Triggered: " .. tostring(Status))
-end)
-Folder.Toggle("Toggle", function(Status)
-    print("Toggle Triggered: " .. tostring(Status))
-end)
-Folder.Toggle("Toggle", function(Status)
-    print("Toggle Triggered: " .. tostring(Status))
-end)
-Folder.TextBox("Textbox", "Placeholder", function(Text)
-    print("TextBox Triggered: " .. Text)
-end)[/align]
-[align=center]Folder.Slider("Slider", {Precise = true, Default = 18, Min = 10, Max = 125}, function(Status)
-    print("Slider Triggered" .. tostring(Status))
-end)
-Tab1.Folder("Lipsum Expanded", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eu mollis urna, quis feugiat tellus. Integer ut ligula sodales, sodales ipsum ut, imperdiet ipsum. In aliquet quam et venenatis pulvinar. Nullam fermentum porta felis sit amet interdum. Sed tristique fringilla mollis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam quis tempus mauris, nec ultrices metus. Suspendisse mi urna, accumsan at nisi a, tristique porta libero. Integer lobortis elementum lacus cursus consectetur. Morbi mauris ante, posuere at malesuada et, tristique non ipsum. Proin vitae purus pretium, convallis est vitae, dignissim leo. Praesent nec felis vitae.")
+-- themes
+local themes = {
+Background = Color3.fromRGB(24, 24, 24),
+Glow = Color3.fromRGB(0, 0, 0),
+Accent = Color3.fromRGB(10, 10, 10),
+LightContrast = Color3.fromRGB(20, 20, 20),
+DarkContrast = Color3.fromRGB(14, 14, 14),  
+TextColor = Color3.fromRGB(255, 255, 255)
+}
 
-local Cheat = Tab1.Cheat("Options", "A bunch of options you can use", function(Status)
-    print("Cheat Triggered: " .. tostring(Status))
+-- first page
+local page = venyx:addPage("Test", 5012544693)
+local section1 = page:addSection("Section 1")
+local section2 = page:addSection("Section 2")
+
+section1:addToggle("Toggle", nil, function(value)
+print("Toggled", value)
 end)
-Cheat.Button("Button", "Click", function()
-    print("Button Clicked")
+section1:addButton("Button", function()
+print("Clicked")
 end)
-Cheat.Switch("Switch", function(Status)
-    print("Switch Triggered: " .. tostring(Status))
-end)
-Cheat.Toggle("Toggle", function(Status)
-    print("Toggle Triggered: " .. tostring(Status))
-end)
-Cheat.Toggle("Toggle", function(Status)
-    print("Toggle Triggered: " .. tostring(Status))
-end)
-Cheat.TextBox("Textbox", "Placeholder", function(Text)
-    print("TextBox Triggered: " .. Text)
+section1:addTextbox("Notification", "Default", function(value, focusLost)
+print("Input", value)
+
+if focusLost then
+venyx:Notify("Title", value)
+end
 end)
 
-Tab1.Cheat("Lipsum Expanded", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eu mollis urna, quis feugiat tellus. Integer ut ligula sodales, sodales ipsum ut, imperdiet ipsum. In aliquet quam et venenatis pulvinar. Nullam fermentum porta felis sit amet interdum. Sed tristique fringilla mollis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam quis tempus mauris, nec ultrices metus. Suspendisse mi urna, accumsan at nisi a, tristique porta libero. Integer lobortis elementum lacus cursus consectetur. Morbi mauris ante, posuere at malesuada et, tristique non ipsum. Proin vitae purus pretium, convallis est vitae, dignissim leo. Praesent nec felis vitae.", function(Status)
-    print("Cheat Triggered: " .. tostring(Status))
+section2:addKeybind("Toggle Keybind", Enum.KeyCode.One, function()
+print("Activated Keybind")
+venyx:toggle()
+end, function()
+print("Changed Keybind")
 end)
+section2:addColorPicker("ColorPicker", Color3.fromRGB(50, 50, 50))
+section2:addColorPicker("ColorPicker2")
+section2:addSlider("Slider", 0, -100, 100, function(value)
+print("Dragged", value)
+end)
+section2:addDropdown("Dropdown", {"Hello", "World", "Hello World", "Word", 1, 2, 3})
+section2:addDropdown("Dropdown", {"Hello", "World", "Hello World", "Word", 1, 2, 3}, function(text)
+print("Selected", text)
+end)
+section2:addButton("Button")
 
--- Tab 2 --
-local Tab2 = Window.Tab("Tab 2", 6022668945)
-local Folder = Tab2.Folder("Options", "A bunch of options you can use")
-Folder.Button("Button", "Click", function()
-    print("Button Clicked")
-end)
-Folder.Switch("Switch", function(Status)
-    print("Switch Triggered: " .. tostring(Status))
-end)
-Folder.Toggle("Toggle", function(Status)
-    print("Toggle Triggered: " .. tostring(Status))
-end)
-Folder.Toggle("Toggle", function(Status)
-    print("Toggle Triggered: " .. tostring(Status))
-end)
-Folder.TextBox("Textbox", "Placeholder", function(Text)
-    print("TextBox Triggered: " .. Text)
-end)
-Tab2.Folder("Lipsum Expanded", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eu mollis urna, quis feugiat tellus. Integer ut ligula sodales, sodales ipsum ut, imperdiet ipsum. In aliquet quam et venenatis pulvinar. Nullam fermentum porta felis sit amet interdum. Sed tristique fringilla mollis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam quis tempus mauris, nec ultrices metus. Suspendisse mi urna, accumsan at nisi a, tristique porta libero. Integer lobortis elementum lacus cursus consectetur. Morbi mauris ante, posuere at malesuada et, tristique non ipsum. Proin vitae purus pretium, convallis est vitae, dignissim leo. Praesent nec felis vitae.")
+-- second page
+local theme = venyx:addPage("Theme", 5012544693)
+local colors = theme:addSection("Colors")
 
-local Cheat = Tab2.Cheat("Options", "A bunch of options you can use", function(Status)
-    print("Cheat Triggered: " .. tostring(Status))
+for theme, color in pairs(themes) do -- all in one theme changer, i know, im cool
+colors:addColorPicker(theme, color, function(color3)
+venyx:setTheme(theme, color3)
 end)
-Cheat.Button("Button", "Click" function()
-    print("Button Clicked")
-end)
-Cheat.Switch("Switch", function(Status)
-    print("Switch Triggered: " .. tostring(Status))
-end)
-Cheat.Toggle("Toggle", function(Status)
-    print("Toggle Triggered: " .. tostring(Status))
-end)
-Cheat.Toggle("Toggle", function(Status)
-    print("Toggle Triggered: " .. tostring(Status))
-end)
-Cheat.TextBox("Textbox", "Placeholder", function(Text)
-print("TextBox Triggered: " .. Text)
-end)
+end
 
-Tab2.Cheat("Lipsum Expanded", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eu mollis urna, quis feugiat tellus. Integer ut ligula sodales, sodales ipsum ut, imperdiet ipsum. In aliquet quam et venenatis pulvinar. Nullam fermentum porta felis sit amet interdum. Sed tristique fringilla mollis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam quis tempus mauris, nec ultrices metus. Suspendisse mi urna, accumsan at nisi a, tristique porta libero. Integer lobortis elementum lacus cursus consectetur. Morbi mauris ante, posuere at malesuada et, tristique non ipsum. Proin vitae purus pretium, convallis est vitae, dignissim leo. Praesent nec felis vitae.", function(Status)
-print("Cheat Triggered: " .. tostring(Status))
-end)
-
-game:GetService("UserInputService").InputBegan:Connect(function(Input)
-if Input.KeyCode == Enum.KeyCode.F then
-        Window:Toggle()
-    end
-end)
+-- load
+venyx:SelectPage(venyx.pages[1], true)
