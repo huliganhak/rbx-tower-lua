@@ -95,9 +95,9 @@ local function TpPosTrophy() local l = getLocation() if l then teleportTo(l.trop
 local function WalkDown() local l = getLocation() if l then walkTo(l.down) end end
 
 local function RunLoopFarm(roundsBoxFarm)
-	loopRunning = true
-	for i = 1, rounds do
-		if not loopRunning then break end
+	FarmloopRunning = true
+	for i = 1, roundsBoxFarm do
+		if not FarmloopRunning then break end
 		TpPosStart() task.wait(1)
 		WalkToStairs() task.wait(1)
 		WalkUp() task.wait(3)
@@ -106,7 +106,7 @@ local function RunLoopFarm(roundsBoxFarm)
 		ClaimRewardMagicToken() task.wait(1)
 		WalkDown() task.wait(5)
 	end
-	loopRunning = false
+	FarmloopRunning = false
 end
 
 -------------------------------------------------------
