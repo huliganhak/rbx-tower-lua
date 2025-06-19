@@ -73,7 +73,7 @@ end
 local Farmpage = venyx:addPage("Farm", 5012544693)
 local Farmsection1 = Farmpage:addSection("Section 1")
 
-Farmsection1:addWideLabel("สถานะ...", Color3.fromRGB(255, 0, 0))
+textFarm = Farmsection1:addWideLabel("สถานะ...", Color3.fromRGB(255, 0, 0))
 Farmsection1:addTextbox("จำนวนรอบ", nil, function(value)
     roundsBoxFarm = tonumber(value) -- แปลงค่า value เป็น number ก่อนใช้งาน
 end)
