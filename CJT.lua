@@ -90,28 +90,15 @@ Hatchsection1:addButton("Start", function(value)
 end)
 Hatchsection1:addButton("Stop", function(value)
 end)
-	
+
+
 -------------------------------------------------------
--- Rejoin Server Page
+-- 🧭 ฟังก์ชันดึง Job ID Server ของ Rejoin Server Page และอัพเดท
 -------------------------------------------------------
 local function updateStatusfetchServers(msg)
     textRejoin.Label.Text = msg
 end
 
-local RejoinSerpage = venyx:addPage("RejoinServer", 5012544693)
-local Rejoinsection1 = RejoinSerpage:addSection("Rejoin Server Setting")
-
-textRejoin = Rejoinsection1:addWideLabel("สถานะ...", Color3.fromRGB(255, 0, 0))
-Rejoinsection1:addButton("Search Server", function()
-	fetchServersAndSelect()
-end)
-Rejoinsection1:addButton("Rejoin Server", function(value)
-        
-end)
-
--------------------------------------------------------
--- 🧭 ฟังก์ชันดึง Job ID Server -- ของ -- Rejoin Server Page
--------------------------------------------------------
 local function fetchServersAndSelect()
     updateStatusfetchServers("⏳ กำลังดึงข้อมูล server...")
 
@@ -150,6 +137,20 @@ local function fetchServersAndSelect()
         updateStatusfetchServers("❌ ดึงข้อมูล server ล้มเหลว: " .. tostring(response))
     end
 end
+
+-------------------------------------------------------
+-- Rejoin Server Page
+-------------------------------------------------------
+local RejoinSerpage = venyx:addPage("RejoinServer", 5012544693)
+local Rejoinsection1 = RejoinSerpage:addSection("Rejoin Server Setting")
+
+textRejoin = Rejoinsection1:addWideLabel("สถานะ...", Color3.fromRGB(255, 0, 0))
+Rejoinsection1:addButton("Search Server", function()
+	fetchServersAndSelect()
+end)
+Rejoinsection1:addButton("Rejoin Server", function(value)
+        
+end)
 
 -------------------------------------------------------
 -- Theme page
