@@ -72,10 +72,10 @@ local Rejoinsection1 = page:addSection("Rejoin Server Setting")
 Rejoinsection1:addTextbox("สถานะ", nil, function(value)
  
 end)
-Rejoinsection1:addButton("Start", function(value)
+Rejoinsection1:addButton("Search Server", function(value)
         
 end)
-Rejoinsection1:addButton("Stop", function(value)
+Rejoinsection1:addButton("Rejoin Server", function(value)
         
 end)
 
