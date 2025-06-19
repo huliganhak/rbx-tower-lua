@@ -318,7 +318,7 @@ local theme = venyx:addPage("Theme", 5012544693)
 local Themesetting = theme:addSection("Setting")
 local Themecolors = theme:addSection("Colors Setting")
 
-Themesetting:addKeybind("Toggle Keybind", Enum.KeyCode.One, function()
+Themesetting:addKeybind("Toggle Keybind", Enum.KeyCode.KeypadPlus, function()
 	print("Activated Keybind")
 		venyx:toggle()
 	end, function()
