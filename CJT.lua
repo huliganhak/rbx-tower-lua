@@ -67,26 +67,16 @@ end)
 -- Rejoin Server Page
 -------------------------------------------------------
 local page = venyx:addPage("RejoinServer", 5012544693)
-local Rejoinsection1 = page:addSection("Section 1")
+local Rejoinsection1 = page:addSection("Rejoin Server Setting")
 
 Rejoinsection1:addTextbox("สถานะ", nil, function(value)
-    print("สถานะ", value)
-end)
-Rejoinsection1:addTextbox("จำนวนรอบ", nil, function(value)
-    print("จำนวนรอบ", value)
-end)
-Rejoinsection1:addToggle("เก็บถ้วย", nil, function(value)
-    print("เก็บถ้วย", value)
-end)
-Rejoinsection1:addToggle("เก็บคริสตัล", nil, function(value)
-    print("เก็บคริสตัล", value)
-end)
-Rejoinsection1:addDropdown("Dropdown", {"World1", "World2", "World3", "World4", "World5", "World6", "World7", "World8"}, function(text)
-    print("Selected", text)
+ 
 end)
 Rejoinsection1:addButton("Start", function(value)
+        
 end)
 Rejoinsection1:addButton("Stop", function(value)
+        
 end)
 
 -------------------------------------------------------
