@@ -63,16 +63,7 @@ end
 
 local function RunLoopFarm(roundsBoxFarm)
 	FarmloopRunning = true
-	for i = 1, roundsBoxFarm do
-		if not FarmloopRunning then break end
-		TpPosStart() task.wait(1)
-		WalkToStairs() task.wait(1)
-		WalkUp() task.wait(3)
-		TpPosTrophy() task.wait(1)
-		ClaimRewardWins() task.wait(1)
-		ClaimRewardMagicToken() task.wait(1)
-		WalkDown() task.wait(5)
-	end
+
 	FarmloopRunning = false
 end
 
@@ -84,7 +75,7 @@ local Farmsection1 = Farmpage:addSection("Section 1")
 
 Farmsection1:addWideLabel("สถานะ...", Color3.fromRGB(255, 0, 0))
 Farmsection1:addTextbox("จำนวนรอบ", nil, function(value)
-    print("จำนวนรอบ", value)
+    roundsBoxFarm = tonumber(value) -- แปลงค่า value เป็น number ก่อนใช้งาน
 end)
 Farmsection1:addToggle("เก็บถ้วย", nil, function(value)
     print("เก็บถ้วย", value)
@@ -96,8 +87,23 @@ Farmsection1:addDropdown("Please select world", {"World1", "World2", "World3", "
     print("Selected", text)
 end)
 Farmsection1:addButton("Start", function(value)
+	if not selectedWorld then 
+		updateStatustextFarm("⚠️ กรุณาเลือก World ก่อนเริ่ม") 
+		return 
+	end
+	if roundsBoxFarm and roundsBoxFarm > 0 and not FarmloopRunning then
+		task.spawn(function()
+			updateStatustextFarm("✅ เริ่มรอบใน " .. selectedWorld)
+			RunLoopFarm(rounds)
+			updateStatustextFarm("⏹️ เสร็จสิ้นการทำงาน")
+		end)
+	else
+		updateStatustextFarm("❌ จำนวนรอบไม่ถูกต้อง")
+	end
 end)
 Farmsection1:addButton("Stop", function(value)
+	FarmloopRunning = false
+	updateStatustextFarm("⏹️ หยุดการทำงานแล้ว")
 end)
 
 -------------------------------------------------------
