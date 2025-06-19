@@ -161,16 +161,22 @@ Farmsection1:addButton("Start", function(value)
 		updateStatustextFarm("⚠️ กรุณาเลือก World ก่อนเริ่ม") 
 		return
 	end
-	if roundsBoxFarm and roundsBoxFarm > 0 and not FarmloopRunning then
-		FarmloopRunning = true -- ✅ เริ่มป้องกัน loop
-		task.spawn(function()
-			updateStatustextFarm("✅ เริ่มรอบใน " .. selectedWorld)
-			RunLoopFarm(roundsBoxFarm)
-			updateStatustextFarm("⏹️ เสร็จสิ้นการทำงาน")
-		end)
-	else
-		updateStatustextFarm("❌ จำนวนรอบไม่ถูกต้อง")
+	if FarmloopRunning then
+		updateStatustextFarm("⚠️ กำลังทำงานอยู่ กรุณาหยุดก่อนเริ่มใหม่")
+		return
 	end
+
+	if not roundsBoxFarm or roundsBoxFarm <= 0 then
+		updateStatustextFarm("❌ จำนวนรอบไม่ถูกต้อง กรุณากรอกตัวเลขมากกว่า 0")
+		return
+	end
+
+	FarmloopRunning = true
+	task.spawn(function()
+		updateStatustextFarm("✅ เริ่มรอบใน " .. selectedWorld)
+		RunLoopFarm(roundsBoxFarm)
+		updateStatustextFarm("⏹️ เสร็จสิ้นการทำงาน")
+	end)
 end)
 Farmsection1:addButton("Stop", function(value)
 	FarmloopRunning = false
