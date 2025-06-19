@@ -95,14 +95,21 @@ local Hatchsection1 = Hatchpage:addSection("Hatch Setting")
 
 textHatch = Hatchsection1:addWideLabel("สถานะ...", Color3.fromRGB(255, 0, 0))
 Hatchsection1:addTextbox("จำนวนรอบ", nil, function(value)
-	roundsBoxHatch = value
+	roundsBoxHatch = tonumber(value) -- แปลงค่า value เป็น number ก่อนใช้งาน
 end)
 Hatchsection1:addDropdown("Please select Incubator", {"Incubator1", "Incubator2", "Incubato3"}, function(text)
 	print("Selected", text)
 end)
 Hatchsection1:addButton("Start Hatch", function(value)
-	if not roundsBoxHatch or roundsBoxHatch <= 0 then updateStatustextHatch("❌ จำนวนรอบไม่ถูกต้อง") return end
-	if loopRunning then updateStatustextHatch("⚠️ กำลังทำงาน Start อยู่ กรุณาหยุดก่อน") return end
+	if type(roundsBoxHatch) ~= "number" or roundsBoxHatch <= 0 then
+		updateStatustextHatch("❌ จำนวนรอบไม่ถูกต้อง")
+		return
+	end
+		
+	if loopRunning then 
+		updateStatustextHatch("⚠️ กำลังทำงาน Start อยู่ กรุณาหยุดก่อน") 
+		return 
+	end
 
 	hatchLoopRunning = true
 	hatchLoopCount = 0
