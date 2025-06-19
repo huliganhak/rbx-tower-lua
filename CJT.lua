@@ -129,7 +129,7 @@ local function fetchServersAndSelect()
         end
 
         if selectedJobId then
-            updateStatusfetchServers("✅ พบ server คนเล่นน้อยสุด: " .. selectedJobId .. " (" .. tostring(lowestPlayers) .. " คน)")
+            updateStatusfetchServers("✅ พบ JobID: " .. selectedJobId .. " (" .. tostring(lowestPlayers) .. " คน)")
         else
             updateStatusfetchServers("⚠️ ไม่พบ server ที่เข้าได้")
         end
@@ -149,7 +149,13 @@ Rejoinsection1:addButton("Search Server", function()
 	fetchServersAndSelect()
 end)
 Rejoinsection1:addButton("Rejoin Server", function(value)
-        
+        if not selectedJobId or teleporting then
+		updateStatusfetchServers("⚠️ ยังไม่มี server ที่เลือกได้")
+		return
+	end
+	teleporting = true
+	updateStatusfetchServers("⏳ กำลังย้ายไป server: " .. selectedJobId)
+	TeleportService:TeleportToPlaceInstance(placeId, selectedJobId, player)
 end)
 
 -------------------------------------------------------
