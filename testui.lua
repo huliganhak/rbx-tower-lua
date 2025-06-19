@@ -47,9 +47,9 @@ print("Selected", text)
 end)
 section2:addButton("Button")
 
--- second page
+-- Theme page
 local theme = venyx:addPage("Theme", 5012544693)
-local colors = theme:addSection("Colors")
+local colors = theme:addSection("Colors Setting")
 
 for theme, color in pairs(themes) do -- all in one theme changer, i know, im cool
 colors:addColorPicker(theme, color, function(color3)
