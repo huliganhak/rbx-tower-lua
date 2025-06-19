@@ -61,10 +61,52 @@ local function updateStatustextFarm(msg)
     textFarm.Label.Text = msg
 end
 
-local function RunLoopFarm(roundsBoxFarm)
-	FarmloopRunning = true
+local function getLocation() return selectedWorld and locationPresets[selectedWorld] end
 
-	FarmloopRunning = false
+local function teleportTo(pos)
+	local char = player.Character or player.CharacterAdded:Wait()
+	char:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(pos)
+end
+
+local function walkTo(pos)
+	local char = player.Character or player.CharacterAdded:Wait()
+	char:WaitForChild("Humanoid"):MoveTo(pos)
+end
+
+local function walkUp(duration)
+	local char = player.Character or player.CharacterAdded:Wait()
+	local hum = char:FindFirstChild("Humanoid")
+	if not hum then return end
+	local startTime = tick()
+	RunService:UnbindFromRenderStep("WalkUpMove")
+	RunService:BindToRenderStep("WalkUpMove", Enum.RenderPriority.Character.Value + 1, function()
+		if tick() - startTime > duration or not loopRunning then
+			RunService:UnbindFromRenderStep("WalkUpMove")
+			return
+		end
+		hum:Move(Vector3.new(0, 0, -1), true)
+	end)
+end
+
+local function TpPosStart() local l = getLocation() if l then teleportTo(l.start) end end
+local function WalkToStairs() local l = getLocation() if l then walkTo(l.stairs) end end
+local function WalkUp() walkUp(3) end
+local function TpPosTrophy() local l = getLocation() if l then teleportTo(l.trophy) end end
+local function WalkDown() local l = getLocation() if l then walkTo(l.down) end end
+
+local function RunLoopFarm(roundsBoxFarm)
+	loopRunning = true
+	for i = 1, rounds do
+		if not loopRunning then break end
+		TpPosStart() task.wait(1)
+		WalkToStairs() task.wait(1)
+		WalkUp() task.wait(3)
+		TpPosTrophy() task.wait(1)
+		ClaimRewardWins() task.wait(1)
+		ClaimRewardMagicToken() task.wait(1)
+		WalkDown() task.wait(5)
+	end
+	loopRunning = false
 end
 
 -------------------------------------------------------
@@ -94,7 +136,7 @@ Farmsection1:addButton("Start", function(value)
 	if roundsBoxFarm and roundsBoxFarm > 0 and not FarmloopRunning then
 		task.spawn(function()
 			updateStatustextFarm("✅ เริ่มรอบใน " .. selectedWorld)
-			--RunLoopFarm(rounds)
+			RunLoopFarm(rounds)
 			updateStatustextFarm("⏹️ เสร็จสิ้นการทำงาน")
 		end)
 	else
