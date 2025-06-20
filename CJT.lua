@@ -291,7 +291,7 @@ dropdownHatch2 = Hatchsection1:addDropdown("Please select Incubator", {}, functi
 end)
 dropdownHatch1 = Hatchsection1:addDropdown("Please select World", {"World1", "World2", "World3", "World4", "World5", "World6", "World7", "World8"}, function(worldText)
 	local eggList = hatchPresets[worldText] or {}
-		
+	print("eggList " .. eggList )
 	Hatchsection1:updateDropdown(dropdownHatch2, nil, eggList, function(selectedEgg)
 		print("เลือกไข่จาก " .. worldText .. ": " .. selectedEgg)
 	end)
