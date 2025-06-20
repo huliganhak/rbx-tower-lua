@@ -27,6 +27,9 @@ local roundsBoxHatch = 0
 local shouldClaimWins = false
 local shouldClaimCrystal = false
 
+local WalkSpeed = nil
+local JumpPower = nil
+
 -------------------------------------------------------
 -- 🗺️ Preset ตำแหน่งของแต่ละ World
 -------------------------------------------------------
@@ -184,6 +187,13 @@ Farmsection1:addButton("Stop", function(value)
 end)
 
 -------------------------------------------------------
+-- 🧭 ฟังก์ชั่นของ Option Page
+-------------------------------------------------------
+local function getHumanoid()
+	local char = player.Character or player.CharacterAdded:Wait()
+	return char:FindFirstChild("Humanoid")
+end
+-------------------------------------------------------
 -- Option Page
 -------------------------------------------------------
 local Optionpage = venyx:addPage("Character", 5012544693)
@@ -191,11 +201,21 @@ local Optionsection1 = Optionpage:addSection("Character Options")
 local Optionsection2 = Optionpage:addSection("Free Gift Options")
 local Optionsection3 = Optionpage:addSection("Soin Options")
 
-Optionsection1:addSlider("Walk Speed", 0, -100, 100, function(value)
-	
+WalkSpeed = Optionsection1:addSlider("Walk Speed", 16, 0, 100, function(value)
+	local hum = getHumanoid()
+	if hum then
+		hum.WalkSpeed = value
+	end
 end)
-Optionsection1:addSlider("Jump Power", 0, -100, 100, function(value)
-	
+JumpPower = Optionsection1:addSlider("Jump Power", 50, 0, 100, function(value)
+	local hum = getHumanoid()
+	if hum then
+		hum.JumpPower = value
+	end
+end)
+Optionsection1:addButton("Refresh", function(value)
+	WalkSpeed:updateSlider("Walk Speed", 16, 0, 100)
+	JumpPower:updateSlider("Jump Power", 50, 0, 100)
 end)
 Optionsection2:addToggle("รับ Free Gift", nil, function(value)
 	
