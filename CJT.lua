@@ -210,6 +210,7 @@ end)
 JumpPower = Optionsection1:addSlider("Jump Power", 50, 0, 100, function(value)
 	local hum = getHumanoid()
 	if hum then
+		hum.UseJumpPower = true
 		hum.JumpPower = value
 	end
 end)
@@ -221,7 +222,9 @@ Optionsection1:addButton("Refresh", function(value)
 
 		-- อัปเดตค่าใน Humanoid
 		hum.WalkSpeed = defaultWalkSpeed
+
 		hum.JumpPower = defaultJumpPower
+		hum.UseJumpPower = false
 
 		-- อัปเดต UI slider
 		Optionsection1:updateSlider(WalkSpeed, nil, defaultWalkSpeed, 0, 100)
