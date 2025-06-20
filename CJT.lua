@@ -184,6 +184,26 @@ Farmsection1:addButton("Stop", function(value)
 end)
 
 -------------------------------------------------------
+-- Option Page
+-------------------------------------------------------
+local Optionpage = venyx:addPage("Character", 5012544693)
+local Optionsection1 = Optionpage:addSection("Character Options")
+local Optionsection2 = Optionpage:addSection("Free Gift Options")
+local Optionsection3 = Optionpage:addSection("Soin Options")
+
+Optionsection1:addSlider("Walk Speed", 0, -100, 100, function(value)
+	
+end)
+Optionsection1:addSlider("Jump Power", 0, -100, 100, function(value)
+	
+end)
+Optionsection2:addToggle("รับ Free Gift", nil, function(value)
+	
+end)
+Optionsection3:addToggle("หมุนวงล้อ", nil, function(value)
+	
+end)
+-------------------------------------------------------
 -- 🧭 ฟังก์ชั่นสุ่มไข่ ของ Hatch Page และ อัพเดท textHatch
 -------------------------------------------------------
 local function updateStatustextHatch(msg)
