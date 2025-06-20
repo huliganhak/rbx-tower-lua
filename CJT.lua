@@ -31,6 +31,7 @@ local WalkSpeed = nil
 local JumpPower = nil
 
 local dropdownHatch = nil
+local selectedIncubatorIndex = nil
 
 -------------------------------------------------------
 -- 🗺️ Preset ตำแหน่งของแต่ละ World
@@ -270,15 +271,21 @@ local function HatchEgg()
 	game:GetService("ReplicatedStorage"):WaitForChild("Tool"):WaitForChild("DrawUp"):WaitForChild("Msg"):WaitForChild("DrawHero"):InvokeServer(unpack(args))
 end
 
-local function buildIncubatorMapAndOptions(hatchPresets)
+local function buildIncubatorMapAndOptions(presets)
 	local map = {}
 	local options = {}
+	local count = 0
 
-	for world, eggs in pairs(hatchPresets) do
-		for index, egg in ipairs(eggs) do
-			local label = world .. " - " .. egg
-			map[label] = "Incubator" .. index
-			table.insert(options, label)
+	for worldIndex = 1, 8 do
+		local world = "World" .. worldIndex
+		local eggs = presets[world]
+		if eggs then
+			for _, egg in ipairs(eggs) do
+				count += 1
+				local label = world .. " - " .. egg
+				map[label] = count
+				table.insert(options, label)
+			end
 		end
 	end
 
@@ -301,8 +308,8 @@ Hatchsection1:addTextbox("จำนวนรอบ", nil, function(value)
 end)
 local incubatorMap, hatchOptions = buildIncubatorMapAndOptions(hatchPresets)
 dropdownHatch = Hatchsection1:addDropdown("Please select Incubator", hatchOptions, function(selectedText)
-	selectedIncubator = incubatorMap[selectedText]
-	updateStatustextHatch(selectedText .. " => " .. (selectedIncubator or "❌ ไม่พบ"))
+	selectedIncubatorIndex = incubatorMap[selectedText]
+	updateStatustextHatch(selectedText .. " => ลำดับที่ " .. (selectedIncubatorIndex or "❌ ไม่พบ"))
 end)
 Hatchsection1:addButton("Start Hatch", function(value)
 	if type(roundsBoxHatch) ~= "number" or roundsBoxHatch <= 0 then
