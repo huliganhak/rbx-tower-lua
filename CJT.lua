@@ -289,12 +289,17 @@ end)
 dropdownHatch2 = Hatchsection1:addDropdown("Please select Incubator", {}, function(text)
 	
 end)
-dropdownHatch1 = Hatchsection1:addDropdown("Please select World", {"World1", "World2", "World3", "World4", "World5", "World6", "World7", "World8"}, function(worldText)
-	local eggList = hatchPresets[worldText] or {}
-	print("eggList: " .. table.concat(eggList, ", "))
-	Hatchsection1:updateDropdown(dropdownHatch2, nil, eggList, function(selectedEgg)
-		print("เลือกไข่จาก " .. worldText .. ": " .. selectedEgg)
-	end)
+dropdownHatch1 = Hatchsection1:addDropdown("Please select Incubator", {
+	"World1 - Egg 200", "World1 - Egg 20k", "World1 - Egg 1M",
+	"World2 - Egg 400M", "World2- Egg 160B", "World2 - Egg 16T",
+	"World3 - Egg 2.50q", "World3 - Egg 1.3Q",
+	"World4 - Egg 1.90aa", "World4 - Egg 2.9bb",
+	"World5 - Egg 4.30cc", "World5 - Egg 6.50dd",
+	"World6 - Egg 9.70ee", "World6 - Egg 15ff",
+	"World7 - Egg 22gg", "World7 - Egg 2.20hh", "World7 - Egg 220hh",
+	"World8 - 44ii", "World8 - 4.40jj", "World8 - 440jj"
+	}, function(worldText)
+	updateStatustextHatch(worldText)
 end)
 Hatchsection1:addButton("Start Hatch", function(value)
 	if type(roundsBoxHatch) ~= "number" or roundsBoxHatch <= 0 then
