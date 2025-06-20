@@ -80,19 +80,16 @@ local themes = {
 local function updateStatustextFarm(msg)
     textFarm.Label.Text = msg
 end
-
 local function getLocation() return selectedWorld and locationPresets[selectedWorld] end
 
 local function teleportTo(pos)
 	local char = player.Character or player.CharacterAdded:Wait()
 	char:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(pos)
 end
-
 local function walkTo(pos)
 	local char = player.Character or player.CharacterAdded:Wait()
 	char:WaitForChild("Humanoid"):MoveTo(pos)
 end
-
 local function walkUp(duration)
 	local char = player.Character or player.CharacterAdded:Wait()
 	local hum = char:FindFirstChild("Humanoid")
@@ -107,12 +104,10 @@ local function walkUp(duration)
 		hum:Move(Vector3.new(0, 0, -1), true)
 	end)
 end
-
 local function ClaimRewardWins()
 	local args = {"\233\162\134\229\143\150\230\165\188\233\161\182wins"}
 	game:GetService("ReplicatedStorage"):WaitForChild("Msg"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
 end
-
 local function ClaimRewardMagicToken()
 	local args = {"\233\162\134\229\143\150\230\165\188\233\161\182MagicToken"}
 	game:GetService("ReplicatedStorage"):WaitForChild("Msg"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
@@ -207,6 +202,7 @@ local function getHumanoid()
 	local char = player.Character or player.CharacterAdded:Wait()
 	return char:FindFirstChild("Humanoid")
 end
+
 -------------------------------------------------------
 -- Option Page
 -------------------------------------------------------
@@ -259,18 +255,17 @@ Optionsection3:addToggle("หมุนวงล้อ Spin", nil, function(value
 		task.wait(0.5)
 	end
 end)
+
 -------------------------------------------------------
 -- 🧭 ฟังก์ชั่นสุ่มไข่ ของ Hatch Page และ อัพเดท textHatch
 -------------------------------------------------------
 local function updateStatustextHatch(msg)
     textHatch.Label.Text = msg
 end
-
 local function HatchEgg()
 	local args = {7000020, 3}
 	game:GetService("ReplicatedStorage"):WaitForChild("Tool"):WaitForChild("DrawUp"):WaitForChild("Msg"):WaitForChild("DrawHero"):InvokeServer(unpack(args))
 end
-
 local function buildIncubatorMapAndOptions(presets)
 	local map = {}
 	local options = {}
@@ -288,14 +283,15 @@ local function buildIncubatorMapAndOptions(presets)
 			end
 		end
 	end
-
 	return map, options
 end
+
 -------------------------------------------------------
 -- Hatch Page
 -------------------------------------------------------
 local Hatchpage = venyx:addPage("Hatch", 5012544693)
 local Hatchsection1 = Hatchpage:addSection("Hatch Setting")
+local incubatorMap, hatchOptions = buildIncubatorMapAndOptions(hatchPresets)
 
 textHatch = Hatchsection1:addWideLabel("สถานะ...", Color3.fromRGB(255, 0, 0))
 Hatchsection1:addTextbox("จำนวนรอบ", nil, function(value)
@@ -306,7 +302,6 @@ Hatchsection1:addTextbox("จำนวนรอบ", nil, function(value)
 		updateStatustextFarm("❌ โปรดใส่เลขที่ถูกต้อง")
 	end
 end)
-local incubatorMap, hatchOptions = buildIncubatorMapAndOptions(hatchPresets)
 dropdownHatch = Hatchsection1:addDropdown("Please select Incubator", hatchOptions, function(selectedText)
 	selectedIncubatorIndex = incubatorMap[selectedText]
 	updateStatustextHatch(selectedText .. " => ลำดับที่ " .. (selectedIncubatorIndex or "❌ ไม่พบ"))
@@ -349,7 +344,6 @@ end)
 local function updateStatusfetchServers(msg)
     textRejoin.Label.Text = msg
 end
-
 local function fetchServersAndSelect()
     updateStatusfetchServers("⏳ กำลังดึงข้อมูล server...")
 
