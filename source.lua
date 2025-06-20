@@ -19,6 +19,8 @@ local themes = {
 	Accent = Color3.fromRGB(10, 10, 10), 
 	LightContrast = Color3.fromRGB(20, 20, 20), 
 	DarkContrast = Color3.fromRGB(14, 14, 14),  
+	ToggleActiveColor = Color3.fromRGB(0, 200, 0),  
+	ToggleInactiveColor = Color3.fromRGB(200, 0, 0),  
 	TextColor = Color3.fromRGB(255, 255, 255)
 }
 
@@ -2005,7 +2007,12 @@ do
 		if title then
 			toggle.Title.Text = title
 		end
-		
+
+		if value == "Out" then
+			toggle.Button.ImageColor3 = themes.ToggleActiveColor -- เปิด = เขียว
+		else
+			toggle.Button.ImageColor3 = themes.ToggleInactiveColor -- ปิด = แดง
+		end
 		utility:Tween(frame, {
 			Size = UDim2.new(1, -22, 1, -9),
 			Position = position[value] + UDim2.new(0, 0, 0, 2.5)
