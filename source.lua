@@ -291,12 +291,13 @@ do
 						TextXAlignment = Enum.TextXAlignment.Left
 					}),
 					utility:Create("ImageButton", {
-						Name = "CloseButton",
-						Size = UDim2.new(0, 12, 0, 12),
-						Position = UDim2.new(1, -28, 0, 7),
+						Name = "Close",
 						BackgroundTransparency = 1,
+						Size = UDim2.new(0, 14, 0, 14),
+						Position = UDim2.new(1, -28, 0, 7),
+						ZIndex = 6,
 						Image = "rbxassetid://9886659671",
-						ZIndex = 6
+						ImageColor3 = themes.TextColor
 					})
 				})
 			})
@@ -304,6 +305,12 @@ do
 		
 		utility:InitializeKeybind()
 		utility:DraggingEnabled(container.Main.TopBar, container.Main)
+
+		local closeButton = container.Main.TopBar.Close
+
+		closeButton.MouseButton1Click:Connect(function()
+			container.Enabled = false
+		end)
 		
 		return setmetatable({
 			container = container,
