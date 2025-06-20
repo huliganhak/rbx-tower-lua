@@ -296,10 +296,7 @@ do
 						Position = UDim2.new(1, -28, 0, 7),
 						BackgroundTransparency = 1,
 						Image = "rbxassetid://9886659671",
-						ZIndex = 6,
-						[utility.EVENTS.MouseButton1Click] = function()
-							container.Enabled = false -- หรือ venyx:toggle()
-						end
+						ZIndex = 6
 					})
 				})
 			})
