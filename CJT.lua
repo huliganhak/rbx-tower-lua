@@ -232,10 +232,18 @@ Optionsection1:addButton("Refresh", function(value)
 	end
 end)
 Optionsection2:addToggle("รับ Free Gift", nil, function(value)
-	
+	local remote = game:GetService("ReplicatedStorage"):WaitForChild("Msg"):WaitForChild("RemoteEvent")
+	local msg = "\233\162\134\229\143\150\229\156\168\231\186\191\229\165\150\229\138\177"
+	for i = 1, 12 do
+	    local args = {msg, i}
+	    remote:FireServer(unpack(args))
+	end
 end)
-Optionsection3:addToggle("หมุนวงล้อ", nil, function(value)
-	
+Optionsection3:addToggle("หมุนวงล้อ Spin", nil, function(value)
+	for i = 1, 2 do
+		game:GetService("ReplicatedStorage"):WaitForChild("System"):WaitForChild("SystemDailyLottery"):WaitForChild("Spin"):InvokeServer()
+		task.wait(0.5)
+	end
 end)
 -------------------------------------------------------
 -- 🧭 ฟังก์ชั่นสุ่มไข่ ของ Hatch Page และ อัพเดท textHatch
