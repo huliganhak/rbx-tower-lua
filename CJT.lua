@@ -300,9 +300,9 @@ Hatchsection1:addTextbox("จำนวนรอบ", nil, function(value)
 	end
 end)
 local incubatorMap, hatchOptions = buildIncubatorMapAndOptions(hatchPresets)
-dropdownHatch = Hatchsection1:addDropdown("Please select Incubator", {}, function(selectedText)
-	local incubator = incubatorMap[selectedText]
-	updateStatustextHatch(selectedText .. " => " .. (incubator or "❌ ไม่พบ"))
+dropdownHatch = Hatchsection1:addDropdown("Please select Incubator", hatchOptions, function(selectedText)
+	selectedIncubator = incubatorMap[selectedText]
+	updateStatustextHatch(selectedText .. " => " .. (selectedIncubator or "❌ ไม่พบ"))
 end)
 Hatchsection1:addButton("Start Hatch", function(value)
 	if type(roundsBoxHatch) ~= "number" or roundsBoxHatch <= 0 then
