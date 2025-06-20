@@ -292,7 +292,7 @@ do
 					}),
 					utility:Create("ImageButton", {
 						Name = "CloseButton",
-						Size = UDim2.new(0, 24, 0, 24),
+						Size = UDim2.new(0, 16, 0, 16),
 						Position = UDim2.new(1, -28, 0, 7),
 						BackgroundTransparency = 1,
 						Image = "rbxassetid://9886659671",
