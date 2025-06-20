@@ -289,6 +289,17 @@ do
 						TextColor3 = themes.TextColor,
 						TextSize = 14,
 						TextXAlignment = Enum.TextXAlignment.Left
+					}),
+					utility:Create("ImageButton", {
+						Name = "CloseButton",
+						Size = UDim2.new(0, 24, 0, 24),
+						Position = UDim2.new(1, -28, 0, 7),
+						BackgroundTransparency = 1,
+						Image = "rbxassetid://9886659671",
+						ZIndex = 6,
+						[utility.EVENTS.MouseButton1Click] = function()
+							container.Enabled = false -- หรือ venyx:toggle()
+						end
 					})
 				})
 			})
