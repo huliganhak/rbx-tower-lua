@@ -270,6 +270,20 @@ local function HatchEgg()
 	game:GetService("ReplicatedStorage"):WaitForChild("Tool"):WaitForChild("DrawUp"):WaitForChild("Msg"):WaitForChild("DrawHero"):InvokeServer(unpack(args))
 end
 
+local function buildIncubatorMapAndOptions(hatchPresets)
+	local map = {}
+	local options = {}
+
+	for world, eggs in pairs(hatchPresets) do
+		for index, egg in ipairs(eggs) do
+			local label = world .. " - " .. egg
+			map[label] = "Incubator" .. index
+			table.insert(options, label)
+		end
+	end
+
+	return map, options
+end
 -------------------------------------------------------
 -- Hatch Page
 -------------------------------------------------------
@@ -285,17 +299,10 @@ Hatchsection1:addTextbox("จำนวนรอบ", nil, function(value)
 		updateStatustextFarm("❌ โปรดใส่เลขที่ถูกต้อง")
 	end
 end)
-dropdownHatch = Hatchsection1:addDropdown("Please select Incubator", {
-	"World1 - Egg 200", "World1 - Egg 20k", "World1 - Egg 1M",
-	"World2 - Egg 400M", "World2- Egg 160B", "World2 - Egg 16T",
-	"World3 - Egg 2.50q", "World3 - Egg 1.3Q",
-	"World4 - Egg 1.90aa", "World4 - Egg 2.9bb",
-	"World5 - Egg 4.30cc", "World5 - Egg 6.50dd",
-	"World6 - Egg 9.70ee", "World6 - Egg 15ff",
-	"World7 - Egg 22gg", "World7 - Egg 2.20hh", "World7 - Egg 220hh",
-	"World8 - 44ii", "World8 - 4.40jj", "World8 - 440jj"
-	}, function(worldText)
-	updateStatustextHatch(worldText)
+local incubatorMap, hatchOptions = buildIncubatorMapAndOptions(hatchPresets)
+dropdownHatch = Hatchsection1:addDropdown("Please select Incubator", {}, function(selectedText)
+	local incubator = incubatorMap[selectedText]
+	updateStatustextHatch(selectedText .. " => " .. (incubator or "❌ ไม่พบ"))
 end)
 Hatchsection1:addButton("Start Hatch", function(value)
 	if type(roundsBoxHatch) ~= "number" or roundsBoxHatch <= 0 then
