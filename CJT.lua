@@ -30,6 +30,9 @@ local shouldClaimCrystal = false
 local WalkSpeed = nil
 local JumpPower = nil
 
+local dropdownHatch1 = nil
+local dropdownHatch2 = nil
+
 -------------------------------------------------------
 -- 🗺️ Preset ตำแหน่งของแต่ละ World
 -------------------------------------------------------
@@ -42,6 +45,17 @@ local locationPresets = {
 	World6 = { start = Vector3.new(25000, 5, -35), stairs = Vector3.new(25000, 5, -40), trophy = Vector3.new(25000, 14410, -45), down = Vector3.new(25000, 5, -35) },
 	World7 = { start = Vector3.new(30000, 5, -70), stairs = Vector3.new(30000, 5, -75), trophy = Vector3.new(30000, 14410, -85), down = Vector3.new(30000, 5, -70) },
 	World8 = { start = Vector3.new(35000, 5, -35), stairs = Vector3.new(35000, 5, -40), trophy = Vector3.new(35000, 14410, -45), down = Vector3.new(35000, 5, -35) }
+}
+
+local hatchPresets = {
+	World1 = {"Egg 200", "Egg 20k", "Egg 1M"},
+	World2 = {"Egg 400M", "Egg 160B", "Egg 16T"},
+	World3 = {"Egg 2.50q", "Egg 1.3Q"},
+	World4 = {"Egg 1.90aa", "Egg 2.9bb"},
+	World5 = {"Egg 4.30cc", "Egg 6.50dd"},
+	World6 = {"Egg 9.70ee", "Egg 15ff"},
+	World7 = {"Egg 22gg", "Egg 2.20hh", "Egg 220hh"},
+	World8 = {"Egg 44ii", "Egg 4.40jj", "Egg 440jj"}
 }
 
 -------------------------------------------------------
@@ -272,8 +286,15 @@ Hatchsection1:addTextbox("จำนวนรอบ", nil, function(value)
 		updateStatustextFarm("❌ โปรดใส่เลขที่ถูกต้อง")
 	end
 end)
-Hatchsection1:addDropdown("Please select Incubator", {"Incubator1", "Incubator2", "Incubato3"}, function(text)
-	print("Selected", text)
+dropdownHatch1 = Hatchsection1:addDropdown("Please select World", {"World1", "World2", "World3", "World4", "World5", "World6", "World7", "World8"}, function(text)
+	local eggList = hatchPresets[worldText] or {}
+		
+	Hatchsection1:updateDropdown(dropdownHatch2, nil, eggList, function(selectedEgg)
+		print("เลือกไข่จาก " .. worldText .. ": " .. selectedEgg)
+	end)
+end)
+dropdownHatch2 = Hatchsection1:addDropdown("Please select Incubator", {}, function(text)
+	
 end)
 Hatchsection1:addButton("Start Hatch", function(value)
 	if type(roundsBoxHatch) ~= "number" or roundsBoxHatch <= 0 then
