@@ -286,15 +286,15 @@ Hatchsection1:addTextbox("จำนวนรอบ", nil, function(value)
 		updateStatustextFarm("❌ โปรดใส่เลขที่ถูกต้อง")
 	end
 end)
+dropdownHatch2 = Hatchsection1:addDropdown("Please select Incubator", {}, function(text)
+	
+end)
 dropdownHatch1 = Hatchsection1:addDropdown("Please select World", {"World1", "World2", "World3", "World4", "World5", "World6", "World7", "World8"}, function(text)
 	local eggList = hatchPresets[worldText] or {}
 		
 	Hatchsection1:updateDropdown(dropdownHatch2, nil, eggList, function(selectedEgg)
 		print("เลือกไข่จาก " .. worldText .. ": " .. selectedEgg)
 	end)
-end)
-dropdownHatch2 = Hatchsection1:addDropdown("Please select Incubator", {}, function(text)
-	
 end)
 Hatchsection1:addButton("Start Hatch", function(value)
 	if type(roundsBoxHatch) ~= "number" or roundsBoxHatch <= 0 then
