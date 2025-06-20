@@ -291,11 +291,20 @@ do
 						TextXAlignment = Enum.TextXAlignment.Left
 					}),
 					utility:Create("ImageButton", {
+						Name = "Minimize",
+						BackgroundTransparency = 1,
+						Size = UDim2.new(0, 14, 0, 14),
+						Position = UDim2.new(1, -48, 0, 7), -- อยู่ทางซ้ายของปุ่ม Close
+						ZIndex = 5,
+						Image = "rbxassetid://9886659276",
+						ImageColor3 = themes.TextColor
+					}),
+					utility:Create("ImageButton", {
 						Name = "Close",
 						BackgroundTransparency = 1,
 						Size = UDim2.new(0, 14, 0, 14),
 						Position = UDim2.new(1, -28, 0, 7),
-						ZIndex = 6,
+						ZIndex = 5,
 						Image = "rbxassetid://9886659671",
 						ImageColor3 = themes.TextColor
 					})
@@ -306,10 +315,11 @@ do
 		utility:InitializeKeybind()
 		utility:DraggingEnabled(container.Main.TopBar, container.Main)
 
-		local closeButton = container.Main.TopBar.Close
-
-		closeButton.MouseButton1Click:Connect(function()
-			animate()
+		container.Main.TopBar.Minimize.MouseButton1Click:Connect(function()
+			container.Main.Visible = not container.Main.Visible -- toggle
+		end)
+		container.Main.TopBar.Close.MouseButton1Click:Connect(function()
+			container.Enabled = false
 		end)
 		
 		return setmetatable({
