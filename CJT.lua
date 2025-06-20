@@ -224,8 +224,8 @@ Optionsection1:addButton("Refresh", function(value)
 		hum.JumpPower = defaultJumpPower
 
 		-- อัปเดต UI slider
-		venyx:updateSlider(WalkSpeed, nil, defaultWalkSpeed, 0, 100)
-		venyx:updateSlider(JumpPower, nil, defaultJumpPower, 0, 100)
+		Optionsection1:updateSlider(WalkSpeed, nil, defaultWalkSpeed, 0, 100)
+		Optionsection1:updateSlider(JumpPower, nil, defaultJumpPower, 0, 100)
 	end
 end)
 Optionsection2:addToggle("รับ Free Gift", nil, function(value)
