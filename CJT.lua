@@ -279,7 +279,7 @@ local function buildIncubatorMapAndOptions(presets)
 			for _, egg in ipairs(eggs) do
 				count += 1
 				local label = world .. " - " .. egg
-				map[label] = count
+				map[label] = 7000000 + count -- 👈 ใช้ ID ไข่ ตรงนี้เลย
 				table.insert(options, label)
 			end
 		end
