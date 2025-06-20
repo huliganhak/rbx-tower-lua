@@ -8,30 +8,31 @@ local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
 local player = Players.LocalPlayer
 
+ -- Rejoin Server Page
 local placeId = game.PlaceId
 local selectedJobId = nil
-local FarmloopRunning = false
-local selectedWorld = nil
-local hatchLoopRunning = false
-local hatchLoopCount = 0
 local teleporting = false
-local isWalkingUp = false
-
-local textFarm = nil
-local textHatch = nil
 local textRejoin = nil
 
+-- Farm Page
+local FarmloopRunning = false
+local selectedWorldFarm = nil
+local textFarm = nil
 local roundsBoxFarm = 0
-local roundsBoxHatch = 0
 
+-- Hatch Page
+local hatchLoopRunning = false
+local hatchLoopCount = 0
+local textHatch = nil
+local roundsBoxHatch = 0
+local dropdownHatch = nil
+local selectedEggId = nil
+
+-- Option Page
 local shouldClaimWins = false
 local shouldClaimCrystal = false
-
 local WalkSpeed = nil
 local JumpPower = nil
-
-local dropdownHatch = nil
-local selectedIncubatorIndex = nil
 
 -------------------------------------------------------
 -- 🗺️ Preset ตำแหน่งของแต่ละ World
@@ -80,7 +81,7 @@ local themes = {
 local function updateStatustextFarm(msg)
     textFarm.Label.Text = msg
 end
-local function getLocation() return selectedWorld and locationPresets[selectedWorld] end
+local function getLocation() return selectedWorldFarm and locationPresets[selectedWorldFarm] end
 
 local function teleportTo(pos)
 	local char = player.Character or player.CharacterAdded:Wait()
@@ -166,10 +167,10 @@ Farmsection1:addToggle("เก็บคริสตัล", nil, function(value)
 	shouldClaimCrystal = value
 end)
 Farmsection1:addDropdown("Please select world", {"World1", "World2", "World3", "World4", "World5", "World6", "World7", "World8"}, function(worldText)
-    selectedWorld = worldText
+    selectedWorldFarm = worldText
 end)
 Farmsection1:addButton("Start", function(value)
-	if not selectedWorld then 
+	if not selectedWorldFarm then 
 		updateStatustextFarm("⚠️ กรุณาเลือก World ก่อนเริ่ม") 
 		return
 	end
@@ -185,7 +186,7 @@ Farmsection1:addButton("Start", function(value)
 
 	FarmloopRunning = true
 	task.spawn(function()
-		updateStatustextFarm("✅ เริ่มรอบใน " .. selectedWorld)
+		updateStatustextFarm("✅ เริ่มรอบใน " .. selectedWorldFarm)
 		RunLoopFarm(roundsBoxFarm)
 		updateStatustextFarm("⏹️ เสร็จสิ้นการทำงาน")
 	end)
@@ -262,8 +263,8 @@ end)
 local function updateStatustextHatch(msg)
     textHatch.Label.Text = msg
 end
-local function HatchEgg()
-	local args = {7000020, 3}
+local function HatchEgg(eggId)
+	local args = {eggId, 3}
 	game:GetService("ReplicatedStorage"):WaitForChild("Tool"):WaitForChild("DrawUp"):WaitForChild("Msg"):WaitForChild("DrawHero"):InvokeServer(unpack(args))
 end
 local function buildIncubatorMapAndOptions(presets)
@@ -303,8 +304,8 @@ Hatchsection1:addTextbox("จำนวนรอบ", nil, function(value)
 	end
 end)
 dropdownHatch = Hatchsection1:addDropdown("Please select Incubator", hatchOptions, function(selectedText)
-	selectedIncubatorIndex = incubatorMap[selectedText]
-	updateStatustextHatch(selectedText .. " => ลำดับที่ " .. (selectedIncubatorIndex or "❌ ไม่พบ"))
+	selectedEggId = incubatorMap[selectedText]
+	updateStatustextHatch(selectedText .. " => ลำดับที่ " .. (selectedEggId or "❌ ไม่พบ"))
 end)
 Hatchsection1:addButton("Start Hatch", function(value)
 	if type(roundsBoxHatch) ~= "number" or roundsBoxHatch <= 0 then
@@ -321,7 +322,7 @@ Hatchsection1:addButton("Start Hatch", function(value)
 	hatchLoopCount = 0
 	task.spawn(function()
 		while hatchLoopRunning and hatchLoopCount < roundsBoxHatch do
-			HatchEgg()
+			HatchEgg(selectedEggId)
 			hatchLoopCount += 1
 			updateStatustextHatch("🥚 กำลังฟักไข่ (รอบ " .. hatchLoopCount .. " / " .. roundsBoxHatch .. ")")
 			task.wait(3)
