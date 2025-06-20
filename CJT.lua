@@ -214,8 +214,7 @@ JumpPower = Optionsection1:addSlider("Jump Power", 50, 0, 100, function(value)
 	end
 end)
 Optionsection1:addButton("Refresh", function(value)
-	WalkSpeed:updateSlider("Walk Speed", 16, 0, 100)
-	JumpPower:updateSlider("Jump Power", 50, 0, 100)
+	self:updateSlider(WalkSpeed, nil, 55, 0, 100)
 end)
 Optionsection2:addToggle("รับ Free Gift", nil, function(value)
 	
