@@ -30,8 +30,7 @@ local shouldClaimCrystal = false
 local WalkSpeed = nil
 local JumpPower = nil
 
-local dropdownHatch1 = nil
-local dropdownHatch2 = nil
+local dropdownHatch = nil
 
 -------------------------------------------------------
 -- 🗺️ Preset ตำแหน่งของแต่ละ World
@@ -286,10 +285,7 @@ Hatchsection1:addTextbox("จำนวนรอบ", nil, function(value)
 		updateStatustextFarm("❌ โปรดใส่เลขที่ถูกต้อง")
 	end
 end)
-dropdownHatch2 = Hatchsection1:addDropdown("Please select Incubator", {}, function(text)
-	
-end)
-dropdownHatch1 = Hatchsection1:addDropdown("Please select Incubator", {
+dropdownHatch = Hatchsection1:addDropdown("Please select Incubator", {
 	"World1 - Egg 200", "World1 - Egg 20k", "World1 - Egg 1M",
 	"World2 - Egg 400M", "World2- Egg 160B", "World2 - Egg 16T",
 	"World3 - Egg 2.50q", "World3 - Egg 1.3Q",
