@@ -309,7 +309,7 @@ do
 		local closeButton = container.Main.TopBar.Close
 
 		closeButton.MouseButton1Click:Connect(function()
-			container.Enabled = false
+			animate()
 		end)
 		
 		return setmetatable({
