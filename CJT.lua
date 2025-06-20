@@ -214,7 +214,19 @@ JumpPower = Optionsection1:addSlider("Jump Power", 50, 0, 100, function(value)
 	end
 end)
 Optionsection1:addButton("Refresh", function(value)
-	self:updateSlider(WalkSpeed, nil, 55, 0, 100)
+	local hum = getHumanoid()
+	if hum then
+		local defaultWalkSpeed = 16
+		local defaultJumpPower = 50
+
+		-- อัปเดตค่าใน Humanoid
+		hum.WalkSpeed = defaultWalkSpeed
+		hum.JumpPower = defaultJumpPower
+
+		-- อัปเดต UI slider
+		venyx:updateSlider(WalkSpeed, nil, defaultWalkSpeed, 0, 100)
+		venyx:updateSlider(JumpPower, nil, defaultJumpPower, 0, 100)
+	end
 end)
 Optionsection2:addToggle("รับ Free Gift", nil, function(value)
 	
