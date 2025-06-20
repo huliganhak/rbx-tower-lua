@@ -170,8 +170,8 @@ end)
 Farmsection1:addToggle("เก็บคริสตัล", nil, function(value)
 	shouldClaimCrystal = value
 end)
-Farmsection1:addDropdown("Please select world", {"World1", "World2", "World3", "World4", "World5", "World6", "World7", "World8"}, function(text)
-    selectedWorld = text
+Farmsection1:addDropdown("Please select world", {"World1", "World2", "World3", "World4", "World5", "World6", "World7", "World8"}, function(worldText)
+    selectedWorld = worldText
 end)
 Farmsection1:addButton("Start", function(value)
 	if not selectedWorld then 
@@ -289,7 +289,7 @@ end)
 dropdownHatch2 = Hatchsection1:addDropdown("Please select Incubator", {}, function(text)
 	
 end)
-dropdownHatch1 = Hatchsection1:addDropdown("Please select World", {"World1", "World2", "World3", "World4", "World5", "World6", "World7", "World8"}, function(text)
+dropdownHatch1 = Hatchsection1:addDropdown("Please select World", {"World1", "World2", "World3", "World4", "World5", "World6", "World7", "World8"}, function(worldText)
 	local eggList = hatchPresets[worldText] or {}
 		
 	Hatchsection1:updateDropdown(dropdownHatch2, nil, eggList, function(selectedEgg)
