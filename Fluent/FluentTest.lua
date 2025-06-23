@@ -1,6 +1,6 @@
 local Fluent = loadstring(game:HttpGet("https://raw.githubusercontent.com/huliganhak/rbx-tower-lua/main/Fluent/main.lua"))()
--- local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/huliganhak/rbx-tower-lua/main/Fluent/SaveManager.lua"))()
--- local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/huliganhak/rbx-tower-lua/main/Fluent/InterfaceManager.lua"))()
+local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/huliganhak/rbx-tower-lua/main/Fluent/SaveManager.lua"))()
+local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/huliganhak/rbx-tower-lua/main/Fluent/InterfaceManager.lua"))()
 
 local Window = Fluent:CreateWindow({
     Title = "Fluent " .. Fluent.Version,
