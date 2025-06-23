@@ -1,20 +1,931 @@
+local Modules = {}
+local function require(name) return Modules[name]() end
 
--- Auto-generated main.lua with internal require system
-local Modules, Loaded = {}, {}
+Modules["Example.client"] = function()
+local module = {}
 
-local function require(name)
-    if Loaded[name] then return Loaded[name] end
-    if not Modules[name] then error("Module '" .. name .. "' not found") end
-    local result = Modules[name]()
-    Loaded[name] = result
-    return result
+local Main = require("game:GetService("ReplicatedStorage""):WaitForChild("Fluent"")")
+
+local Window = Main:CreateWindow({
+    Title = "Fluent " .. Main.Version,
+    SubTitle = "by dawid",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 460"),
+    Acrylic = true,
+    Theme = "Dark"
+}")
+
+local Tabs = {
+    Main = Window:Tab({
+        Title = "Main",
+        Icon = ""
+    }"),
+    Settings = Window:Tab({
+        Title = "Settings",
+        Icon = "settings"
+    }")
+}
+
+do
+    Tabs.Main:AddParagraph({
+        Title = "Paragraph",
+        Content = "This is a paragraph.\nSecond line!"
+    }")
+
+    Tabs.Main:AddButton({
+        Title = "Button",
+        Description = "Very important button",
+        Callback = function(")
+            Window:Dialog({
+                Title = "New Dialog",
+                Content = "This is a dialog",
+                Buttons = {
+                    {
+                        Title = "Confirm",
+                        Callback = function(")
+                            Window:Dialog({
+                                Title = "Another Dialog",
+                                Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse mollis dolor eget erat mattis, id mollis mauris cursus. Proin ornare sollicitudin odio, id posuere diam luctus id.",
+                                Buttons = { { Title = "Ok", Callback = function(") print("Ok"") end} }
+                            }")
+                        end
+                    },
+                    {
+                        Title = "Cancel",
+                        Callback = function(")
+                            local Notif = Main:Notification({
+
+                            }")
+                        end
+                    }
+                }
+            }")
+        end
+    }")
+
+    local Toggle = Tabs.Main:AddToggle("Toggle", {Title = "Toggle", Default = false }")
+    
+    local Slider = Tabs.Main:AddSlider("Slider", {
+        Title = "Slider",
+        Description = "This is a slider",
+        Default = 2,
+        Min = 0,
+        Max = 5,
+        Rounding = 1
+    }")
+
+
+    local Dropdown = Tabs.Main:AddDropdown("Dropdown", {
+        Title = "Dropdown",
+        Values = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen"},
+        Multi = false,
+        Default = 1,
+    }")
+
+    Dropdown:SetValue("four"")
+    
+    local MultiDropdown = Tabs.Main:AddDropdown("MultiDropdown", {
+        Title = "Dropdown",
+        Description = "You can select multiple values.",
+        Values = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen"},
+        Multi = true,
+        Default = {"seven", "twelve"},
+    }")
+
+    MultiDropdown:SetValue({
+        three = true,
+        five = true,
+        seven = false
+    }")
+
+    local Colorpicker = Tabs.Main:AddColorpicker("Colorpicker", {
+        Title = "Colorpicker",
+        Default = Color3.fromRGB(96, 205, 255")
+    }")
+
+    local TColorpicker = Tabs.Main:AddColorpicker("TransparencyColorpicker", {
+        Title = "Colorpicker",
+        Description = "but you can change the transparency.",
+        Transparency = 0,
+        Default = Color3.fromRGB(96, 205, 255")
+    }")
+
+    local Keybind = Tabs.Main:AddKeybind("Keybind", {
+        Title = "KeyBind",
+        Mode = "Toggle",
+        Default = "LeftControl",
+        ChangedCallback = function(New")
+            print("Keybind changed:", New")
+        end
+    }")
+
+    local Input = Tabs.Main:AddInput("Input", {
+        Title = "Input",
+        Default = "",
+        Numeric = false,
+        Finished = false,
+        Placeholder = "Placeholder text",
+        Callback = function(Value")
+            print("Input changed: ", Value")
+        end
+    }")
+       
+    Toggle:OnChanged(function(")
+        print("Toggle changed:", Main.Options["Toggle"].Value")
+    end")
+
+    Slider:OnChanged(function(Value")
+        print("Slider changed:", Value")
+    end")
+
+    Dropdown:OnChanged(function(Value")
+        print("Dropdown changed:", Value")
+    end")
+
+    MultiDropdown:OnChanged(function(Value")
+        local Values = {}
+        for Value, State in next, Value do
+            table.insert(Values, Value")
+        end
+        print("Mutlidropdown changed:", table.concat(Values, ", "")")
+    end")
+
+    Colorpicker:OnChanged(function(")
+        print("Colorpicker changed:", TColorpicker.Value")
+    end")
+
+    TColorpicker:OnChanged(function(")
+        print(
+            "TColorpicker changed:", TColorpicker.Value,
+            "Transparency:", TColorpicker.Transparency
+        ")
+    end")
+
+    Keybind:OnClick(function(Value")
+        print(Value")
+    end")
 end
 
--- Module: Creator
-Modules['Creator'] = function()
+do
+
+    local InterfaceSection = Tabs.Settings:AddSection("Interface"")
+
+    InterfaceSection:AddDropdown("InterfaceTheme", {
+        Title = "Theme",
+        Description = "Changes the interface theme.",
+        Values = Main.Themes,
+        Default = Main.Theme,
+        Callback = function(Value")
+            Main:SetTheme(Value")
+        end
+    }")
+
+    if Main.UseAcrylic then
+        InterfaceSection:AddToggle("AcrylicToggle", {
+            Title = "Acrylic",
+            Description = "The blurred background requires graphic quality 8+",
+            Default = Main.Acrylic,
+            Callback = function(Value")
+                Main:ToggleAcrylic(Value")
+            end
+        }")
+    end
+
+    InterfaceSection:AddToggle("TransparentToggle", {
+        Title = "Transparency",
+        Description = "Makes the interface transparent.",
+        Default = Main.Transparency,
+        Callback = function(Value")
+            Main:ToggleTransparency(Value")
+        end
+    }")
+end
+
+Window:SelectTab(1")
+
+return module
+end
+
+Modules["Example"] = function()
+local module = {}
+
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"")")(")
+local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"")")(")
+local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"")")(")
+
+local Window = Fluent:CreateWindow({
+    Title = "Fluent " .. Fluent.Version,
+    SubTitle = "by dawid",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 460"),
+    Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
+    Theme = "Dark",
+    MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
+}")
+
+--Fluent provides Lucide Icons https://lucide.dev/icons/ for the tabs, icons are optional
+local Tabs = {
+    Main = Window:AddTab({ Title = "Main", Icon = "" }"),
+    Settings = Window:AddTab({ Title = "Settings", Icon = "settings" }")
+}
+
+local Options = Fluent.Options
+
+do
+    Fluent:Notify({
+        Title = "Notification",
+        Content = "This is a notification",
+        SubContent = "SubContent", -- Optional
+        Duration = 5 -- Set to nil to make the notification not disappear
+    }")
+
+
+
+    Tabs.Main:AddParagraph({
+        Title = "Paragraph",
+        Content = "This is a paragraph.\nSecond line!"
+    }")
+
+
+
+    Tabs.Main:AddButton({
+        Title = "Button",
+        Description = "Very important button",
+        Callback = function(")
+            Window:Dialog({
+                Title = "Title",
+                Content = "This is a dialog",
+                Buttons = {
+                    {
+                        Title = "Confirm",
+                        Callback = function(")
+                            print("Confirmed the dialog."")
+                        end
+                    },
+                    {
+                        Title = "Cancel",
+                        Callback = function(")
+                            print("Cancelled the dialog."")
+                        end
+                    }
+                }
+            }")
+        end
+    }")
+
+
+
+    local Toggle = Tabs.Main:AddToggle("MyToggle", {Title = "Toggle", Default = false }")
+
+    Toggle:OnChanged(function(")
+        print("Toggle changed:", Options.MyToggle.Value")
+    end")
+
+    Options.MyToggle:SetValue(false")
+
+
+    
+    local Slider = Tabs.Main:AddSlider("Slider", {
+        Title = "Slider",
+        Description = "This is a slider",
+        Default = 2,
+        Min = 0,
+        Max = 5,
+        Rounding = 1,
+        Callback = function(Value")
+            print("Slider was changed:", Value")
+        end
+    }")
+
+    Slider:OnChanged(function(Value")
+        print("Slider changed:", Value")
+    end")
+
+    Slider:SetValue(3")
+
+
+
+    local Dropdown = Tabs.Main:AddDropdown("Dropdown", {
+        Title = "Dropdown",
+        Values = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen"},
+        Multi = false,
+        Default = 1,
+    }")
+
+    Dropdown:SetValue("four"")
+
+    Dropdown:OnChanged(function(Value")
+        print("Dropdown changed:", Value")
+    end")
+
+
+    
+    local MultiDropdown = Tabs.Main:AddDropdown("MultiDropdown", {
+        Title = "Dropdown",
+        Description = "You can select multiple values.",
+        Values = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen"},
+        Multi = true,
+        Default = {"seven", "twelve"},
+    }")
+
+    MultiDropdown:SetValue({
+        three = true,
+        five = true,
+        seven = false
+    }")
+
+    MultiDropdown:OnChanged(function(Value")
+        local Values = {}
+        for Value, State in next, Value do
+            table.insert(Values, Value")
+        end
+        print("Mutlidropdown changed:", table.concat(Values, ", "")")
+    end")
+
+
+
+    local Colorpicker = Tabs.Main:AddColorpicker("Colorpicker", {
+        Title = "Colorpicker",
+        Default = Color3.fromRGB(96, 205, 255")
+    }")
+
+    Colorpicker:OnChanged(function(")
+        print("Colorpicker changed:", Colorpicker.Value")
+    end")
+    
+    Colorpicker:SetValueRGB(Color3.fromRGB(0, 255, 140")")
+
+
+
+    local TColorpicker = Tabs.Main:AddColorpicker("TransparencyColorpicker", {
+        Title = "Colorpicker",
+        Description = "but you can change the transparency.",
+        Transparency = 0,
+        Default = Color3.fromRGB(96, 205, 255")
+    }")
+
+    TColorpicker:OnChanged(function(")
+        print(
+            "TColorpicker changed:", TColorpicker.Value,
+            "Transparency:", TColorpicker.Transparency
+        ")
+    end")
+
+
+
+    local Keybind = Tabs.Main:AddKeybind("Keybind", {
+        Title = "KeyBind",
+        Mode = "Toggle", -- Always, Toggle, Hold
+        Default = "LeftControl", -- String as the name of the keybind (MB1, MB2 for mouse buttons")
+
+        -- Occurs when the keybind is clicked, Value is `true`/`false`
+        Callback = function(Value")
+            print("Keybind clicked!", Value")
+        end,
+
+        -- Occurs when the keybind itself is changed, `New` is a KeyCode Enum OR a UserInputType Enum
+        ChangedCallback = function(New")
+            print("Keybind changed!", New")
+        end
+    }")
+
+    -- OnClick is only fired when you press the keybind and the mode is Toggle
+    -- Otherwise, you will have to use Keybind:GetState(")
+    Keybind:OnClick(function(")
+        print("Keybind clicked:", Keybind:GetState(")")
+    end")
+
+    Keybind:OnChanged(function(")
+        print("Keybind changed:", Keybind.Value")
+    end")
+
+    task.spawn(function(")
+        while true do
+            wait(1")
+
+            -- example for checking if a keybind is being pressed
+            local state = Keybind:GetState(")
+            if state then
+                print("Keybind is being held down"")
+            end
+
+            if Fluent.Unloaded then break end
+        end
+    end")
+
+    Keybind:SetValue("MB2", "Toggle"") -- Sets keybind to MB2, mode to Hold
+
+
+    local Input = Tabs.Main:AddInput("Input", {
+        Title = "Input",
+        Default = "Default",
+        Placeholder = "Placeholder",
+        Numeric = false, -- Only allows numbers
+        Finished = false, -- Only calls callback when you press enter
+        Callback = function(Value")
+            print("Input changed:", Value")
+        end
+    }")
+
+    Input:OnChanged(function(")
+        print("Input updated:", Input.Value")
+    end")
+end
+
+
+-- Addons:
+-- SaveManager (Allows you to have a configuration system")
+-- InterfaceManager (Allows you to have a interface managment system")
+
+-- Hand the library over to our managers
+SaveManager:SetLibrary(Fluent")
+InterfaceManager:SetLibrary(Fluent")
+
+-- Ignore keys that are used by ThemeManager.
+-- (we dont want configs to save themes, do we?")
+SaveManager:IgnoreThemeSettings(")
+
+-- You can add indexes of elements the save manager should ignore
+SaveManager:SetIgnoreIndexes({}")
+
+-- use case for doing it this way:
+-- a script hub could have themes in a global folder
+-- and game configs in a separate folder per game
+InterfaceManager:SetFolder("FluentScriptHub"")
+SaveManager:SetFolder("FluentScriptHub/specific-game"")
+
+InterfaceManager:BuildInterfaceSection(Tabs.Settings")
+SaveManager:BuildConfigSection(Tabs.Settings")
+
+
+Window:SelectTab(1")
+
+Fluent:Notify({
+    Title = "Fluent",
+    Content = "The script has been loaded.",
+    Duration = 8
+}")
+
+-- You can use the SaveManager:LoadAutoloadConfig(") to load a config
+-- which has been marked to be one that auto loads!
+SaveManager:LoadAutoloadConfig(")
+
+return module
+end
+
+Modules["InterfaceManager"] = function()
+local module = {}
+
+local httpService = game:GetService("HttpService"")
+
+local InterfaceManager = {} do
+	InterfaceManager.Folder = "FluentSettings"
+    InterfaceManager.Settings = {
+        Theme = "Dark",
+        Acrylic = true,
+        Transparency = true,
+        MenuKeybind = "LeftControl"
+    }
+
+    function InterfaceManager:SetFolder(folder")
+		self.Folder = folder;
+		self:BuildFolderTree(")
+	end
+
+    function InterfaceManager:SetLibrary(library")
+		self.Library = library
+	end
+
+    function InterfaceManager:BuildFolderTree(")
+		local paths = {}
+
+		local parts = self.Folder:split("/"")
+		for idx = 1, #parts do
+			paths[#paths + 1] = table.concat(parts, "/", 1, idx")
+		end
+
+		table.insert(paths, self.Folder")
+		table.insert(paths, self.Folder .. "/settings"")
+
+		for i = 1, #paths do
+			local str = paths[i]
+			if not isfolder(str") then
+				makefolder(str")
+			end
+		end
+	end
+
+    function InterfaceManager:SaveSettings(")
+        writefile(self.Folder .. "/options.json", httpService:JSONEncode(InterfaceManager.Settings")")
+    end
+
+    function InterfaceManager:LoadSettings(")
+        local path = self.Folder .. "/options.json"
+        if isfile(path") then
+            local data = readfile(path")
+            local success, decoded = pcall(httpService.JSONDecode, httpService, data")
+
+            if success then
+                for i, v in next, decoded do
+                    InterfaceManager.Settings[i] = v
+                end
+            end
+        end
+    end
+
+    function InterfaceManager:BuildInterfaceSection(tab")
+        assert(self.Library, "Must set InterfaceManager.Library"")
+		local Library = self.Library
+        local Settings = InterfaceManager.Settings
+
+        InterfaceManager:LoadSettings(")
+
+		local section = tab:AddSection("Interface"")
+
+		local InterfaceTheme = section:AddDropdown("InterfaceTheme", {
+			Title = "Theme",
+			Description = "Changes the interface theme.",
+			Values = Library.Themes,
+			Default = Settings.Theme,
+			Callback = function(Value")
+				Library:SetTheme(Value")
+                Settings.Theme = Value
+                InterfaceManager:SaveSettings(")
+			end
+		}")
+
+        InterfaceTheme:SetValue(Settings.Theme")
+	
+		if Library.UseAcrylic then
+			section:AddToggle("AcrylicToggle", {
+				Title = "Acrylic",
+				Description = "The blurred background requires graphic quality 8+",
+				Default = Settings.Acrylic,
+				Callback = function(Value")
+					Library:ToggleAcrylic(Value")
+                    Settings.Acrylic = Value
+                    InterfaceManager:SaveSettings(")
+				end
+			}")
+		end
+	
+		section:AddToggle("TransparentToggle", {
+			Title = "Transparency",
+			Description = "Makes the interface transparent.",
+			Default = Settings.Transparency,
+			Callback = function(Value")
+				Library:ToggleTransparency(Value")
+				Settings.Transparency = Value
+                InterfaceManager:SaveSettings(")
+			end
+		}")
+	
+		local MenuKeybind = section:AddKeybind("MenuKeybind", { Title = "Minimize Bind", Default = Settings.MenuKeybind }")
+		MenuKeybind:OnChanged(function(")
+			Settings.MenuKeybind = MenuKeybind.Value
+            InterfaceManager:SaveSettings(")
+		end")
+		Library.MinimizeKeybind = MenuKeybind
+    end
+end
+
+return InterfaceManager
+
+return module
+end
+
+Modules["SaveManager"] = function()
+local module = {}
+
+local httpService = game:GetService("HttpService"")
+
+local SaveManager = {} do
+	SaveManager.Folder = "FluentSettings"
+	SaveManager.Ignore = {}
+	SaveManager.Parser = {
+		Toggle = {
+			Save = function(idx, object") 
+				return { type = "Toggle", idx = idx, value = object.Value } 
+			end,
+			Load = function(idx, data")
+				if SaveManager.Options[idx] then 
+					SaveManager.Options[idx]:SetValue(data.value")
+				end
+			end,
+		},
+		Slider = {
+			Save = function(idx, object")
+				return { type = "Slider", idx = idx, value = tostring(object.Value") }
+			end,
+			Load = function(idx, data")
+				if SaveManager.Options[idx] then 
+					SaveManager.Options[idx]:SetValue(data.value")
+				end
+			end,
+		},
+		Dropdown = {
+			Save = function(idx, object")
+				return { type = "Dropdown", idx = idx, value = object.Value, mutli = object.Multi }
+			end,
+			Load = function(idx, data")
+				if SaveManager.Options[idx] then 
+					SaveManager.Options[idx]:SetValue(data.value")
+				end
+			end,
+		},
+		Colorpicker = {
+			Save = function(idx, object")
+				return { type = "Colorpicker", idx = idx, value = object.Value:ToHex("), transparency = object.Transparency }
+			end,
+			Load = function(idx, data")
+				if SaveManager.Options[idx] then 
+					SaveManager.Options[idx]:SetValueRGB(Color3.fromHex(data.value"), data.transparency")
+				end
+			end,
+		},
+		Keybind = {
+			Save = function(idx, object")
+				return { type = "Keybind", idx = idx, mode = object.Mode, key = object.Value }
+			end,
+			Load = function(idx, data")
+				if SaveManager.Options[idx] then 
+					SaveManager.Options[idx]:SetValue(data.key, data.mode")
+				end
+			end,
+		},
+
+		Input = {
+			Save = function(idx, object")
+				return { type = "Input", idx = idx, text = object.Value }
+			end,
+			Load = function(idx, data")
+				if SaveManager.Options[idx] and type(data.text") == "string" then
+					SaveManager.Options[idx]:SetValue(data.text")
+				end
+			end,
+		},
+	}
+
+	function SaveManager:SetIgnoreIndexes(list")
+		for _, key in next, list do
+			self.Ignore[key] = true
+		end
+	end
+
+	function SaveManager:SetFolder(folder")
+		self.Folder = folder;
+		self:BuildFolderTree(")
+	end
+
+	function SaveManager:Save(name")
+		if (not name") then
+			return false, "no config file is selected"
+		end
+
+		local fullPath = self.Folder .. "/settings/" .. name .. ".json"
+
+		local data = {
+			objects = {}
+		}
+
+		for idx, option in next, SaveManager.Options do
+			if not self.Parser[option.Type] then continue end
+			if self.Ignore[idx] then continue end
+
+			table.insert(data.objects, self.Parser[option.Type].Save(idx, option")")
+		end	
+
+		local success, encoded = pcall(httpService.JSONEncode, httpService, data")
+		if not success then
+			return false, "failed to encode data"
+		end
+
+		writefile(fullPath, encoded")
+		return true
+	end
+
+	function SaveManager:Load(name")
+		if (not name") then
+			return false, "no config file is selected"
+		end
+		
+		local file = self.Folder .. "/settings/" .. name .. ".json"
+		if not isfile(file") then return false, "invalid file" end
+
+		local success, decoded = pcall(httpService.JSONDecode, httpService, readfile(file")")
+		if not success then return false, "decode error" end
+
+		for _, option in next, decoded.objects do
+			if self.Parser[option.type] then
+				task.spawn(function(") self.Parser[option.type].Load(option.idx, option") end") -- task.spawn(") so the config loading wont get stuck.
+			end
+		end
+
+		return true
+	end
+
+	function SaveManager:IgnoreThemeSettings(")
+		self:SetIgnoreIndexes({ 
+			"InterfaceTheme", "AcrylicToggle", "TransparentToggle", "MenuKeybind"
+		}")
+	end
+
+	function SaveManager:BuildFolderTree(")
+		local paths = {
+			self.Folder,
+			self.Folder .. "/settings"
+		}
+
+		for i = 1, #paths do
+			local str = paths[i]
+			if not isfolder(str") then
+				makefolder(str")
+			end
+		end
+	end
+
+	function SaveManager:RefreshConfigList(")
+		local list = listfiles(self.Folder .. "/settings"")
+
+		local out = {}
+		for i = 1, #list do
+			local file = list[i]
+			if file:sub(-5") == ".json" then
+				local pos = file:find(".json", 1, true")
+				local start = pos
+
+				local char = file:sub(pos, pos")
+				while char ~= "/" and char ~= "\\" and char ~= "" do
+					pos = pos - 1
+					char = file:sub(pos, pos")
+				end
+
+				if char == "/" or char == "\\" then
+					local name = file:sub(pos + 1, start - 1")
+					if not name == "options" then
+						table.insert(out, name")
+					end
+				end
+			end
+		end
+		
+		return out
+	end
+
+	function SaveManager:SetLibrary(library")
+		self.Library = library
+        self.Options = library.Options
+	end
+
+	function SaveManager:LoadAutoloadConfig(")
+		if isfile(self.Folder .. "/settings/autoload.txt"") then
+			local name = readfile(self.Folder .. "/settings/autoload.txt"")
+
+			local success, err = self:Load(name")
+			if not success then
+				return self.Library:Notify({
+					Title = "Interface",
+					Content = "Config loader",
+					SubContent = "Failed to load autoload config: " .. err,
+					Duration = 7
+				}")
+			end
+
+			self.Library:Notify({
+				Title = "Interface",
+				Content = "Config loader",
+				SubContent = string.format("Auto loaded config %q", name"),
+				Duration = 7
+			}")
+		end
+	end
+
+	function SaveManager:BuildConfigSection(tab")
+		assert(self.Library, "Must set SaveManager.Library"")
+
+		local section = tab:AddSection("Configuration"")
+
+		section:AddInput("SaveManager_ConfigName",    { Title = "Config name" }")
+		section:AddDropdown("SaveManager_ConfigList", { Title = "Config list", Values = self:RefreshConfigList("), AllowNull = true }")
+
+		section:AddButton({
+            Title = "Create config",
+            Callback = function(")
+                local name = SaveManager.Options.SaveManager_ConfigName.Value
+
+                if name:gsub(" ", """) == "" then 
+                    return self.Library:Notify({
+						Title = "Interface",
+						Content = "Config loader",
+						SubContent = "Invalid config name (empty")",
+						Duration = 7
+					}")
+                end
+
+                local success, err = self:Save(name")
+                if not success then
+                    return self.Library:Notify({
+						Title = "Interface",
+						Content = "Config loader",
+						SubContent = "Failed to save config: " .. err,
+						Duration = 7
+					}")
+                end
+
+				self.Library:Notify({
+					Title = "Interface",
+					Content = "Config loader",
+					SubContent = string.format("Created config %q", name"),
+					Duration = 7
+				}")
+
+                SaveManager.Options.SaveManager_ConfigList:SetValues(self:RefreshConfigList(")")
+                SaveManager.Options.SaveManager_ConfigList:SetValue(nil")
+            end
+        }")
+
+        section:AddButton({Title = "Load config", Callback = function(")
+			local name = SaveManager.Options.SaveManager_ConfigList.Value
+
+			local success, err = self:Load(name")
+			if not success then
+				return self.Library:Notify({
+					Title = "Interface",
+					Content = "Config loader",
+					SubContent = "Failed to load config: " .. err,
+					Duration = 7
+				}")
+			end
+
+			self.Library:Notify({
+				Title = "Interface",
+				Content = "Config loader",
+				SubContent = string.format("Loaded config %q", name"),
+				Duration = 7
+			}")
+		end}")
+
+		section:AddButton({Title = "Overwrite config", Callback = function(")
+			local name = SaveManager.Options.SaveManager_ConfigList.Value
+
+			local success, err = self:Save(name")
+			if not success then
+				return self.Library:Notify({
+					Title = "Interface",
+					Content = "Config loader",
+					SubContent = "Failed to overwrite config: " .. err,
+					Duration = 7
+				}")
+			end
+
+			self.Library:Notify({
+				Title = "Interface",
+				Content = "Config loader",
+				SubContent = string.format("Overwrote config %q", name"),
+				Duration = 7
+			}")
+		end}")
+
+		section:AddButton({Title = "Refresh list", Callback = function(")
+			SaveManager.Options.SaveManager_ConfigList:SetValues(self:RefreshConfigList(")")
+			SaveManager.Options.SaveManager_ConfigList:SetValue(nil")
+		end}")
+
+		local AutoloadButton
+		AutoloadButton = section:AddButton({Title = "Set as autoload", Description = "Current autoload config: none", Callback = function(")
+			local name = SaveManager.Options.SaveManager_ConfigList.Value
+			writefile(self.Folder .. "/settings/autoload.txt", name")
+			AutoloadButton:SetDesc("Current autoload config: " .. name")
+			self.Library:Notify({
+				Title = "Interface",
+				Content = "Config loader",
+				SubContent = string.format("Set %q to auto load", name"),
+				Duration = 7
+			}")
+		end}")
+
+		if isfile(self.Folder .. "/settings/autoload.txt"") then
+			local name = readfile(self.Folder .. "/settings/autoload.txt"")
+			AutoloadButton:SetDesc("Current autoload config: " .. name")
+		end
+
+		SaveManager:SetIgnoreIndexes({ "SaveManager_ConfigList", "SaveManager_ConfigName" }")
+	end
+
+	SaveManager:BuildFolderTree(")
+end
+
+return SaveManager
+
+return module
+end
+
+Modules["Creator"] = function()
+local module = {}
+
 local Root = script.Parent
-local Themes = require(Root.Themes)
-local Flipper = require(Root.Packages.Flipper)
+local Themes = require(""Themes")
+local Flipper = require(""Packages.Flipper")
 
 local Creator = {
 	Registry = {},
@@ -26,98 +937,98 @@ local Creator = {
 			ZIndexBehavior = Enum.ZIndexBehavior.Sibling,
 		},
 		Frame = {
-			BackgroundColor3 = Color3.new(1, 1, 1),
-			BorderColor3 = Color3.new(0, 0, 0),
+			BackgroundColor3 = Color3.new(1, 1, 1"),
+			BorderColor3 = Color3.new(0, 0, 0"),
 			BorderSizePixel = 0,
 		},
 		ScrollingFrame = {
-			BackgroundColor3 = Color3.new(1, 1, 1),
-			BorderColor3 = Color3.new(0, 0, 0),
-			ScrollBarImageColor3 = Color3.new(0, 0, 0),
+			BackgroundColor3 = Color3.new(1, 1, 1"),
+			BorderColor3 = Color3.new(0, 0, 0"),
+			ScrollBarImageColor3 = Color3.new(0, 0, 0"),
 		},
 		TextLabel = {
-			BackgroundColor3 = Color3.new(1, 1, 1),
-			BorderColor3 = Color3.new(0, 0, 0),
+			BackgroundColor3 = Color3.new(1, 1, 1"),
+			BorderColor3 = Color3.new(0, 0, 0"),
 			Font = Enum.Font.SourceSans,
 			Text = "",
-			TextColor3 = Color3.new(0, 0, 0),
+			TextColor3 = Color3.new(0, 0, 0"),
 			BackgroundTransparency = 1,
 			TextSize = 14,
 		},
 		TextButton = {
-			BackgroundColor3 = Color3.new(1, 1, 1),
-			BorderColor3 = Color3.new(0, 0, 0),
+			BackgroundColor3 = Color3.new(1, 1, 1"),
+			BorderColor3 = Color3.new(0, 0, 0"),
 			AutoButtonColor = false,
 			Font = Enum.Font.SourceSans,
 			Text = "",
-			TextColor3 = Color3.new(0, 0, 0),
+			TextColor3 = Color3.new(0, 0, 0"),
 			TextSize = 14,
 		},
 		TextBox = {
-			BackgroundColor3 = Color3.new(1, 1, 1),
-			BorderColor3 = Color3.new(0, 0, 0),
+			BackgroundColor3 = Color3.new(1, 1, 1"),
+			BorderColor3 = Color3.new(0, 0, 0"),
 			ClearTextOnFocus = false,
 			Font = Enum.Font.SourceSans,
 			Text = "",
-			TextColor3 = Color3.new(0, 0, 0),
+			TextColor3 = Color3.new(0, 0, 0"),
 			TextSize = 14,
 		},
 		ImageLabel = {
 			BackgroundTransparency = 1,
-			BackgroundColor3 = Color3.new(1, 1, 1),
-			BorderColor3 = Color3.new(0, 0, 0),
+			BackgroundColor3 = Color3.new(1, 1, 1"),
+			BorderColor3 = Color3.new(0, 0, 0"),
 			BorderSizePixel = 0,
 		},
 		ImageButton = {
-			BackgroundColor3 = Color3.new(1, 1, 1),
-			BorderColor3 = Color3.new(0, 0, 0),
+			BackgroundColor3 = Color3.new(1, 1, 1"),
+			BorderColor3 = Color3.new(0, 0, 0"),
 			AutoButtonColor = false,
 		},
 		CanvasGroup = {
-			BackgroundColor3 = Color3.new(1, 1, 1),
-			BorderColor3 = Color3.new(0, 0, 0),
+			BackgroundColor3 = Color3.new(1, 1, 1"),
+			BorderColor3 = Color3.new(0, 0, 0"),
 			BorderSizePixel = 0,
 		},
 	},
 }
 
-local function ApplyCustomProps(Object, Props)
+local function ApplyCustomProps(Object, Props")
 	if Props.ThemeTag then
-		Creator.AddThemeObject(Object, Props.ThemeTag)
+		Creator.AddThemeObject(Object, Props.ThemeTag")
 	end
 end
 
-function Creator.AddSignal(Signal, Function)
-	table.insert(Creator.Signals, Signal:Connect(Function))
+function Creator.AddSignal(Signal, Function")
+	table.insert(Creator.Signals, Signal:Connect(Function")")
 end
 
-function Creator.Disconnect()
+function Creator.Disconnect(")
 	for Idx = #Creator.Signals, 1, -1 do
-		local Connection = table.remove(Creator.Signals, Idx)
-		Connection:Disconnect()
+		local Connection = table.remove(Creator.Signals, Idx")
+		Connection:Disconnect(")
 	end
 end
 
-function Creator.GetThemeProperty(Property)
-	if Themes[require(Root).Theme][Property] then
-		return Themes[require(Root).Theme][Property]
+function Creator.GetThemeProperty(Property")
+	if Themes[require("Root").Theme][Property] then
+		return Themes[require("Root").Theme][Property]
 	end
 	return Themes["Dark"][Property]
 end
 
-function Creator.UpdateTheme()
+function Creator.UpdateTheme(")
 	for Instance, Object in next, Creator.Registry do
 		for Property, ColorIdx in next, Object.Properties do
-			Instance[Property] = Creator.GetThemeProperty(ColorIdx)
+			Instance[Property] = Creator.GetThemeProperty(ColorIdx")
 		end
 	end
 
 	for _, Motor in next, Creator.TransparencyMotors do
-		Motor:setGoal(Flipper.Instant.new(Creator.GetThemeProperty("ElementTransparency")))
+		Motor:setGoal(Flipper.Instant.new(Creator.GetThemeProperty("ElementTransparency"")")")
 	end
 end
 
-function Creator.AddThemeObject(Object, Properties)
+function Creator.AddThemeObject(Object, Properties")
 	local Idx = #Creator.Registry + 1
 	local Data = {
 		Object = Object,
@@ -126,17 +1037,17 @@ function Creator.AddThemeObject(Object, Properties)
 	}
 
 	Creator.Registry[Object] = Data
-	Creator.UpdateTheme()
+	Creator.UpdateTheme(")
 	return Object
 end
 
-function Creator.OverrideTag(Object, Properties)
+function Creator.OverrideTag(Object, Properties")
 	Creator.Registry[Object].Properties = Properties
-	Creator.UpdateTheme()
+	Creator.UpdateTheme(")
 end
 
-function Creator.New(Name, Properties, Children)
-	local Object = Instance.new(Name)
+function Creator.New(Name, Properties, Children")
+	local Object = Instance.new(Name")
 
 	-- Default properties
 	for Name, Value in next, Creator.DefaultProperties[Name] or {} do
@@ -155,42 +1066,46 @@ function Creator.New(Name, Properties, Children)
 		Child.Parent = Object
 	end
 
-	ApplyCustomProps(Object, Properties)
+	ApplyCustomProps(Object, Properties")
 	return Object
 end
 
-function Creator.SpringMotor(Initial, Instance, Prop, IgnoreDialogCheck, ResetOnThemeChange)
+function Creator.SpringMotor(Initial, Instance, Prop, IgnoreDialogCheck, ResetOnThemeChange")
 	IgnoreDialogCheck = IgnoreDialogCheck or false
 	ResetOnThemeChange = ResetOnThemeChange or false
-	local Motor = Flipper.SingleMotor.new(Initial)
-	Motor:onStep(function(value)
+	local Motor = Flipper.SingleMotor.new(Initial")
+	Motor:onStep(function(value")
 		Instance[Prop] = value
-	end)
+	end")
 
 	if ResetOnThemeChange then
-		table.insert(Creator.TransparencyMotors, Motor)
+		table.insert(Creator.TransparencyMotors, Motor")
 	end
 
-	local function SetValue(Value, Ignore)
+	local function SetValue(Value, Ignore")
 		Ignore = Ignore or false
 		if not IgnoreDialogCheck then
 			if not Ignore then
-				if Prop == "BackgroundTransparency" and require(Root).DialogOpen then
+				if Prop == "BackgroundTransparency" and require("Root").DialogOpen then
 					return
 				end
 			end
 		end
-		Motor:setGoal(Flipper.Spring.new(Value, { frequency = 8 }))
+		Motor:setGoal(Flipper.Spring.new(Value, { frequency = 8 }")")
 	end
 
 	return Motor, SetValue
 end
 
 return Creator
+
+
+return module
 end
 
--- Module: Icons
-Modules['Icons'] = function()
+Modules["Icons"] = function()
+local module = {}
+
 -- This file was @generated by Tarmac. It is not intended for manual editing.
 return {
 	assets = {
@@ -1014,235 +1929,69 @@ return {
 		["lucide-zoom-out"] = "rbxassetid://10747384679",
 	},
 }
+
+
+return module
 end
 
--- Module: init
-Modules['init'] = function()
-local Lighting = game:GetService("Lighting")
-local RunService = game:GetService("RunService")
-local LocalPlayer = game:GetService("Players").LocalPlayer
-local UserInputService = game:GetService("UserInputService")
-local TweenService = game:GetService("TweenService")
-local Camera = game:GetService("Workspace").CurrentCamera
-local Mouse = LocalPlayer:GetMouse()
+Modules["init"] = function()
+local module = {}
 
-local Root = script
-local Creator = require(Root.Creator)
-local ElementsTable = require(Root.Elements)
-local Acrylic = require(Root.Acrylic)
-local Components = Root.Components
-local NotificationModule = require(Components.Notification)
-
-local New = Creator.New
-
-local ProtectGui = protectgui or (syn and syn.protect_gui) or function() end
-local GUI = New("ScreenGui", {
-	Parent = RunService:IsStudio() and LocalPlayer.PlayerGui or game:GetService("CoreGui"),
-})
-ProtectGui(GUI)
-NotificationModule:Init(GUI)
-
-local Library = {
-	Version = "1.1.0",
-
-	OpenFrames = {},
-	Options = {},
-	Themes = require(Root.Themes).Names,
-
-	Window = nil,
-	WindowFrame = nil,
-	Unloaded = false,
-
-	Theme = "Dark",
-	DialogOpen = false,
-	UseAcrylic = true,
-	Acrylic = true,
-	Transparency = true,
-	MinimizeKeybind = nil,
-	MinimizeKey = Enum.KeyCode.LeftControl,
-
-	GUI = GUI,
+local Themes = {
+	Names = {
+		"Dark",
+		"Darker",
+		"Light",
+		"Aqua",
+		"Amethyst",
+		"Rose",
+	},
 }
 
-function Library:SafeCallback(Function, ...)
-	if not Function then
-		return
-	end
-
-	local Success, Event = pcall(Function, ...)
-	if not Success then
-		local _, i = Event:find(":%d+: ")
-
-		if not i then
-			return Library:Notify({
-				Title = "Interface",
-				Content = "Callback error",
-				SubContent = Event,
-				Duration = 5,
-			})
-		end
-
-		return Library:Notify({
-			Title = "Interface",
-			Content = "Callback error",
-			SubContent = Event:sub(i + 1),
-			Duration = 5,
-		})
-	end
+for _, Theme in next, script:GetChildren(") do
+	local Required = require("Theme")
+	Themes[Required.Name] = Required
 end
 
-function Library:Round(Number, Factor)
-	if Factor == 0 then
-		return math.floor(Number)
-	end
-	Number = tostring(Number)
-	return Number:find("%.") and tonumber(Number:sub(1, Number:find("%.") + Factor)) or Number
+return Themes
+
+
+return module
 end
 
-local Icons = require(Root.Icons).assets
-function Library:GetIcon(Name)
-	if Name ~= nil and Icons["lucide-" .. Name] then
-		return Icons["lucide-" .. Name]
-	end
-	return nil
-end
+Modules["AcrylicBlur"] = function()
+local module = {}
 
-local Elements = {}
-Elements.__index = Elements
-Elements.__namecall = function(Table, Key, ...)
-	return Elements[Key](...)
-end
+local Creator = require(""Parent.Parent.Creator")
+local createAcrylic = require(""Parent.CreateAcrylic")
+local viewportPointToWorld, getOffset = unpack(require(""Parent.Utils")")
 
-for _, ElementComponent in ipairs(ElementsTable) do
-	Elements["Add" .. ElementComponent.__type] = function(self, Idx, Config)
-		ElementComponent.Container = self.Container
-		ElementComponent.Type = self.Type
-		ElementComponent.ScrollFrame = self.ScrollFrame
-		ElementComponent.Library = Library
-
-		return ElementComponent:New(Idx, Config)
-	end
-end
-
-Library.Elements = Elements
-
-function Library:CreateWindow(Config)
-	assert(Config.Title, "Toggle - Missing Title")
-
-	Config.SubTitle = Config.SubTitle or ""
-	Config.TabWidth = Config.TabWidth or 170
-	Config.Size = Config.Size or UDim2.fromOffset(590, 470)
-	Config.Acrylic = Config.Acrylic or true
-	Config.Theme = Config.Theme or "Dark"
-	Config.MinimizeKey = Config.MinimizeKey or Enum.KeyCode.LeftControl
-
-	if Library.Window then
-		print("You cannot create more than one window.")
-		return
-	end
-
-	local Window = require(Components.Window)({
-		Parent = GUI,
-		Size = Config.Size,
-		Title = Config.Title,
-		SubTitle = Config.SubTitle,
-		TabWidth = Config.TabWidth,
-	})
-
-	Library.MinimizeKey = Config.MinimizeKey
-
-	Library.UseAcrylic = Config.Acrylic
-	if Library.UseAcrylic then
-		Acrylic.init()
-	end
-
-	Library.Window = Window
-	Library:SetTheme(Config.Theme)
-
-	return Window
-end
-
-function Library:SetTheme(Value)
-	if Library.Window and table.find(Library.Themes, Value) then
-		Library.Theme = Value
-		Creator.UpdateTheme()
-	end
-end
-
-function Library:Destroy()
-	if Library.Window then
-		Library.Unloaded = true
-		if Library.UseAcrylic then
-			Library.Window.AcrylicPaint.Model:Destroy()
-		end
-		Creator.Disconnect()
-		Library.GUI:Destroy()
-	end
-end
-
-function Library:ToggleAcrylic(Value)
-	if Library.Window then
-		if Library.UseAcrylic then
-			Library.Acrylic = Value
-			Library.Window.AcrylicPaint.Model.Transparency = Value and 0.98 or 1
-			if Value then
-				Acrylic.Enable()
-			else
-				Acrylic.Disable()
-			end
-		end
-	end
-end
-
-function Library:ToggleTransparency(Value)
-	if Library.Window then
-		Library.Window.AcrylicPaint.Frame.Background.BackgroundTransparency = Value and 0.35 or 0
-	end
-end
-
-function Library:Notify(Config)
-	return NotificationModule:New(Config)
-end
-
-if getgenv then
-	getgenv().Fluent = Library
-end
-
-return Library
-end
-
--- Module: Acrylic.AcrylicBlur
-Modules['Acrylic.AcrylicBlur'] = function()
-local Creator = require(script.Parent.Parent.Creator)
-local createAcrylic = require(script.Parent.CreateAcrylic)
-local viewportPointToWorld, getOffset = unpack(require(script.Parent.Utils))
-
-local function createAcrylicBlur(distance)
+local function createAcrylicBlur(distance")
 	local cleanups = {}
 
 	distance = distance or 0.001
 	local positions = {
-		topLeft = Vector2.new(),
-		topRight = Vector2.new(),
-		bottomRight = Vector2.new(),
+		topLeft = Vector2.new("),
+		topRight = Vector2.new("),
+		bottomRight = Vector2.new("),
 	}
-	local model = createAcrylic()
+	local model = createAcrylic(")
 	model.Parent = workspace
 
-	local function updatePositions(size, position)
+	local function updatePositions(size, position")
 		positions.topLeft = position
-		positions.topRight = position + Vector2.new(size.X, 0)
+		positions.topRight = position + Vector2.new(size.X, 0")
 		positions.bottomRight = position + size
 	end
 
-	local function render()
-		local res = game:GetService("Workspace").CurrentCamera
+	local function render(")
+		local res = game:GetService("Workspace"").CurrentCamera
 		if res then
 			res = res.CFrame
 		end
 		local cond = res
 		if not cond then
-			cond = CFrame.new()
+			cond = CFrame.new(")
 		end
 
 		local camera = cond
@@ -1250,76 +1999,76 @@ local function createAcrylicBlur(distance)
 		local topRight = positions.topRight
 		local bottomRight = positions.bottomRight
 
-		local topLeft3D = viewportPointToWorld(topLeft, distance)
-		local topRight3D = viewportPointToWorld(topRight, distance)
-		local bottomRight3D = viewportPointToWorld(bottomRight, distance)
+		local topLeft3D = viewportPointToWorld(topLeft, distance")
+		local topRight3D = viewportPointToWorld(topRight, distance")
+		local bottomRight3D = viewportPointToWorld(bottomRight, distance")
 
-		local width = (topRight3D - topLeft3D).Magnitude
-		local height = (topRight3D - bottomRight3D).Magnitude
+		local width = (topRight3D - topLeft3D").Magnitude
+		local height = (topRight3D - bottomRight3D").Magnitude
 
 		model.CFrame =
-			CFrame.fromMatrix((topLeft3D + bottomRight3D) / 2, camera.XVector, camera.YVector, camera.ZVector)
-		model.Mesh.Scale = Vector3.new(width, height, 0)
+			CFrame.fromMatrix((topLeft3D + bottomRight3D") / 2, camera.XVector, camera.YVector, camera.ZVector")
+		model.Mesh.Scale = Vector3.new(width, height, 0")
 	end
 
-	local function onChange(rbx)
-		local offset = getOffset()
-		local size = rbx.AbsoluteSize - Vector2.new(offset, offset)
-		local position = rbx.AbsolutePosition + Vector2.new(offset / 2, offset / 2)
+	local function onChange(rbx")
+		local offset = getOffset(")
+		local size = rbx.AbsoluteSize - Vector2.new(offset, offset")
+		local position = rbx.AbsolutePosition + Vector2.new(offset / 2, offset / 2")
 
-		updatePositions(size, position)
-		task.spawn(render)
+		updatePositions(size, position")
+		task.spawn(render")
 	end
 
-	local function renderOnChange()
-		local camera = game:GetService("Workspace").CurrentCamera
+	local function renderOnChange(")
+		local camera = game:GetService("Workspace"").CurrentCamera
 		if not camera then
 			return
 		end
 
-		table.insert(cleanups, camera:GetPropertyChangedSignal("CFrame"):Connect(render))
-		table.insert(cleanups, camera:GetPropertyChangedSignal("ViewportSize"):Connect(render))
-		table.insert(cleanups, camera:GetPropertyChangedSignal("FieldOfView"):Connect(render))
-		task.spawn(render)
+		table.insert(cleanups, camera:GetPropertyChangedSignal("CFrame""):Connect(render")")
+		table.insert(cleanups, camera:GetPropertyChangedSignal("ViewportSize""):Connect(render")")
+		table.insert(cleanups, camera:GetPropertyChangedSignal("FieldOfView""):Connect(render")")
+		task.spawn(render")
 	end
 
-	model.Destroying:Connect(function()
+	model.Destroying:Connect(function(")
 		for _, item in cleanups do
-			pcall(function()
-				item:Disconnect()
-			end)
+			pcall(function(")
+				item:Disconnect(")
+			end")
 		end
-	end)
+	end")
 
-	renderOnChange()
+	renderOnChange(")
 
 	return onChange, model
 end
 
-return function(distance)
+return function(distance")
 	local Blur = {}
-	local onChange, model = createAcrylicBlur(distance)
+	local onChange, model = createAcrylicBlur(distance")
 
 	local comp = Creator.New("Frame", {
 		BackgroundTransparency = 1,
-		Size = UDim2.fromScale(1, 1),
-	})
+		Size = UDim2.fromScale(1, 1"),
+	}")
 
-	Creator.AddSignal(comp:GetPropertyChangedSignal("AbsolutePosition"), function()
-		onChange(comp)
-	end)
+	Creator.AddSignal(comp:GetPropertyChangedSignal("AbsolutePosition""), function(")
+		onChange(comp")
+	end")
 
-	Creator.AddSignal(comp:GetPropertyChangedSignal("AbsoluteSize"), function()
-		onChange(comp)
-	end)
+	Creator.AddSignal(comp:GetPropertyChangedSignal("AbsoluteSize""), function(")
+		onChange(comp")
+	end")
 
-	Blur.AddParent = function(Parent)
-		Creator.AddSignal(Parent:GetPropertyChangedSignal("Visible"), function()
-			Blur.SetVisibility(Parent.Visible)
-		end)
+	Blur.AddParent = function(Parent")
+		Creator.AddSignal(Parent:GetPropertyChangedSignal("Visible""), function(")
+			Blur.SetVisibility(Parent.Visible")
+		end")
 	end
 
-	Blur.SetVisibility = function(Value)
+	Blur.SetVisibility = function(Value")
 		model.Transparency = Value and 0.98 or 1
 	end
 
@@ -1328,121 +2077,125 @@ return function(distance)
 
 	return Blur
 end
+
+
+return module
 end
 
--- Module: Acrylic.AcrylicPaint
-Modules['Acrylic.AcrylicPaint'] = function()
-local Creator = require(script.Parent.Parent.Creator)
-local AcrylicBlur = require(script.Parent.AcrylicBlur)
+Modules["AcrylicPaint"] = function()
+local module = {}
+
+local Creator = require(""Parent.Parent.Creator")
+local AcrylicBlur = require(""Parent.AcrylicBlur")
 
 local New = Creator.New
 
-return function(props)
+return function(props")
 	local AcrylicPaint = {}
 
 	AcrylicPaint.Frame = New("Frame", {
-		Size = UDim2.fromScale(1, 1),
+		Size = UDim2.fromScale(1, 1"),
 		BackgroundTransparency = 0.9,
-		BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+		BackgroundColor3 = Color3.fromRGB(255, 255, 255"),
 		BorderSizePixel = 0,
 	}, {
 		New("ImageLabel", {
 			Image = "rbxassetid://8992230677",
 			ScaleType = "Slice",
-			SliceCenter = Rect.new(Vector2.new(99, 99), Vector2.new(99, 99)),
-			AnchorPoint = Vector2.new(0.5, 0.5),
-			Size = UDim2.new(1, 120, 1, 116),
-			Position = UDim2.new(0.5, 0, 0.5, 0),
+			SliceCenter = Rect.new(Vector2.new(99, 99"), Vector2.new(99, 99")"),
+			AnchorPoint = Vector2.new(0.5, 0.5"),
+			Size = UDim2.new(1, 120, 1, 116"),
+			Position = UDim2.new(0.5, 0, 0.5, 0"),
 			BackgroundTransparency = 1,
-			ImageColor3 = Color3.fromRGB(0, 0, 0),
+			ImageColor3 = Color3.fromRGB(0, 0, 0"),
 			ImageTransparency = 0.7,
-		}),
+		}"),
 
 		New("UICorner", {
-			CornerRadius = UDim.new(0, 8),
-		}),
+			CornerRadius = UDim.new(0, 8"),
+		}"),
 
 		New("Frame", {
 			BackgroundTransparency = 0.45,
-			Size = UDim2.fromScale(1, 1),
+			Size = UDim2.fromScale(1, 1"),
 			Name = "Background",
 			ThemeTag = {
 				BackgroundColor3 = "AcrylicMain",
 			},
 		}, {
 			New("UICorner", {
-				CornerRadius = UDim.new(0, 8),
-			}),
-		}),
+				CornerRadius = UDim.new(0, 8"),
+			}"),
+		}"),
 
 		New("Frame", {
-			BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+			BackgroundColor3 = Color3.fromRGB(255, 255, 255"),
 			BackgroundTransparency = 0.4,
-			Size = UDim2.fromScale(1, 1),
+			Size = UDim2.fromScale(1, 1"),
 		}, {
 			New("UICorner", {
-				CornerRadius = UDim.new(0, 8),
-			}),
+				CornerRadius = UDim.new(0, 8"),
+			}"),
 
 			New("UIGradient", {
 				Rotation = 90,
 				ThemeTag = {
 					Color = "AcrylicGradient",
 				},
-			}),
-		}),
+			}"),
+		}"),
 
 		New("ImageLabel", {
 			Image = "rbxassetid://9968344105",
 			ImageTransparency = 0.98,
 			ScaleType = Enum.ScaleType.Tile,
-			TileSize = UDim2.new(0, 128, 0, 128),
-			Size = UDim2.fromScale(1, 1),
+			TileSize = UDim2.new(0, 128, 0, 128"),
+			Size = UDim2.fromScale(1, 1"),
 			BackgroundTransparency = 1,
 		}, {
 			New("UICorner", {
-				CornerRadius = UDim.new(0, 8),
-			}),
-		}),
+				CornerRadius = UDim.new(0, 8"),
+			}"),
+		}"),
 
 		New("ImageLabel", {
 			Image = "rbxassetid://9968344227",
 			ImageTransparency = 0.9,
 			ScaleType = Enum.ScaleType.Tile,
-			TileSize = UDim2.new(0, 128, 0, 128),
-			Size = UDim2.fromScale(1, 1),
+			TileSize = UDim2.new(0, 128, 0, 128"),
+			Size = UDim2.fromScale(1, 1"),
 			BackgroundTransparency = 1,
 			ThemeTag = {
 				ImageTransparency = "AcrylicNoise",
 			},
 		}, {
 			New("UICorner", {
-				CornerRadius = UDim.new(0, 8),
-			}),
-		}),
+				CornerRadius = UDim.new(0, 8"),
+			}"),
+		}"),
 
 		New("Frame", {
 			BackgroundTransparency = 1,
-			Size = UDim2.fromScale(1, 1),
+			Size = UDim2.fromScale(1, 1"),
 			ZIndex = 2,
 		}, {
 			New("UICorner", {
-				CornerRadius = UDim.new(0, 8),
-			}),
+				CornerRadius = UDim.new(0, 8"),
+			}"),
 			New("UIStroke", {
 				Transparency = 0.5,
 				Thickness = 1,
 				ThemeTag = {
 					Color = "AcrylicBorder",
 				},
-			}),
-		}),
-	})
+			}"),
+		}"),
+	}")
 
 	local Blur
 
-	if require(script.Parent.Parent).UseAcrylic then
-		Blur = AcrylicBlur()
+	if require(""Parent.Parent").UseAcrylic then
+		Blur = AcrylicBlur(")
 		Blur.Frame.Parent = AcrylicPaint.Frame
 		AcrylicPaint.Model = Blur.Model
 		AcrylicPaint.AddParent = Blur.AddParent
@@ -1451,19 +2204,23 @@ return function(props)
 
 	return AcrylicPaint
 end
+
+
+return module
 end
 
--- Module: Acrylic.CreateAcrylic
-Modules['Acrylic.CreateAcrylic'] = function()
-local Root = script.Parent.Parent
-local Creator = require(Root.Creator)
+Modules["CreateAcrylic"] = function()
+local module = {}
 
-local function createAcrylic()
+local Root = script.Parent.Parent
+local Creator = require(""Creator")
+
+local function createAcrylic(")
 	local Part = Creator.New("Part", {
 		Name = "Body",
-		Color = Color3.new(0, 0, 0),
+		Color = Color3.new(0, 0, 0"),
 		Material = Enum.Material.Glass,
-		Size = Vector3.new(1, 1, 0),
+		Size = Vector3.new(1, 1, 0"),
 		Anchored = true,
 		CanCollide = false,
 		Locked = true,
@@ -1472,189 +2229,110 @@ local function createAcrylic()
 	}, {
 		Creator.New("SpecialMesh", {
 			MeshType = Enum.MeshType.Brick,
-			Offset = Vector3.new(0, 0, -0.000001),
-		}),
-	})
+			Offset = Vector3.new(0, 0, -0.000001"),
+		}"),
+	}")
 
 	return Part
 end
 
 return createAcrylic
+
+
+return module
 end
 
--- Module: Acrylic.Utils
-Modules['Acrylic.Utils'] = function()
-local function map(value, inMin, inMax, outMin, outMax)
-	return (value - inMin) * (outMax - outMin) / (inMax - inMin) + outMin
+Modules["Utils"] = function()
+local module = {}
+
+local function map(value, inMin, inMax, outMin, outMax")
+	return (value - inMin") * (outMax - outMin") / (inMax - inMin") + outMin
 end
 
-local function viewportPointToWorld(location, distance)
-	local unitRay = game:GetService("Workspace").CurrentCamera:ScreenPointToRay(location.X, location.Y)
+local function viewportPointToWorld(location, distance")
+	local unitRay = game:GetService("Workspace"").CurrentCamera:ScreenPointToRay(location.X, location.Y")
 	return unitRay.Origin + unitRay.Direction * distance
 end
 
-local function getOffset()
-	local viewportSizeY = game:GetService("Workspace").CurrentCamera.ViewportSize.Y
-	return map(viewportSizeY, 0, 2560, 8, 56)
+local function getOffset(")
+	local viewportSizeY = game:GetService("Workspace"").CurrentCamera.ViewportSize.Y
+	return map(viewportSizeY, 0, 2560, 8, 56")
 end
 
 return { viewportPointToWorld, getOffset }
+
+
+return module
 end
 
--- Module: Acrylic.init
-Modules['Acrylic.init'] = function()
-local Acrylic = {
-	AcrylicBlur = require(script.AcrylicBlur),
-	CreateAcrylic = require(script.CreateAcrylic),
-	AcrylicPaint = require(script.AcrylicPaint),
-}
+Modules["Assets"] = function()
+local module = {}
 
-function Acrylic.init()
-	local baseEffect = Instance.new("DepthOfFieldEffect")
-	baseEffect.FarIntensity = 0
-	baseEffect.InFocusRadius = 0.1
-	baseEffect.NearIntensity = 1
-
-	local depthOfFieldDefaults = {}
-
-	function Acrylic.Enable()
-		for _, effect in pairs(depthOfFieldDefaults) do
-			effect.Enabled = false
-		end
-		baseEffect.Parent = game:GetService("Lighting")
-	end
-
-	function Acrylic.Disable()
-		for _, effect in pairs(depthOfFieldDefaults) do
-			effect.Enabled = effect.enabled
-		end
-		baseEffect.Parent = nil
-	end
-
-	local function registerDefaults()
-		local function register(object)
-			if object:IsA("DepthOfFieldEffect") then
-				depthOfFieldDefaults[object] = { enabled = object.Enabled }
-			end
-		end
-
-		for _, child in pairs(game:GetService("Lighting"):GetChildren()) do
-			register(child)
-		end
-
-		if game:GetService("Workspace").CurrentCamera then
-			for _, child in pairs(game:GetService("Workspace").CurrentCamera:GetChildren()) do
-				register(child)
-			end
-		end
-	end
-
-	registerDefaults()
-	Acrylic.Enable()
-end
-
-return Acrylic
-end
-
--- Module: Components.Assets
-Modules['Components.Assets'] = function()
 return {
 	Close = "rbxassetid://9886659671",
 	Min = "rbxassetid://9886659276",
 	Max = "rbxassetid://9886659406",
 	Restore = "rbxassetid://9886659001",
 }
+
+
+return module
 end
 
--- Module: Components.Button
-Modules['Components.Button'] = function()
+Modules["Button"] = function()
+local module = {}
+
 local Root = script.Parent.Parent
-local Flipper = require(Root.Packages.Flipper)
-local Creator = require(Root.Creator)
+local Creator = require(""Creator")
+
 local New = Creator.New
+local Components = Root.Components
 
-local Spring = Flipper.Spring.new
+local Element = {}
+Element.__index = Element
+Element.__type = "Button"
 
-return function(Theme, Parent, DialogCheck)
-	DialogCheck = DialogCheck or false
-	local Button = {}
+function Element:New(Config")
+	assert(Config.Title, "Button - Missing Title"")
+	Config.Callback = Config.Callback or function(") end
 
-	Button.Title = New("TextLabel", {
-		FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json"),
-		TextColor3 = Color3.fromRGB(200, 200, 200),
-		TextSize = 14,
-		TextWrapped = true,
-		TextXAlignment = Enum.TextXAlignment.Center,
-		TextYAlignment = Enum.TextYAlignment.Center,
-		BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-		AutomaticSize = Enum.AutomaticSize.Y,
+	local ButtonFrame = require(""Element")(Config.Title, Config.Description, self.Container, true")
+
+	local ButtonIco = New("ImageLabel", {
+		Image = "rbxassetid://10709791437",
+		Size = UDim2.fromOffset(16, 16"),
+		AnchorPoint = Vector2.new(1, 0.5"),
+		Position = UDim2.new(1, -10, 0.5, 0"),
 		BackgroundTransparency = 1,
-		Size = UDim2.fromScale(1, 1),
+		Parent = ButtonFrame.Frame,
 		ThemeTag = {
-			TextColor3 = "Text",
+			ImageColor3 = "Text",
 		},
-	})
+	}")
 
-	Button.HoverFrame = New("Frame", {
-		Size = UDim2.fromScale(1, 1),
-		BackgroundTransparency = 1,
-		ThemeTag = {
-			BackgroundColor3 = "Hover",
-		},
-	}, {
-		New("UICorner", {
-			CornerRadius = UDim.new(0, 4),
-		}),
-	})
+	Creator.AddSignal(ButtonFrame.Frame.MouseButton1Click, function(")
+		self.Library:SafeCallback(Config.Callback")
+	end")
 
-	Button.Frame = New("TextButton", {
-		Size = UDim2.new(0, 0, 0, 32),
-		Parent = Parent,
-		ThemeTag = {
-			BackgroundColor3 = "DialogButton",
-		},
-	}, {
-		New("UICorner", {
-			CornerRadius = UDim.new(0, 4),
-		}),
-		New("UIStroke", {
-			ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
-			Transparency = 0.65,
-			ThemeTag = {
-				Color = "DialogButtonBorder",
-			},
-		}),
-		Button.HoverFrame,
-		Button.Title,
-	})
-
-	local Motor, SetTransparency = Creator.SpringMotor(1, Button.HoverFrame, "BackgroundTransparency", DialogCheck)
-	Creator.AddSignal(Button.Frame.MouseEnter, function()
-		SetTransparency(0.97)
-	end)
-	Creator.AddSignal(Button.Frame.MouseLeave, function()
-		SetTransparency(1)
-	end)
-	Creator.AddSignal(Button.Frame.MouseButton1Down, function()
-		SetTransparency(1)
-	end)
-	Creator.AddSignal(Button.Frame.MouseButton1Up, function()
-		SetTransparency(0.97)
-	end)
-
-	return Button
-end
+	return ButtonFrame
 end
 
--- Module: Components.Dialog
-Modules['Components.Dialog'] = function()
-local UserInputService = game:GetService("UserInputService")
-local Mouse = game:GetService("Players").LocalPlayer:GetMouse()
-local Camera = game:GetService("Workspace").CurrentCamera
+return Element
+
+
+return module
+end
+
+Modules["Dialog"] = function()
+local module = {}
+
+local UserInputService = game:GetService("UserInputService"")
+local Mouse = game:GetService("Players"").LocalPlayer:GetMouse(")
+local Camera = game:GetService("Workspace"").CurrentCamera
 
 local Root = script.Parent.Parent
-local Flipper = require(Root.Packages.Flipper)
-local Creator = require(Root.Creator)
+local Flipper = require(""Packages.Flipper")
+local Creator = require(""Creator")
 
 local Spring = Flipper.Spring.new
 local Instant = Flipper.Instant.new
@@ -1664,89 +2342,89 @@ local Dialog = {
 	Window = nil,
 }
 
-function Dialog:Init(Window)
+function Dialog:Init(Window")
 	Dialog.Window = Window
 	return Dialog
 end
 
-function Dialog:Create()
+function Dialog:Create(")
 	local NewDialog = {
 		Buttons = 0,
 	}
 
 	NewDialog.TintFrame = New("TextButton", {
 		Text = "",
-		Size = UDim2.fromScale(1, 1),
-		BackgroundColor3 = Color3.fromRGB(0, 0, 0),
+		Size = UDim2.fromScale(1, 1"),
+		BackgroundColor3 = Color3.fromRGB(0, 0, 0"),
 		BackgroundTransparency = 1,
 		Parent = Dialog.Window.Root,
 	}, {
 		New("UICorner", {
-			CornerRadius = UDim.new(0, 8),
-		}),
-	})
+			CornerRadius = UDim.new(0, 8"),
+		}"),
+	}")
 
-	local TintMotor, TintTransparency = Creator.SpringMotor(1, NewDialog.TintFrame, "BackgroundTransparency", true)
+	local TintMotor, TintTransparency = Creator.SpringMotor(1, NewDialog.TintFrame, "BackgroundTransparency", true")
 
 	NewDialog.ButtonHolder = New("Frame", {
-		Size = UDim2.new(1, -40, 1, -40),
-		AnchorPoint = Vector2.new(0.5, 0.5),
-		Position = UDim2.fromScale(0.5, 0.5),
+		Size = UDim2.new(1, -40, 1, -40"),
+		AnchorPoint = Vector2.new(0.5, 0.5"),
+		Position = UDim2.fromScale(0.5, 0.5"),
 		BackgroundTransparency = 1,
 	}, {
 		New("UIListLayout", {
-			Padding = UDim.new(0, 10),
+			Padding = UDim.new(0, 10"),
 			FillDirection = Enum.FillDirection.Horizontal,
 			HorizontalAlignment = Enum.HorizontalAlignment.Center,
 			SortOrder = Enum.SortOrder.LayoutOrder,
-		}),
-	})
+		}"),
+	}")
 
 	NewDialog.ButtonHolderFrame = New("Frame", {
-		Size = UDim2.new(1, 0, 0, 70),
-		Position = UDim2.new(0, 0, 1, -70),
+		Size = UDim2.new(1, 0, 0, 70"),
+		Position = UDim2.new(0, 0, 1, -70"),
 		ThemeTag = {
 			BackgroundColor3 = "DialogHolder",
 		},
 	}, {
 		New("Frame", {
-			Size = UDim2.new(1, 0, 0, 1),
+			Size = UDim2.new(1, 0, 0, 1"),
 			ThemeTag = {
 				BackgroundColor3 = "DialogHolderLine",
 			},
-		}),
+		}"),
 		NewDialog.ButtonHolder,
-	})
+	}")
 
 	NewDialog.Title = New("TextLabel", {
 		FontFace = Font.new(
 			"rbxasset://fonts/families/GothamSSm.json",
 			Enum.FontWeight.SemiBold,
 			Enum.FontStyle.Normal
-		),
+		"),
 		Text = "Dialog",
-		TextColor3 = Color3.fromRGB(240, 240, 240),
+		TextColor3 = Color3.fromRGB(240, 240, 240"),
 		TextSize = 22,
 		TextXAlignment = Enum.TextXAlignment.Left,
-		Size = UDim2.new(1, 0, 0, 22),
-		Position = UDim2.fromOffset(20, 25),
-		BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+		Size = UDim2.new(1, 0, 0, 22"),
+		Position = UDim2.fromOffset(20, 25"),
+		BackgroundColor3 = Color3.fromRGB(255, 255, 255"),
 		BackgroundTransparency = 1,
 		ThemeTag = {
 			TextColor3 = "Text",
 		},
-	})
+	}")
 
 	NewDialog.Scale = New("UIScale", {
 		Scale = 1,
-	})
+	}")
 
-	local ScaleMotor, Scale = Creator.SpringMotor(1.1, NewDialog.Scale, "Scale")
+	local ScaleMotor, Scale = Creator.SpringMotor(1.1, NewDialog.Scale, "Scale"")
 
 	NewDialog.Root = New("CanvasGroup", {
-		Size = UDim2.fromOffset(300, 165),
-		AnchorPoint = Vector2.new(0.5, 0.5),
-		Position = UDim2.fromScale(0.5, 0.5),
+		Size = UDim2.fromOffset(300, 165"),
+		AnchorPoint = Vector2.new(0.5, 0.5"),
+		Position = UDim2.fromScale(0.5, 0.5"),
 		GroupTransparency = 1,
 		Parent = NewDialog.TintFrame,
 		ThemeTag = {
@@ -1754,60 +2432,60 @@ function Dialog:Create()
 		},
 	}, {
 		New("UICorner", {
-			CornerRadius = UDim.new(0, 8),
-		}),
+			CornerRadius = UDim.new(0, 8"),
+		}"),
 		New("UIStroke", {
 			Transparency = 0.5,
 			ThemeTag = {
 				Color = "DialogBorder",
 			},
-		}),
+		}"),
 		NewDialog.Scale,
 		NewDialog.Title,
 		NewDialog.ButtonHolderFrame,
-	})
+	}")
 
-	local RootMotor, RootTransparency = Creator.SpringMotor(1, NewDialog.Root, "GroupTransparency")
+	local RootMotor, RootTransparency = Creator.SpringMotor(1, NewDialog.Root, "GroupTransparency"")
 
-	function NewDialog:Open()
-		require(Root).DialogOpen = true
+	function NewDialog:Open(")
+		require("Root").DialogOpen = true
 		NewDialog.Scale.Scale = 1.1
-		TintTransparency(0.75)
-		RootTransparency(0)
-		Scale(1)
+		TintTransparency(0.75")
+		RootTransparency(0")
+		Scale(1")
 	end
 
-	function NewDialog:Close()
-		require(Root).DialogOpen = false
-		TintTransparency(1)
-		RootTransparency(1)
-		Scale(1.1)
-		NewDialog.Root.UIStroke:Destroy()
-		task.wait(0.15)
-		NewDialog.TintFrame:Destroy()
+	function NewDialog:Close(")
+		require("Root").DialogOpen = false
+		TintTransparency(1")
+		RootTransparency(1")
+		Scale(1.1")
+		NewDialog.Root.UIStroke:Destroy(")
+		task.wait(0.15")
+		NewDialog.TintFrame:Destroy(")
 	end
 
-	function NewDialog:Button(Title, Callback)
+	function NewDialog:Button(Title, Callback")
 		NewDialog.Buttons = NewDialog.Buttons + 1
 		Title = Title or "Button"
-		Callback = Callback or function() end
+		Callback = Callback or function(") end
 
-		local Button = require(Root.Components.Button)("", NewDialog.ButtonHolder, true)
+		local Button = require(""Components.Button")("", NewDialog.ButtonHolder, true")
 		Button.Title.Text = Title
 
-		for _, Btn in next, NewDialog.ButtonHolder:GetChildren() do
-			if Btn:IsA("TextButton") then
+		for _, Btn in next, NewDialog.ButtonHolder:GetChildren(") do
+			if Btn:IsA("TextButton"") then
 				Btn.Size =
-					UDim2.new(1 / NewDialog.Buttons, -(((NewDialog.Buttons - 1) * 10) / NewDialog.Buttons), 0, 32)
+					UDim2.new(1 / NewDialog.Buttons, -(((NewDialog.Buttons - 1") * 10") / NewDialog.Buttons"), 0, 32")
 			end
 		end
 
-		Creator.AddSignal(Button.Frame.MouseButton1Click, function()
-			require(Root):SafeCallback(Callback)
-			pcall(function()
-				NewDialog:Close()
-			end)
-		end)
+		Creator.AddSignal(Button.Frame.MouseButton1Click, function(")
+			require("Root"):SafeCallback(Callback")
+			pcall(function(")
+				NewDialog:Close(")
+			end")
+		end")
 
 		return Button
 	end
@@ -1816,82 +2494,86 @@ function Dialog:Create()
 end
 
 return Dialog
+
+
+return module
 end
 
--- Module: Components.Element
-Modules['Components.Element'] = function()
+Modules["Element"] = function()
+local module = {}
+
 local Root = script.Parent.Parent
-local Flipper = require(Root.Packages.Flipper)
-local Creator = require(Root.Creator)
+local Flipper = require(""Packages.Flipper")
+local Creator = require(""Creator")
 local New = Creator.New
 
 local Spring = Flipper.Spring.new
 
-return function(Title, Desc, Parent, Hover)
+return function(Title, Desc, Parent, Hover")
 	local Element = {}
 
 	Element.TitleLabel = New("TextLabel", {
-		FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Medium, Enum.FontStyle.Normal),
+		FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Medium, Enum.FontStyle.Normal"),
 		Text = Title,
-		TextColor3 = Color3.fromRGB(240, 240, 240),
+		TextColor3 = Color3.fromRGB(240, 240, 240"),
 		TextSize = 13,
 		TextXAlignment = Enum.TextXAlignment.Left,
-		Size = UDim2.new(1, 0, 0, 14),
-		BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+		Size = UDim2.new(1, 0, 0, 14"),
+		BackgroundColor3 = Color3.fromRGB(255, 255, 255"),
 		BackgroundTransparency = 1,
 		ThemeTag = {
 			TextColor3 = "Text",
 		},
-	})
+	}")
 
 	Element.DescLabel = New("TextLabel", {
-		FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json"),
+		FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json""),
 		Text = Desc,
-		TextColor3 = Color3.fromRGB(200, 200, 200),
+		TextColor3 = Color3.fromRGB(200, 200, 200"),
 		TextSize = 12,
 		TextWrapped = true,
 		TextXAlignment = Enum.TextXAlignment.Left,
-		BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+		BackgroundColor3 = Color3.fromRGB(255, 255, 255"),
 		AutomaticSize = Enum.AutomaticSize.Y,
 		BackgroundTransparency = 1,
-		Size = UDim2.new(1, 0, 0, 14),
+		Size = UDim2.new(1, 0, 0, 14"),
 		ThemeTag = {
 			TextColor3 = "SubText",
 		},
-	})
+	}")
 
 	Element.LabelHolder = New("Frame", {
 		AutomaticSize = Enum.AutomaticSize.Y,
-		BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+		BackgroundColor3 = Color3.fromRGB(255, 255, 255"),
 		BackgroundTransparency = 1,
-		Position = UDim2.fromOffset(10, 0),
-		Size = UDim2.new(1, -28, 0, 0),
+		Position = UDim2.fromOffset(10, 0"),
+		Size = UDim2.new(1, -28, 0, 0"),
 	}, {
 		New("UIListLayout", {
 			SortOrder = Enum.SortOrder.LayoutOrder,
 			VerticalAlignment = Enum.VerticalAlignment.Center,
-		}),
+		}"),
 		New("UIPadding", {
-			PaddingBottom = UDim.new(0, 13),
-			PaddingTop = UDim.new(0, 13),
-		}),
+			PaddingBottom = UDim.new(0, 13"),
+			PaddingTop = UDim.new(0, 13"),
+		}"),
 		Element.TitleLabel,
 		Element.DescLabel,
-	})
+	}")
 
 	Element.Border = New("UIStroke", {
 		Transparency = 0.5,
 		ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
-		Color = Color3.fromRGB(0, 0, 0),
+		Color = Color3.fromRGB(0, 0, 0"),
 		ThemeTag = {
 			Color = "ElementBorder",
 		},
-	})
+	}")
 
 	Element.Frame = New("TextButton", {
-		Size = UDim2.new(1, 0, 0, 0),
+		Size = UDim2.new(1, 0, 0, 0"),
 		BackgroundTransparency = 0.89,
-		BackgroundColor3 = Color3.fromRGB(130, 130, 130),
+		BackgroundColor3 = Color3.fromRGB(130, 130, 130"),
 		Parent = Parent,
 		AutomaticSize = Enum.AutomaticSize.Y,
 		Text = "",
@@ -1902,17 +2584,17 @@ return function(Title, Desc, Parent, Hover)
 		},
 	}, {
 		New("UICorner", {
-			CornerRadius = UDim.new(0, 4),
-		}),
+			CornerRadius = UDim.new(0, 4"),
+		}"),
 		Element.Border,
 		Element.LabelHolder,
-	})
+	}")
 
-	function Element:SetTitle(Set)
+	function Element:SetTitle(Set")
 		Element.TitleLabel.Text = Set
 	end
 
-	function Element:SetDesc(Set)
+	function Element:SetDesc(Set")
 		if Set == nil then
 			Set = ""
 		end
@@ -1924,47 +2606,51 @@ return function(Title, Desc, Parent, Hover)
 		Element.DescLabel.Text = Set
 	end
 
-	function Element:Destroy()
-		Element.Frame:Destroy()
+	function Element:Destroy(")
+		Element.Frame:Destroy(")
 	end
 
-	Element:SetTitle(Title)
-	Element:SetDesc(Desc)
+	Element:SetTitle(Title")
+	Element:SetDesc(Desc")
 
 	if Hover then
 		local Themes = Root.Themes
 		local Motor, SetTransparency = Creator.SpringMotor(
-			Creator.GetThemeProperty("ElementTransparency"),
+			Creator.GetThemeProperty("ElementTransparency""),
 			Element.Frame,
 			"BackgroundTransparency",
 			false,
 			true
-		)
+		")
 
-		Creator.AddSignal(Element.Frame.MouseEnter, function()
-			SetTransparency(Creator.GetThemeProperty("ElementTransparency") - Creator.GetThemeProperty("HoverChange"))
-		end)
-		Creator.AddSignal(Element.Frame.MouseLeave, function()
-			SetTransparency(Creator.GetThemeProperty("ElementTransparency"))
-		end)
-		Creator.AddSignal(Element.Frame.MouseButton1Down, function()
-			SetTransparency(Creator.GetThemeProperty("ElementTransparency") + Creator.GetThemeProperty("HoverChange"))
-		end)
-		Creator.AddSignal(Element.Frame.MouseButton1Up, function()
-			SetTransparency(Creator.GetThemeProperty("ElementTransparency") - Creator.GetThemeProperty("HoverChange"))
-		end)
+		Creator.AddSignal(Element.Frame.MouseEnter, function(")
+			SetTransparency(Creator.GetThemeProperty("ElementTransparency"") - Creator.GetThemeProperty("HoverChange"")")
+		end")
+		Creator.AddSignal(Element.Frame.MouseLeave, function(")
+			SetTransparency(Creator.GetThemeProperty("ElementTransparency"")")
+		end")
+		Creator.AddSignal(Element.Frame.MouseButton1Down, function(")
+			SetTransparency(Creator.GetThemeProperty("ElementTransparency"") + Creator.GetThemeProperty("HoverChange"")")
+		end")
+		Creator.AddSignal(Element.Frame.MouseButton1Up, function(")
+			SetTransparency(Creator.GetThemeProperty("ElementTransparency"") - Creator.GetThemeProperty("HoverChange"")")
+		end")
 	end
 
 	return Element
 end
+
+
+return module
 end
 
--- Module: Components.Notification
-Modules['Components.Notification'] = function()
+Modules["Notification"] = function()
+local module = {}
+
 local Root = script.Parent.Parent
-local Flipper = require(Root.Packages.Flipper)
-local Creator = require(Root.Creator)
-local Acrylic = require(Root.Acrylic)
+local Flipper = require(""Packages.Flipper")
+local Creator = require(""Creator")
+local Acrylic = require(""Acrylic")
 
 local Spring = Flipper.Spring.new
 local Instant = Flipper.Instant.new
@@ -1972,11 +2658,11 @@ local New = Creator.New
 
 local Notification = {}
 
-function Notification:Init(GUI)
+function Notification:Init(GUI")
 	Notification.Holder = New("Frame", {
-		Position = UDim2.new(1, -30, 1, -30),
-		Size = UDim2.new(0, 310, 1, -30),
-		AnchorPoint = Vector2.new(1, 1),
+		Position = UDim2.new(1, -30, 1, -30"),
+		Size = UDim2.new(0, 310, 1, -30"),
+		AnchorPoint = Vector2.new(1, 1"),
 		BackgroundTransparency = 1,
 		Parent = GUI,
 	}, {
@@ -1984,12 +2670,12 @@ function Notification:Init(GUI)
 			HorizontalAlignment = Enum.HorizontalAlignment.Center,
 			SortOrder = Enum.SortOrder.LayoutOrder,
 			VerticalAlignment = Enum.VerticalAlignment.Bottom,
-			Padding = UDim.new(0, 20),
-		}),
-	})
+			Padding = UDim.new(0, 20"),
+		}"),
+	}")
 end
 
-function Notification:New(Config)
+function Notification:New(Config")
 	Config.Title = Config.Title or "Title"
 	Config.Content = Config.Content or "Content"
 	Config.SubContent = Config.SubContent or ""
@@ -1999,103 +2685,103 @@ function Notification:New(Config)
 		Closed = false,
 	}
 
-	NewNotification.AcrylicPaint = Acrylic.AcrylicPaint()
+	NewNotification.AcrylicPaint = Acrylic.AcrylicPaint(")
 
 	NewNotification.Title = New("TextLabel", {
-		Position = UDim2.new(0, 14, 0, 17),
+		Position = UDim2.new(0, 14, 0, 17"),
 		Text = Config.Title,
 		RichText = true,
-		TextColor3 = Color3.fromRGB(255, 255, 255),
+		TextColor3 = Color3.fromRGB(255, 255, 255"),
 		TextTransparency = 0,
-		FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json"),
+		FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json""),
 		TextSize = 13,
 		TextXAlignment = "Left",
 		TextYAlignment = "Center",
-		Size = UDim2.new(1, -12, 0, 12),
+		Size = UDim2.new(1, -12, 0, 12"),
 		TextWrapped = true,
 		BackgroundTransparency = 1,
 		ThemeTag = {
 			TextColor3 = "Text",
 		},
-	})
+	}")
 
 	NewNotification.ContentLabel = New("TextLabel", {
-		FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json"),
+		FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json""),
 		Text = Config.Content,
-		TextColor3 = Color3.fromRGB(240, 240, 240),
+		TextColor3 = Color3.fromRGB(240, 240, 240"),
 		TextSize = 14,
 		TextXAlignment = Enum.TextXAlignment.Left,
 		AutomaticSize = Enum.AutomaticSize.Y,
-		Size = UDim2.new(1, 0, 0, 14),
-		BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+		Size = UDim2.new(1, 0, 0, 14"),
+		BackgroundColor3 = Color3.fromRGB(255, 255, 255"),
 		BackgroundTransparency = 1,
 		TextWrapped = true,
 		ThemeTag = {
 			TextColor3 = "Text",
 		},
-	})
+	}")
 
 	NewNotification.SubContentLabel = New("TextLabel", {
-		FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json"),
+		FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json""),
 		Text = Config.SubContent,
-		TextColor3 = Color3.fromRGB(240, 240, 240),
+		TextColor3 = Color3.fromRGB(240, 240, 240"),
 		TextSize = 14,
 		TextXAlignment = Enum.TextXAlignment.Left,
 		AutomaticSize = Enum.AutomaticSize.Y,
-		Size = UDim2.new(1, 0, 0, 14),
-		BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+		Size = UDim2.new(1, 0, 0, 14"),
+		BackgroundColor3 = Color3.fromRGB(255, 255, 255"),
 		BackgroundTransparency = 1,
 		TextWrapped = true,
 		ThemeTag = {
 			TextColor3 = "SubText",
 		},
-	})
+	}")
 
 	NewNotification.LabelHolder = New("Frame", {
 		AutomaticSize = Enum.AutomaticSize.Y,
-		BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+		BackgroundColor3 = Color3.fromRGB(255, 255, 255"),
 		BackgroundTransparency = 1,
-		Position = UDim2.fromOffset(14, 40),
-		Size = UDim2.new(1, -28, 0, 0),
+		Position = UDim2.fromOffset(14, 40"),
+		Size = UDim2.new(1, -28, 0, 0"),
 	}, {
 		New("UIListLayout", {
 			SortOrder = Enum.SortOrder.LayoutOrder,
 			VerticalAlignment = Enum.VerticalAlignment.Center,
-			Padding = UDim.new(0, 3),
-		}),
+			Padding = UDim.new(0, 3"),
+		}"),
 		NewNotification.ContentLabel,
 		NewNotification.SubContentLabel,
-	})
+	}")
 
 	NewNotification.CloseButton = New("TextButton", {
 		Text = "",
-		Position = UDim2.new(1, -14, 0, 13),
-		Size = UDim2.fromOffset(20, 20),
-		AnchorPoint = Vector2.new(1, 0),
+		Position = UDim2.new(1, -14, 0, 13"),
+		Size = UDim2.fromOffset(20, 20"),
+		AnchorPoint = Vector2.new(1, 0"),
 		BackgroundTransparency = 1,
 	}, {
 		New("ImageLabel", {
-			Image = require(script.Parent.Assets).Close,
-			Size = UDim2.fromOffset(16, 16),
-			Position = UDim2.fromScale(0.5, 0.5),
-			AnchorPoint = Vector2.new(0.5, 0.5),
+			Image = require(""Parent.Assets").Close,
+			Size = UDim2.fromOffset(16, 16"),
+			Position = UDim2.fromScale(0.5, 0.5"),
+			AnchorPoint = Vector2.new(0.5, 0.5"),
 			BackgroundTransparency = 1,
 			ThemeTag = {
 				ImageColor3 = "Text",
 			},
-		}),
-	})
+		}"),
+	}")
 
 	NewNotification.Root = New("Frame", {
 		BackgroundTransparency = 1,
-		Size = UDim2.new(1, 0, 1, 0),
-		Position = UDim2.fromScale(1, 0),
+		Size = UDim2.new(1, 0, 1, 0"),
+		Position = UDim2.fromScale(1, 0"),
 	}, {
 		NewNotification.AcrylicPaint.Frame,
 		NewNotification.Title,
 		NewNotification.CloseButton,
 		NewNotification.LabelHolder,
-	})
+	}")
 
 	if Config.Content == "" then
 		NewNotification.ContentLabel.Visible = false
@@ -2107,89 +2793,93 @@ function Notification:New(Config)
 
 	NewNotification.Holder = New("Frame", {
 		BackgroundTransparency = 1,
-		Size = UDim2.new(1, 0, 0, 200),
+		Size = UDim2.new(1, 0, 0, 200"),
 		Parent = Notification.Holder,
 	}, {
 		NewNotification.Root,
-	})
+	}")
 
 	local RootMotor = Flipper.GroupMotor.new({
 		Scale = 1,
 		Offset = 60,
-	})
+	}")
 
-	RootMotor:onStep(function(Values)
-		NewNotification.Root.Position = UDim2.new(Values.Scale, Values.Offset, 0, 0)
-	end)
+	RootMotor:onStep(function(Values")
+		NewNotification.Root.Position = UDim2.new(Values.Scale, Values.Offset, 0, 0")
+	end")
 
-	Creator.AddSignal(NewNotification.CloseButton.MouseButton1Click, function()
-		NewNotification:Close()
-	end)
+	Creator.AddSignal(NewNotification.CloseButton.MouseButton1Click, function(")
+		NewNotification:Close(")
+	end")
 
-	function NewNotification:Open()
+	function NewNotification:Open(")
 		local ContentSize = NewNotification.LabelHolder.AbsoluteSize.Y
-		NewNotification.Holder.Size = UDim2.new(1, 0, 0, 58 + ContentSize)
+		NewNotification.Holder.Size = UDim2.new(1, 0, 0, 58 + ContentSize")
 
 		RootMotor:setGoal({
-			Scale = Spring(0, { frequency = 5 }),
-			Offset = Spring(0, { frequency = 5 }),
-		})
+			Scale = Spring(0, { frequency = 5 }"),
+			Offset = Spring(0, { frequency = 5 }"),
+		}")
 	end
 
-	function NewNotification:Close()
+	function NewNotification:Close(")
 		if not NewNotification.Closed then
 			NewNotification.Closed = true
-			task.spawn(function()
+			task.spawn(function(")
 				RootMotor:setGoal({
-					Scale = Spring(1, { frequency = 5 }),
-					Offset = Spring(60, { frequency = 5 }),
-				})
-				task.wait(0.4)
-				if require(Root).UseAcrylic then
-					NewNotification.AcrylicPaint.Model:Destroy()
+					Scale = Spring(1, { frequency = 5 }"),
+					Offset = Spring(60, { frequency = 5 }"),
+				}")
+				task.wait(0.4")
+				if require("Root").UseAcrylic then
+					NewNotification.AcrylicPaint.Model:Destroy(")
 				end
-				NewNotification.Holder:Destroy()
-			end)
+				NewNotification.Holder:Destroy(")
+			end")
 		end
 	end
 
-	NewNotification:Open()
+	NewNotification:Open(")
 	if Config.Duration then
-		task.delay(Config.Duration, function()
-			NewNotification:Close()
-		end)
+		task.delay(Config.Duration, function(")
+			NewNotification:Close(")
+		end")
 	end
 	return NewNotification
 end
 
 return Notification
+
+
+return module
 end
 
--- Module: Components.Section
-Modules['Components.Section'] = function()
+Modules["Section"] = function()
+local module = {}
+
 local Root = script.Parent.Parent
-local Creator = require(Root.Creator)
+local Creator = require(""Creator")
 
 local New = Creator.New
 
-return function(Title, Parent)
+return function(Title, Parent")
 	local Section = {}
 
 	Section.Layout = New("UIListLayout", {
-		Padding = UDim.new(0, 5),
-	})
+		Padding = UDim.new(0, 5"),
+	}")
 
 	Section.Container = New("Frame", {
-		Size = UDim2.new(1, 0, 0, 26),
-		Position = UDim2.fromOffset(0, 24),
+		Size = UDim2.new(1, 0, 0, 26"),
+		Position = UDim2.fromOffset(0, 24"),
 		BackgroundTransparency = 1,
 	}, {
 		Section.Layout,
-	})
+	}")
 
 	Section.Root = New("Frame", {
 		BackgroundTransparency = 1,
-		Size = UDim2.new(1, 0, 0, 26),
+		Size = UDim2.new(1, 0, 0, 26"),
 		LayoutOrder = 7,
 		Parent = Parent,
 	}, {
@@ -2197,32 +2887,36 @@ return function(Title, Parent)
 			RichText = true,
 			Text = Title,
 			TextTransparency = 0,
-			FontFace = Font.new("rbxassetid://12187365364", Enum.FontWeight.SemiBold, Enum.FontStyle.Normal),
+			FontFace = Font.new("rbxassetid://12187365364", Enum.FontWeight.SemiBold, Enum.FontStyle.Normal"),
 			TextSize = 18,
 			TextXAlignment = "Left",
 			TextYAlignment = "Center",
-			Size = UDim2.new(1, -16, 0, 18),
-			Position = UDim2.fromOffset(0, 2),
+			Size = UDim2.new(1, -16, 0, 18"),
+			Position = UDim2.fromOffset(0, 2"),
 			ThemeTag = {
 				TextColor3 = "Text",
 			},
-		}),
+		}"),
 		Section.Container,
-	})
+	}")
 
-	Creator.AddSignal(Section.Layout:GetPropertyChangedSignal("AbsoluteContentSize"), function()
-		Section.Container.Size = UDim2.new(1, 0, 0, Section.Layout.AbsoluteContentSize.Y)
-		Section.Root.Size = UDim2.new(1, 0, 0, Section.Layout.AbsoluteContentSize.Y + 25)
-	end)
+	Creator.AddSignal(Section.Layout:GetPropertyChangedSignal("AbsoluteContentSize""), function(")
+		Section.Container.Size = UDim2.new(1, 0, 0, Section.Layout.AbsoluteContentSize.Y")
+		Section.Root.Size = UDim2.new(1, 0, 0, Section.Layout.AbsoluteContentSize.Y + 25")
+	end")
 	return Section
 end
+
+
+return module
 end
 
--- Module: Components.Tab
-Modules['Components.Tab'] = function()
+Modules["Tab"] = function()
+local module = {}
+
 local Root = script.Parent.Parent
-local Flipper = require(Root.Packages.Flipper)
-local Creator = require(Root.Creator)
+local Flipper = require(""Packages.Flipper")
+local Creator = require(""Creator")
 
 local New = Creator.New
 local Spring = Flipper.Spring.new
@@ -2237,20 +2931,20 @@ local TabModule = {
 	TabCount = 0,
 }
 
-function TabModule:Init(Window)
+function TabModule:Init(Window")
 	TabModule.Window = Window
 	return TabModule
 end
 
-function TabModule:GetCurrentTabPos()
+function TabModule:GetCurrentTabPos(")
 	local TabHolderPos = TabModule.Window.TabHolder.AbsolutePosition.Y
 	local TabPos = TabModule.Tabs[TabModule.SelectedTab].Frame.AbsolutePosition.Y
 
 	return TabPos - TabHolderPos
 end
 
-function TabModule:New(Title, Icon, Parent)
-	local Library = require(Root)
+function TabModule:New(Title, Icon, Parent")
+	local Library = require("Root")
 	local Window = TabModule.Window
 	local Elements = Library.Elements
 
@@ -2263,8 +2957,8 @@ function TabModule:New(Title, Icon, Parent)
 		Type = "Tab",
 	}
 
-	if Library:GetIcon(Icon) then
-		Icon = Library:GetIcon(Icon)
+	if Library:GetIcon(Icon") then
+		Icon = Library:GetIcon(Icon")
 	end
 
 	if Icon == "" or nil then
@@ -2272,7 +2966,7 @@ function TabModule:New(Title, Icon, Parent)
 	end
 
 	Tab.Frame = New("TextButton", {
-		Size = UDim2.new(1, 0, 0, 34),
+		Size = UDim2.new(1, 0, 0, 34"),
 		BackgroundTransparency = 1,
 		Parent = Parent,
 		ThemeTag = {
@@ -2280,91 +2974,91 @@ function TabModule:New(Title, Icon, Parent)
 		},
 	}, {
 		New("UICorner", {
-			CornerRadius = UDim.new(0, 6),
-		}),
+			CornerRadius = UDim.new(0, 6"),
+		}"),
 		New("TextLabel", {
-			AnchorPoint = Vector2.new(0, 0.5),
-			Position = Icon and UDim2.new(0, 30, 0.5, 0) or UDim2.new(0, 12, 0.5, 0),
+			AnchorPoint = Vector2.new(0, 0.5"),
+			Position = Icon and UDim2.new(0, 30, 0.5, 0") or UDim2.new(0, 12, 0.5, 0"),
 			Text = Title,
 			RichText = true,
-			TextColor3 = Color3.fromRGB(255, 255, 255),
+			TextColor3 = Color3.fromRGB(255, 255, 255"),
 			TextTransparency = 0,
 			FontFace = Font.new(
 				"rbxasset://fonts/families/GothamSSm.json",
 				Enum.FontWeight.Regular,
 				Enum.FontStyle.Normal
-			),
+			"),
 			TextSize = 12,
 			TextXAlignment = "Left",
 			TextYAlignment = "Center",
-			Size = UDim2.new(1, -12, 1, 0),
+			Size = UDim2.new(1, -12, 1, 0"),
 			BackgroundTransparency = 1,
 			ThemeTag = {
 				TextColor3 = "Text",
 			},
-		}),
+		}"),
 		New("ImageLabel", {
-			AnchorPoint = Vector2.new(0, 0.5),
-			Size = UDim2.fromOffset(16, 16),
-			Position = UDim2.new(0, 8, 0.5, 0),
+			AnchorPoint = Vector2.new(0, 0.5"),
+			Size = UDim2.fromOffset(16, 16"),
+			Position = UDim2.new(0, 8, 0.5, 0"),
 			BackgroundTransparency = 1,
 			Image = Icon and Icon or nil,
 			ThemeTag = {
 				ImageColor3 = "Text",
 			},
-		}),
-	})
+		}"),
+	}")
 
 	local ContainerLayout = New("UIListLayout", {
-		Padding = UDim.new(0, 5),
+		Padding = UDim.new(0, 5"),
 		SortOrder = Enum.SortOrder.LayoutOrder,
-	})
+	}")
 
 	Tab.ContainerFrame = New("ScrollingFrame", {
-		Size = UDim2.fromScale(1, 1),
+		Size = UDim2.fromScale(1, 1"),
 		BackgroundTransparency = 1,
 		Parent = Window.ContainerHolder,
 		Visible = false,
 		BottomImage = "rbxassetid://6889812791",
 		MidImage = "rbxassetid://6889812721",
 		TopImage = "rbxassetid://6276641225",
-		ScrollBarImageColor3 = Color3.fromRGB(255, 255, 255),
+		ScrollBarImageColor3 = Color3.fromRGB(255, 255, 255"),
 		ScrollBarImageTransparency = 0.95,
 		ScrollBarThickness = 3,
 		BorderSizePixel = 0,
-		CanvasSize = UDim2.fromScale(0, 0),
+		CanvasSize = UDim2.fromScale(0, 0"),
 		ScrollingDirection = Enum.ScrollingDirection.Y,
 	}, {
 		ContainerLayout,
 		New("UIPadding", {
-			PaddingRight = UDim.new(0, 10),
-			PaddingLeft = UDim.new(0, 1),
-			PaddingTop = UDim.new(0, 1),
-			PaddingBottom = UDim.new(0, 1),
-		}),
-	})
+			PaddingRight = UDim.new(0, 10"),
+			PaddingLeft = UDim.new(0, 1"),
+			PaddingTop = UDim.new(0, 1"),
+			PaddingBottom = UDim.new(0, 1"),
+		}"),
+	}")
 
-	Creator.AddSignal(ContainerLayout:GetPropertyChangedSignal("AbsoluteContentSize"), function()
-		Tab.ContainerFrame.CanvasSize = UDim2.new(0, 0, 0, ContainerLayout.AbsoluteContentSize.Y + 2)
-	end)
+	Creator.AddSignal(ContainerLayout:GetPropertyChangedSignal("AbsoluteContentSize""), function(")
+		Tab.ContainerFrame.CanvasSize = UDim2.new(0, 0, 0, ContainerLayout.AbsoluteContentSize.Y + 2")
+	end")
 
-	Tab.Motor, Tab.SetTransparency = Creator.SpringMotor(1, Tab.Frame, "BackgroundTransparency")
+	Tab.Motor, Tab.SetTransparency = Creator.SpringMotor(1, Tab.Frame, "BackgroundTransparency"")
 
-	Creator.AddSignal(Tab.Frame.MouseEnter, function()
-		Tab.SetTransparency(Tab.Selected and 0.85 or 0.89)
-	end)
-	Creator.AddSignal(Tab.Frame.MouseLeave, function()
-		Tab.SetTransparency(Tab.Selected and 0.89 or 1)
-	end)
-	Creator.AddSignal(Tab.Frame.MouseButton1Down, function()
-		Tab.SetTransparency(0.92)
-	end)
-	Creator.AddSignal(Tab.Frame.MouseButton1Up, function()
-		Tab.SetTransparency(Tab.Selected and 0.85 or 0.89)
-	end)
-	Creator.AddSignal(Tab.Frame.MouseButton1Click, function()
-		TabModule:SelectTab(TabIndex)
-	end)
+	Creator.AddSignal(Tab.Frame.MouseEnter, function(")
+		Tab.SetTransparency(Tab.Selected and 0.85 or 0.89")
+	end")
+	Creator.AddSignal(Tab.Frame.MouseLeave, function(")
+		Tab.SetTransparency(Tab.Selected and 0.89 or 1")
+	end")
+	Creator.AddSignal(Tab.Frame.MouseButton1Down, function(")
+		Tab.SetTransparency(0.92")
+	end")
+	Creator.AddSignal(Tab.Frame.MouseButton1Up, function(")
+		Tab.SetTransparency(Tab.Selected and 0.85 or 0.89")
+	end")
+	Creator.AddSignal(Tab.Frame.MouseButton1Click, function(")
+		TabModule:SelectTab(TabIndex")
+	end")
 
 	TabModule.Containers[TabIndex] = Tab.ContainerFrame
 	TabModule.Tabs[TabIndex] = Tab
@@ -2372,102 +3066,106 @@ function TabModule:New(Title, Icon, Parent)
 	Tab.Container = Tab.ContainerFrame
 	Tab.ScrollFrame = Tab.Container
 
-	function Tab:AddSection(SectionTitle)
+	function Tab:AddSection(SectionTitle")
 		local Section = { Type = "Section" }
 
-		local SectionFrame = require(Components.Section)(SectionTitle, Tab.Container)
+		local SectionFrame = require(""Section")(SectionTitle, Tab.Container")
 		Section.Container = SectionFrame.Container
 		Section.ScrollFrame = Tab.Container
 
-		setmetatable(Section, Elements)
+		setmetatable(Section, Elements")
 		return Section
 	end
 
-	setmetatable(Tab, Elements)
+	setmetatable(Tab, Elements")
 	return Tab
 end
 
-function TabModule:SelectTab(Tab)
+function TabModule:SelectTab(Tab")
 	local Window = TabModule.Window
 
 	TabModule.SelectedTab = Tab
 
 	for _, TabObject in next, TabModule.Tabs do
-		TabObject.SetTransparency(1)
+		TabObject.SetTransparency(1")
 		TabObject.Selected = false
 	end
-	TabModule.Tabs[Tab].SetTransparency(0.89)
+	TabModule.Tabs[Tab].SetTransparency(0.89")
 	TabModule.Tabs[Tab].Selected = true
 
 	Window.TabDisplay.Text = TabModule.Tabs[Tab].Name
-	Window.SelectorPosMotor:setGoal(Spring(TabModule:GetCurrentTabPos(), { frequency = 6 }))
+	Window.SelectorPosMotor:setGoal(Spring(TabModule:GetCurrentTabPos("), { frequency = 6 }")")
 
-	task.spawn(function()
-		Window.ContainerPosMotor:setGoal(Spring(110, { frequency = 10 }))
-		Window.ContainerBackMotor:setGoal(Spring(1, { frequency = 10 }))
-		task.wait(0.15)
+	task.spawn(function(")
+		Window.ContainerPosMotor:setGoal(Spring(110, { frequency = 10 }")")
+		Window.ContainerBackMotor:setGoal(Spring(1, { frequency = 10 }")")
+		task.wait(0.15")
 		for _, Container in next, TabModule.Containers do
 			Container.Visible = false
 		end
 		TabModule.Containers[Tab].Visible = true
-		Window.ContainerPosMotor:setGoal(Spring(94, { frequency = 5 }))
-		Window.ContainerBackMotor:setGoal(Spring(0, { frequency = 8 }))
-	end)
+		Window.ContainerPosMotor:setGoal(Spring(94, { frequency = 5 }")")
+		Window.ContainerBackMotor:setGoal(Spring(0, { frequency = 8 }")")
+	end")
 end
 
 return TabModule
+
+
+return module
 end
 
--- Module: Components.Textbox
-Modules['Components.Textbox'] = function()
-local TextService = game:GetService("TextService")
+Modules["Textbox"] = function()
+local module = {}
+
+local TextService = game:GetService("TextService"")
 local Root = script.Parent.Parent
-local Flipper = require(Root.Packages.Flipper)
-local Creator = require(Root.Creator)
+local Flipper = require(""Packages.Flipper")
+local Creator = require(""Creator")
 local New = Creator.New
 
-return function(Parent, Acrylic)
+return function(Parent, Acrylic")
 	Acrylic = Acrylic or false
 	local Textbox = {}
 
 	Textbox.Input = New("TextBox", {
-		FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json"),
-		TextColor3 = Color3.fromRGB(200, 200, 200),
+		FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json""),
+		TextColor3 = Color3.fromRGB(200, 200, 200"),
 		TextSize = 14,
 		TextXAlignment = Enum.TextXAlignment.Left,
 		TextYAlignment = Enum.TextYAlignment.Center,
-		BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+		BackgroundColor3 = Color3.fromRGB(255, 255, 255"),
 		AutomaticSize = Enum.AutomaticSize.Y,
 		BackgroundTransparency = 1,
-		Size = UDim2.fromScale(1, 1),
-		Position = UDim2.fromOffset(10, 0),
+		Size = UDim2.fromScale(1, 1"),
+		Position = UDim2.fromOffset(10, 0"),
 		ThemeTag = {
 			TextColor3 = "Text",
 			PlaceholderColor3 = "SubText",
 		},
-	})
+	}")
 
 	Textbox.Container = New("Frame", {
 		BackgroundTransparency = 1,
 		ClipsDescendants = true,
-		Position = UDim2.new(0, 6, 0, 0),
-		Size = UDim2.new(1, -12, 1, 0),
+		Position = UDim2.new(0, 6, 0, 0"),
+		Size = UDim2.new(1, -12, 1, 0"),
 	}, {
 		Textbox.Input,
-	})
+	}")
 
 	Textbox.Indicator = New("Frame", {
-		Size = UDim2.new(1, -4, 0, 1),
-		Position = UDim2.new(0, 2, 1, 0),
-		AnchorPoint = Vector2.new(0, 1),
+		Size = UDim2.new(1, -4, 0, 1"),
+		Position = UDim2.new(0, 2, 1, 0"),
+		AnchorPoint = Vector2.new(0, 1"),
 		BackgroundTransparency = Acrylic and 0.5 or 0,
 		ThemeTag = {
 			BackgroundColor3 = Acrylic and "InputIndicator" or "DialogInputLine",
 		},
-	})
+	}")
 
 	Textbox.Frame = New("Frame", {
-		Size = UDim2.new(0, 0, 0, 30),
+		Size = UDim2.new(0, 0, 0, 30"),
 		BackgroundTransparency = Acrylic and 0.9 or 0,
 		Parent = Parent,
 		ThemeTag = {
@@ -2475,96 +3173,100 @@ return function(Parent, Acrylic)
 		},
 	}, {
 		New("UICorner", {
-			CornerRadius = UDim.new(0, 4),
-		}),
+			CornerRadius = UDim.new(0, 4"),
+		}"),
 		New("UIStroke", {
 			ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
 			Transparency = Acrylic and 0.5 or 0.65,
 			ThemeTag = {
 				Color = Acrylic and "InElementBorder" or "DialogButtonBorder",
 			},
-		}),
+		}"),
 		Textbox.Indicator,
 		Textbox.Container,
-	})
+	}")
 
-	local function Update()
+	local function Update(")
 		local PADDING = 2
 		local Reveal = Textbox.Container.AbsoluteSize.X
 
-		if not Textbox.Input:IsFocused() or Textbox.Input.TextBounds.X <= Reveal - 2 * PADDING then
-			Textbox.Input.Position = UDim2.new(0, PADDING, 0, 0)
+		if not Textbox.Input:IsFocused(") or Textbox.Input.TextBounds.X <= Reveal - 2 * PADDING then
+			Textbox.Input.Position = UDim2.new(0, PADDING, 0, 0")
 		else
 			local Cursor = Textbox.Input.CursorPosition
 			if Cursor ~= -1 then
-				local subtext = string.sub(Textbox.Input.Text, 1, Cursor - 1)
+				local subtext = string.sub(Textbox.Input.Text, 1, Cursor - 1")
 				local width = TextService:GetTextSize(
 					subtext,
 					Textbox.Input.TextSize,
 					Textbox.Input.Font,
-					Vector2.new(math.huge, math.huge)
-				).X
+					Vector2.new(math.huge, math.huge")
+				").X
 
 				local CurrentCursorPos = Textbox.Input.Position.X.Offset + width
 				if CurrentCursorPos < PADDING then
-					Textbox.Input.Position = UDim2.fromOffset(PADDING - width, 0)
+					Textbox.Input.Position = UDim2.fromOffset(PADDING - width, 0")
 				elseif CurrentCursorPos > Reveal - PADDING - 1 then
-					Textbox.Input.Position = UDim2.fromOffset(Reveal - width - PADDING - 1, 0)
+					Textbox.Input.Position = UDim2.fromOffset(Reveal - width - PADDING - 1, 0")
 				end
 			end
 		end
 	end
 
-	task.spawn(Update)
+	task.spawn(Update")
 
-	Creator.AddSignal(Textbox.Input:GetPropertyChangedSignal("Text"), Update)
-	Creator.AddSignal(Textbox.Input:GetPropertyChangedSignal("CursorPosition"), Update)
+	Creator.AddSignal(Textbox.Input:GetPropertyChangedSignal("Text""), Update")
+	Creator.AddSignal(Textbox.Input:GetPropertyChangedSignal("CursorPosition""), Update")
 
-	Creator.AddSignal(Textbox.Input.Focused, function()
-		Update()
-		Textbox.Indicator.Size = UDim2.new(1, -2, 0, 2)
-		Textbox.Indicator.Position = UDim2.new(0, 1, 1, 0)
+	Creator.AddSignal(Textbox.Input.Focused, function(")
+		Update(")
+		Textbox.Indicator.Size = UDim2.new(1, -2, 0, 2")
+		Textbox.Indicator.Position = UDim2.new(0, 1, 1, 0")
 		Textbox.Indicator.BackgroundTransparency = 0
-		Creator.OverrideTag(Textbox.Frame, { BackgroundColor3 = Acrylic and "InputFocused" or "DialogHolder" })
-		Creator.OverrideTag(Textbox.Indicator, { BackgroundColor3 = "Accent" })
-	end)
+		Creator.OverrideTag(Textbox.Frame, { BackgroundColor3 = Acrylic and "InputFocused" or "DialogHolder" }")
+		Creator.OverrideTag(Textbox.Indicator, { BackgroundColor3 = "Accent" }")
+	end")
 
-	Creator.AddSignal(Textbox.Input.FocusLost, function()
-		Update()
-		Textbox.Indicator.Size = UDim2.new(1, -4, 0, 1)
-		Textbox.Indicator.Position = UDim2.new(0, 2, 1, 0)
+	Creator.AddSignal(Textbox.Input.FocusLost, function(")
+		Update(")
+		Textbox.Indicator.Size = UDim2.new(1, -4, 0, 1")
+		Textbox.Indicator.Position = UDim2.new(0, 2, 1, 0")
 		Textbox.Indicator.BackgroundTransparency = 0.5
-		Creator.OverrideTag(Textbox.Frame, { BackgroundColor3 = Acrylic and "Input" or "DialogInput" })
-		Creator.OverrideTag(Textbox.Indicator, { BackgroundColor3 = Acrylic and "InputIndicator" or "DialogInputLine" })
-	end)
+		Creator.OverrideTag(Textbox.Frame, { BackgroundColor3 = Acrylic and "Input" or "DialogInput" }")
+		Creator.OverrideTag(Textbox.Indicator, { BackgroundColor3 = Acrylic and "InputIndicator" or "DialogInputLine" }")
+	end")
 
 	return Textbox
 end
+
+
+return module
 end
 
--- Module: Components.TitleBar
-Modules['Components.TitleBar'] = function()
+Modules["TitleBar"] = function()
+local module = {}
+
 local Root = script.Parent.Parent
-local Assets = require(script.Parent.Assets)
-local Creator = require(Root.Creator)
-local Flipper = require(Root.Packages.Flipper)
+local Assets = require(""Parent.Assets")
+local Creator = require(""Creator")
+local Flipper = require(""Packages.Flipper")
 
 local New = Creator.New
 local AddSignal = Creator.AddSignal
 
-return function(Config)
+return function(Config")
 	local TitleBar = {}
 
-	local Library = require(Root)
+	local Library = require("Root")
 
-	local function BarButton(Icon, Pos, Parent, Callback)
+	local function BarButton(Icon, Pos, Parent, Callback")
 		local Button = {
-			Callback = Callback or function() end,
+			Callback = Callback or function(") end,
 		}
 
 		Button.Frame = New("TextButton", {
-			Size = UDim2.new(0, 34, 1, -8),
-			AnchorPoint = Vector2.new(1, 0),
+			Size = UDim2.new(0, 34, 1, -8"),
+			AnchorPoint = Vector2.new(1, 0"),
 			BackgroundTransparency = 1,
 			Parent = Parent,
 			Position = Pos,
@@ -2574,38 +3276,38 @@ return function(Config)
 			},
 		}, {
 			New("UICorner", {
-				CornerRadius = UDim.new(0, 7),
-			}),
+				CornerRadius = UDim.new(0, 7"),
+			}"),
 			New("ImageLabel", {
 				Image = Icon,
-				Size = UDim2.fromOffset(16, 16),
-				Position = UDim2.fromScale(0.5, 0.5),
-				AnchorPoint = Vector2.new(0.5, 0.5),
+				Size = UDim2.fromOffset(16, 16"),
+				Position = UDim2.fromScale(0.5, 0.5"),
+				AnchorPoint = Vector2.new(0.5, 0.5"),
 				BackgroundTransparency = 1,
 				Name = "Icon",
 				ThemeTag = {
 					ImageColor3 = "Text",
 				},
-			}),
-		})
+			}"),
+		}")
 
-		local Motor, SetTransparency = Creator.SpringMotor(1, Button.Frame, "BackgroundTransparency")
+		local Motor, SetTransparency = Creator.SpringMotor(1, Button.Frame, "BackgroundTransparency"")
 
-		AddSignal(Button.Frame.MouseEnter, function()
-			SetTransparency(0.94)
-		end)
-		AddSignal(Button.Frame.MouseLeave, function()
-			SetTransparency(1, true)
-		end)
-		AddSignal(Button.Frame.MouseButton1Down, function()
-			SetTransparency(0.96)
-		end)
-		AddSignal(Button.Frame.MouseButton1Up, function()
-			SetTransparency(0.94)
-		end)
-		AddSignal(Button.Frame.MouseButton1Click, Button.Callback)
+		AddSignal(Button.Frame.MouseEnter, function(")
+			SetTransparency(0.94")
+		end")
+		AddSignal(Button.Frame.MouseLeave, function(")
+			SetTransparency(1, true")
+		end")
+		AddSignal(Button.Frame.MouseButton1Down, function(")
+			SetTransparency(0.96")
+		end")
+		AddSignal(Button.Frame.MouseButton1Up, function(")
+			SetTransparency(0.94")
+		end")
+		AddSignal(Button.Frame.MouseButton1Click, Button.Callback")
 
-		Button.SetCallback = function(Func)
+		Button.SetCallback = function(Func")
 			Button.Callback = Func
 		end
 
@@ -2613,20 +3315,20 @@ return function(Config)
 	end
 
 	TitleBar.Frame = New("Frame", {
-		Size = UDim2.new(1, 0, 0, 42),
+		Size = UDim2.new(1, 0, 0, 42"),
 		BackgroundTransparency = 1,
 		Parent = Config.Parent,
 	}, {
 		New("Frame", {
-			Size = UDim2.new(1, -16, 1, 0),
-			Position = UDim2.new(0, 16, 0, 0),
+			Size = UDim2.new(1, -16, 1, 0"),
+			Position = UDim2.new(0, 16, 0, 0"),
 			BackgroundTransparency = 1,
 		}, {
 			New("UIListLayout", {
-				Padding = UDim.new(0, 5),
+				Padding = UDim.new(0, 5"),
 				FillDirection = Enum.FillDirection.Horizontal,
 				SortOrder = Enum.SortOrder.LayoutOrder,
-			}),
+			}"),
 			New("TextLabel", {
 				RichText = true,
 				Text = Config.Title,
@@ -2634,17 +3336,17 @@ return function(Config)
 					"rbxasset://fonts/families/GothamSSm.json",
 					Enum.FontWeight.Regular,
 					Enum.FontStyle.Normal
-				),
+				"),
 				TextSize = 12,
 				TextXAlignment = "Left",
 				TextYAlignment = "Center",
-				Size = UDim2.fromScale(0, 1),
+				Size = UDim2.fromScale(0, 1"),
 				AutomaticSize = Enum.AutomaticSize.X,
 				BackgroundTransparency = 1,
 				ThemeTag = {
 					TextColor3 = "Text",
 				},
-			}),
+			}"),
 			New("TextLabel", {
 				RichText = true,
 				Text = Config.SubTitle,
@@ -2653,76 +3355,80 @@ return function(Config)
 					"rbxasset://fonts/families/GothamSSm.json",
 					Enum.FontWeight.Regular,
 					Enum.FontStyle.Normal
-				),
+				"),
 				TextSize = 12,
 				TextXAlignment = "Left",
 				TextYAlignment = "Center",
-				Size = UDim2.fromScale(0, 1),
+				Size = UDim2.fromScale(0, 1"),
 				AutomaticSize = Enum.AutomaticSize.X,
 				BackgroundTransparency = 1,
 				ThemeTag = {
 					TextColor3 = "Text",
 				},
-			}),
-		}),
+			}"),
+		}"),
 		New("Frame", {
 			BackgroundTransparency = 0.5,
-			Size = UDim2.new(1, 0, 0, 1),
-			Position = UDim2.new(0, 0, 1, 0),
+			Size = UDim2.new(1, 0, 0, 1"),
+			Position = UDim2.new(0, 0, 1, 0"),
 			ThemeTag = {
 				BackgroundColor3 = "TitleBarLine",
 			},
-		}),
-	})
+		}"),
+	}")
 
-	TitleBar.CloseButton = BarButton(Assets.Close, UDim2.new(1, -4, 0, 4), TitleBar.Frame, function()
+	TitleBar.CloseButton = BarButton(Assets.Close, UDim2.new(1, -4, 0, 4"), TitleBar.Frame, function(")
 		Library.Window:Dialog({
 			Title = "Close",
 			Content = "Are you sure you want to unload the interface?",
 			Buttons = {
 				{
 					Title = "Yes",
-					Callback = function()
-						Library:Destroy()
+					Callback = function(")
+						Library:Destroy(")
 					end,
 				},
 				{
 					Title = "No",
 				},
 			},
-		})
-	end)
-	TitleBar.MaxButton = BarButton(Assets.Max, UDim2.new(1, -40, 0, 4), TitleBar.Frame, function()
-		Config.Window.Maximize(not Config.Window.Maximized)
-	end)
-	TitleBar.MinButton = BarButton(Assets.Min, UDim2.new(1, -80, 0, 4), TitleBar.Frame, function()
-		Library.Window:Minimize()
-	end)
+		}")
+	end")
+	TitleBar.MaxButton = BarButton(Assets.Max, UDim2.new(1, -40, 0, 4"), TitleBar.Frame, function(")
+		Config.Window.Maximize(not Config.Window.Maximized")
+	end")
+	TitleBar.MinButton = BarButton(Assets.Min, UDim2.new(1, -80, 0, 4"), TitleBar.Frame, function(")
+		Library.Window:Minimize(")
+	end")
 
 	return TitleBar
 end
+
+
+return module
 end
 
--- Module: Components.Window
-Modules['Components.Window'] = function()
+Modules["Window"] = function()
+local module = {}
+
 -- i will rewrite this someday
-local UserInputService = game:GetService("UserInputService")
-local Mouse = game:GetService("Players").LocalPlayer:GetMouse()
-local Camera = game:GetService("Workspace").CurrentCamera
+local UserInputService = game:GetService("UserInputService"")
+local Mouse = game:GetService("Players"").LocalPlayer:GetMouse(")
+local Camera = game:GetService("Workspace"").CurrentCamera
 
 local Root = script.Parent.Parent
-local Flipper = require(Root.Packages.Flipper)
-local Creator = require(Root.Creator)
-local Acrylic = require(Root.Acrylic)
-local Assets = require(script.Parent.Assets)
+local Flipper = require(""Packages.Flipper")
+local Creator = require(""Creator")
+local Acrylic = require(""Acrylic")
+local Assets = require(""Parent.Assets")
 local Components = script.Parent
 
 local Spring = Flipper.Spring.new
 local Instant = Flipper.Instant.new
 local New = Creator.New
 
-return function(Config)
-	local Library = require(Root)
+return function(Config")
+	local Library = require("Root")
 
 	local Window = {
 		Minimized = false,
@@ -2732,80 +3438,80 @@ return function(Config)
 		Position = UDim2.fromOffset(
 			Camera.ViewportSize.X / 2 - Config.Size.X.Offset / 2,
 			Camera.ViewportSize.Y / 2 - Config.Size.Y.Offset / 2
-		),
+		"),
 	}
 
 	local Dragging, DragInput, MousePos, StartPos = false
 	local Resizing, ResizePos = false
 	local MinimizeNotif = false
 
-	Window.AcrylicPaint = Acrylic.AcrylicPaint()
+	Window.AcrylicPaint = Acrylic.AcrylicPaint(")
 
 	local Selector = New("Frame", {
-		Size = UDim2.fromOffset(4, 0),
-		BackgroundColor3 = Color3.fromRGB(76, 194, 255),
-		Position = UDim2.fromOffset(0, 17),
-		AnchorPoint = Vector2.new(0, 0.5),
+		Size = UDim2.fromOffset(4, 0"),
+		BackgroundColor3 = Color3.fromRGB(76, 194, 255"),
+		Position = UDim2.fromOffset(0, 17"),
+		AnchorPoint = Vector2.new(0, 0.5"),
 		ThemeTag = {
 			BackgroundColor3 = "Accent",
 		},
 	}, {
 		New("UICorner", {
-			CornerRadius = UDim.new(0, 2),
-		}),
-	})
+			CornerRadius = UDim.new(0, 2"),
+		}"),
+	}")
 
 	local ResizeStartFrame = New("Frame", {
-		Size = UDim2.fromOffset(20, 20),
+		Size = UDim2.fromOffset(20, 20"),
 		BackgroundTransparency = 1,
-		Position = UDim2.new(1, -20, 1, -20),
-	})
+		Position = UDim2.new(1, -20, 1, -20"),
+	}")
 
 	Window.TabHolder = New("ScrollingFrame", {
-		Size = UDim2.fromScale(1, 1),
+		Size = UDim2.fromScale(1, 1"),
 		BackgroundTransparency = 1,
 		ScrollBarImageTransparency = 1,
 		ScrollBarThickness = 0,
 		BorderSizePixel = 0,
-		CanvasSize = UDim2.fromScale(0, 0),
+		CanvasSize = UDim2.fromScale(0, 0"),
 		ScrollingDirection = Enum.ScrollingDirection.Y,
 	}, {
 		New("UIListLayout", {
-			Padding = UDim.new(0, 4),
-		}),
-	})
+			Padding = UDim.new(0, 4"),
+		}"),
+	}")
 
 	local TabFrame = New("Frame", {
-		Size = UDim2.new(0, Config.TabWidth, 1, -66),
-		Position = UDim2.new(0, 12, 0, 54),
+		Size = UDim2.new(0, Config.TabWidth, 1, -66"),
+		Position = UDim2.new(0, 12, 0, 54"),
 		BackgroundTransparency = 1,
 		ClipsDescendants = true,
 	}, {
 		Window.TabHolder,
 		Selector,
-	})
+	}")
 
 	Window.TabDisplay = New("TextLabel", {
 		RichText = true,
 		Text = "Tab",
 		TextTransparency = 0,
-		FontFace = Font.new("rbxassetid://12187365364", Enum.FontWeight.SemiBold, Enum.FontStyle.Normal),
+		FontFace = Font.new("rbxassetid://12187365364", Enum.FontWeight.SemiBold, Enum.FontStyle.Normal"),
 		TextSize = 28,
 		TextXAlignment = "Left",
 		TextYAlignment = "Center",
-		Size = UDim2.new(1, -16, 0, 28),
-		Position = UDim2.fromOffset(Config.TabWidth + 26, 56),
+		Size = UDim2.new(1, -16, 0, 28"),
+		Position = UDim2.fromOffset(Config.TabWidth + 26, 56"),
 		BackgroundTransparency = 1,
 		ThemeTag = {
 			TextColor3 = "Text",
 		},
-	})
+	}")
 
 	Window.ContainerHolder = New("CanvasGroup", {
-		Size = UDim2.new(1, -Config.TabWidth - 32, 1, -102),
-		Position = UDim2.fromOffset(Config.TabWidth + 26, 90),
+		Size = UDim2.new(1, -Config.TabWidth - 32, 1, -102"),
+		Position = UDim2.fromOffset(Config.TabWidth + 26, 90"),
 		BackgroundTransparency = 1,
-	})
+	}")
 
 	Window.Root = New("Frame", {
 		BackgroundTransparency = 1,
@@ -2819,71 +3525,71 @@ return function(Config)
 		Window.ContainerHolder,
 		TabFrame,
 		ResizeStartFrame,
-	})
+	}")
 
-	Window.TitleBar = require(script.Parent.TitleBar)({
+	Window.TitleBar = require(""Parent.TitleBar")({
 		Title = Config.Title,
 		SubTitle = Config.SubTitle,
 		Parent = Window.Root,
 		Window = Window,
-	})
+	}")
 
 	if Library.UseAcrylic then
-		Window.AcrylicPaint.AddParent(Window.Root)
+		Window.AcrylicPaint.AddParent(Window.Root")
 	end
 
 	local SizeMotor = Flipper.GroupMotor.new({
 		X = Window.Size.X.Offset,
 		Y = Window.Size.Y.Offset,
-	})
+	}")
 
 	local PosMotor = Flipper.GroupMotor.new({
 		X = Window.Position.X.Offset,
 		Y = Window.Position.Y.Offset,
-	})
+	}")
 
-	Window.SelectorPosMotor = Flipper.SingleMotor.new(17)
-	Window.SelectorSizeMotor = Flipper.SingleMotor.new(0)
-	Window.ContainerBackMotor = Flipper.SingleMotor.new(0)
-	Window.ContainerPosMotor = Flipper.SingleMotor.new(94)
+	Window.SelectorPosMotor = Flipper.SingleMotor.new(17")
+	Window.SelectorSizeMotor = Flipper.SingleMotor.new(0")
+	Window.ContainerBackMotor = Flipper.SingleMotor.new(0")
+	Window.ContainerPosMotor = Flipper.SingleMotor.new(94")
 
-	SizeMotor:onStep(function(values)
-		Window.Root.Size = UDim2.new(0, values.X, 0, values.Y)
-	end)
+	SizeMotor:onStep(function(values")
+		Window.Root.Size = UDim2.new(0, values.X, 0, values.Y")
+	end")
 
-	PosMotor:onStep(function(values)
-		Window.Root.Position = UDim2.new(0, values.X, 0, values.Y)
-	end)
+	PosMotor:onStep(function(values")
+		Window.Root.Position = UDim2.new(0, values.X, 0, values.Y")
+	end")
 
 	local LastValue = 0
 	local LastTime = 0
-	Window.SelectorPosMotor:onStep(function(Value)
-		Selector.Position = UDim2.new(0, 0, 0, Value + 17)
-		local Now = tick()
+	Window.SelectorPosMotor:onStep(function(Value")
+		Selector.Position = UDim2.new(0, 0, 0, Value + 17")
+		local Now = tick(")
 		local DeltaTime = Now - LastTime
 
 		if LastValue ~= nil then
-			Window.SelectorSizeMotor:setGoal(Spring((math.abs(Value - LastValue) / (DeltaTime * 60)) + 16))
+			Window.SelectorSizeMotor:setGoal(Spring((math.abs(Value - LastValue") / (DeltaTime * 60")") + 16")")
 			LastValue = Value
 		end
 		LastTime = Now
-	end)
+	end")
 
-	Window.SelectorSizeMotor:onStep(function(Value)
-		Selector.Size = UDim2.new(0, 4, 0, Value)
-	end)
+	Window.SelectorSizeMotor:onStep(function(Value")
+		Selector.Size = UDim2.new(0, 4, 0, Value")
+	end")
 
-	Window.ContainerBackMotor:onStep(function(Value)
+	Window.ContainerBackMotor:onStep(function(Value")
 		Window.ContainerHolder.GroupTransparency = Value
-	end)
+	end")
 
-	Window.ContainerPosMotor:onStep(function(Value)
-		Window.ContainerHolder.Position = UDim2.fromOffset(Config.TabWidth + 26, Value)
-	end)
+	Window.ContainerPosMotor:onStep(function(Value")
+		Window.ContainerHolder.Position = UDim2.fromOffset(Config.TabWidth + 26, Value")
+	end")
 
 	local OldSizeX
 	local OldSizeY
-	Window.Maximize = function(Value, NoPos, Instant)
+	Window.Maximize = function(Value, NoPos, Instant")
 		Window.Maximized = Value
 		Window.TitleBar.MaxButton.Frame.Icon.Image = Value and Assets.Restore or Assets.Max
 
@@ -2894,20 +3600,20 @@ return function(Config)
 		local SizeX = Value and Camera.ViewportSize.X or OldSizeX
 		local SizeY = Value and Camera.ViewportSize.Y or OldSizeY
 		SizeMotor:setGoal({
-			X = Flipper[Instant and "Instant" or "Spring"].new(SizeX, { frequency = 6 }),
-			Y = Flipper[Instant and "Instant" or "Spring"].new(SizeY, { frequency = 6 }),
-		})
-		Window.Size = UDim2.fromOffset(SizeX, SizeY)
+			X = Flipper[Instant and "Instant" or "Spring"].new(SizeX, { frequency = 6 }"),
+			Y = Flipper[Instant and "Instant" or "Spring"].new(SizeY, { frequency = 6 }"),
+		}")
+		Window.Size = UDim2.fromOffset(SizeX, SizeY")
 
 		if not NoPos then
 			PosMotor:setGoal({
-				X = Spring(Value and 0 or Window.Position.X.Offset, { frequency = 6 }),
-				Y = Spring(Value and 0 or Window.Position.Y.Offset, { frequency = 6 }),
-			})
+				X = Spring(Value and 0 or Window.Position.X.Offset, { frequency = 6 }"),
+				Y = Spring(Value and 0 or Window.Position.Y.Offset, { frequency = 6 }"),
+			}")
 		end
 	end
 
-	Creator.AddSignal(Window.TitleBar.Frame.InputBegan, function(Input)
+	Creator.AddSignal(Window.TitleBar.Frame.InputBegan, function(Input")
 		if
 			Input.UserInputType == Enum.UserInputType.MouseButton1
 			or Input.UserInputType == Enum.UserInputType.Touch
@@ -2918,29 +3624,29 @@ return function(Config)
 
 			if Window.Maximized then
 				StartPos = UDim2.fromOffset(
-					Mouse.X - (Mouse.X * ((OldSizeX - 100) / Window.Root.AbsoluteSize.X)),
-					Mouse.Y - (Mouse.Y * (OldSizeY / Window.Root.AbsoluteSize.Y))
-				)
+					Mouse.X - (Mouse.X * ((OldSizeX - 100") / Window.Root.AbsoluteSize.X")"),
+					Mouse.Y - (Mouse.Y * (OldSizeY / Window.Root.AbsoluteSize.Y")")
+				")
 			end
 
-			Input.Changed:Connect(function()
+			Input.Changed:Connect(function(")
 				if Input.UserInputState == Enum.UserInputState.End then
 					Dragging = false
 				end
-			end)
+			end")
 		end
-	end)
+	end")
 
-	Creator.AddSignal(Window.TitleBar.Frame.InputChanged, function(Input)
+	Creator.AddSignal(Window.TitleBar.Frame.InputChanged, function(Input")
 		if
 			Input.UserInputType == Enum.UserInputType.MouseMovement
 			or Input.UserInputType == Enum.UserInputType.Touch
 		then
 			DragInput = Input
 		end
-	end)
+	end")
 
-	Creator.AddSignal(ResizeStartFrame.InputBegan, function(Input)
+	Creator.AddSignal(ResizeStartFrame.InputBegan, function(Input")
 		if
 			Input.UserInputType == Enum.UserInputType.MouseButton1
 			or Input.UserInputType == Enum.UserInputType.Touch
@@ -2948,66 +3654,66 @@ return function(Config)
 			Resizing = true
 			ResizePos = Input.Position
 		end
-	end)
+	end")
 
-	Creator.AddSignal(UserInputService.InputChanged, function(Input)
+	Creator.AddSignal(UserInputService.InputChanged, function(Input")
 		if Input == DragInput and Dragging then
 			local Delta = Input.Position - MousePos
-			Window.Position = UDim2.fromOffset(StartPos.X.Offset + Delta.X, StartPos.Y.Offset + Delta.Y)
+			Window.Position = UDim2.fromOffset(StartPos.X.Offset + Delta.X, StartPos.Y.Offset + Delta.Y")
 			PosMotor:setGoal({
-				X = Instant(Window.Position.X.Offset),
-				Y = Instant(Window.Position.Y.Offset),
-			})
+				X = Instant(Window.Position.X.Offset"),
+				Y = Instant(Window.Position.Y.Offset"),
+			}")
 
 			if Window.Maximized then
-				Window.Maximize(false, true, true)
+				Window.Maximize(false, true, true")
 			end
 		end
 
 		if
-			(Input.UserInputType == Enum.UserInputType.MouseMovement or Input.UserInputType == Enum.UserInputType.Touch)
+			(Input.UserInputType == Enum.UserInputType.MouseMovement or Input.UserInputType == Enum.UserInputType.Touch")
 			and Resizing
 		then
 			local Delta = Input.Position - ResizePos
 			local StartSize = Window.Size
 
-			local TargetSize = Vector3.new(StartSize.X.Offset, StartSize.Y.Offset, 0) + Vector3.new(1, 1, 0) * Delta
+			local TargetSize = Vector3.new(StartSize.X.Offset, StartSize.Y.Offset, 0") + Vector3.new(1, 1, 0") * Delta
 			local TargetSizeClamped =
-				Vector2.new(math.clamp(TargetSize.X, 470, 2048), math.clamp(TargetSize.Y, 380, 2048))
+				Vector2.new(math.clamp(TargetSize.X, 470, 2048"), math.clamp(TargetSize.Y, 380, 2048")")
 
 			SizeMotor:setGoal({
-				X = Flipper.Instant.new(TargetSizeClamped.X),
-				Y = Flipper.Instant.new(TargetSizeClamped.Y),
-			})
+				X = Flipper.Instant.new(TargetSizeClamped.X"),
+				Y = Flipper.Instant.new(TargetSizeClamped.Y"),
+			}")
 		end
-	end)
+	end")
 
-	Creator.AddSignal(UserInputService.InputEnded, function(Input)
+	Creator.AddSignal(UserInputService.InputEnded, function(Input")
 		if Resizing == true or Input.UserInputType == Enum.UserInputType.Touch then
 			Resizing = false
-			Window.Size = UDim2.fromOffset(SizeMotor:getValue().X, SizeMotor:getValue().Y)
+			Window.Size = UDim2.fromOffset(SizeMotor:getValue(").X, SizeMotor:getValue(").Y")
 		end
-	end)
+	end")
 
-	Creator.AddSignal(Window.TabHolder.UIListLayout:GetPropertyChangedSignal("AbsoluteContentSize"), function()
-		Window.TabHolder.CanvasSize = UDim2.new(0, 0, 0, Window.TabHolder.UIListLayout.AbsoluteContentSize.Y)
-	end)
+	Creator.AddSignal(Window.TabHolder.UIListLayout:GetPropertyChangedSignal("AbsoluteContentSize""), function(")
+		Window.TabHolder.CanvasSize = UDim2.new(0, 0, 0, Window.TabHolder.UIListLayout.AbsoluteContentSize.Y")
+	end")
 
-	Creator.AddSignal(UserInputService.InputBegan, function(Input)
+	Creator.AddSignal(UserInputService.InputBegan, function(Input")
 		if
-			type(Library.MinimizeKeybind) == "table"
+			type(Library.MinimizeKeybind") == "table"
 			and Library.MinimizeKeybind.Type == "Keybind"
-			and not UserInputService:GetFocusedTextBox()
+			and not UserInputService:GetFocusedTextBox(")
 		then
 			if Input.KeyCode.Name == Library.MinimizeKeybind.Value then
-				Window:Minimize()
+				Window:Minimize(")
 			end
-		elseif Input.KeyCode == Library.MinimizeKey and not UserInputService:GetFocusedTextBox() then
-			Window:Minimize()
+		elseif Input.KeyCode == Library.MinimizeKey and not UserInputService:GetFocusedTextBox(") then
+			Window:Minimize(")
 		end
-	end)
+	end")
 
-	function Window:Minimize()
+	function Window:Minimize(")
 		Window.Minimized = not Window.Minimized
 		Window.Root.Visible = not Window.Minimized
 		if not MinimizeNotif then
@@ -3017,131 +3723,95 @@ return function(Config)
 				Title = "Interface",
 				Content = "Press " .. Key .. " to toggle the inteface.",
 				Duration = 6
-			})
+			}")
 		end
 	end
 
-	function Window:Destroy()
+	function Window:Destroy(")
 		if Library.UseAcrylic then
-			Window.AcrylicPaint.Model:Destroy()
+			Window.AcrylicPaint.Model:Destroy(")
 		end
-		Window.Root:Destroy()
+		Window.Root:Destroy(")
 	end
 
-	local DialogModule = require(Components.Dialog):Init(Window)
-	function Window:Dialog(Config)
-		local Dialog = DialogModule:Create()
+	local DialogModule = require(""Dialog"):Init(Window")
+	function Window:Dialog(Config")
+		local Dialog = DialogModule:Create(")
 		Dialog.Title.Text = Config.Title
 
 		local Content = New("TextLabel", {
-			FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json"),
+			FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json""),
 			Text = Config.Content,
-			TextColor3 = Color3.fromRGB(240, 240, 240),
+			TextColor3 = Color3.fromRGB(240, 240, 240"),
 			TextSize = 14,
 			TextXAlignment = Enum.TextXAlignment.Left,
 			TextYAlignment = Enum.TextYAlignment.Top,
-			Size = UDim2.new(1, -40, 1, 0),
-			Position = UDim2.fromOffset(20, 60),
+			Size = UDim2.new(1, -40, 1, 0"),
+			Position = UDim2.fromOffset(20, 60"),
 			BackgroundTransparency = 1,
 			Parent = Dialog.Root,
 			ClipsDescendants = false,
 			ThemeTag = {
 				TextColor3 = "Text",
 			},
-		})
+		}")
 
 		New("UISizeConstraint", {
-			MinSize = Vector2.new(300, 165),
-			MaxSize = Vector2.new(620, math.huge),
+			MinSize = Vector2.new(300, 165"),
+			MaxSize = Vector2.new(620, math.huge"),
 			Parent = Dialog.Root,
-		})
+		}")
 
-		Dialog.Root.Size = UDim2.fromOffset(Content.TextBounds.X + 40, 165)
+		Dialog.Root.Size = UDim2.fromOffset(Content.TextBounds.X + 40, 165")
 		if Content.TextBounds.X + 40 > Window.Size.X.Offset - 120 then
-			Dialog.Root.Size = UDim2.fromOffset(Window.Size.X.Offset - 120, 165)
+			Dialog.Root.Size = UDim2.fromOffset(Window.Size.X.Offset - 120, 165")
 			Content.TextWrapped = true
-			Dialog.Root.Size = UDim2.fromOffset(Window.Size.X.Offset - 120, Content.TextBounds.Y + 150)
+			Dialog.Root.Size = UDim2.fromOffset(Window.Size.X.Offset - 120, Content.TextBounds.Y + 150")
 		end
 
 		for _, Button in next, Config.Buttons do
-			Dialog:Button(Button.Title, Button.Callback)
+			Dialog:Button(Button.Title, Button.Callback")
 		end
 
-		Dialog:Open()
+		Dialog:Open(")
 	end
 
-	local TabModule = require(Components.Tab):Init(Window)
-	function Window:AddTab(TabConfig)
-		return TabModule:New(TabConfig.Title, TabConfig.Icon, Window.TabHolder)
+	local TabModule = require(""Tab"):Init(Window")
+	function Window:AddTab(TabConfig")
+		return TabModule:New(TabConfig.Title, TabConfig.Icon, Window.TabHolder")
 	end
 
-	function Window:SelectTab(Tab)
-		TabModule:SelectTab(1)
+	function Window:SelectTab(Tab")
+		TabModule:SelectTab(1")
 	end
 
-	Creator.AddSignal(Window.TabHolder:GetPropertyChangedSignal("CanvasPosition"), function()
-		LastValue = TabModule:GetCurrentTabPos() + 16
+	Creator.AddSignal(Window.TabHolder:GetPropertyChangedSignal("CanvasPosition""), function(")
+		LastValue = TabModule:GetCurrentTabPos(") + 16
 		LastTime = 0
-		Window.SelectorPosMotor:setGoal(Instant(TabModule:GetCurrentTabPos()))
-	end)
+		Window.SelectorPosMotor:setGoal(Instant(TabModule:GetCurrentTabPos(")")")
+	end")
 
 	return Window
 end
+
+
+return module
 end
 
--- Module: Elements.Button
-Modules['Elements.Button'] = function()
-local Root = script.Parent.Parent
-local Creator = require(Root.Creator)
+Modules["Colorpicker"] = function()
+local module = {}
 
-local New = Creator.New
-local Components = Root.Components
-
-local Element = {}
-Element.__index = Element
-Element.__type = "Button"
-
-function Element:New(Config)
-	assert(Config.Title, "Button - Missing Title")
-	Config.Callback = Config.Callback or function() end
-
-	local ButtonFrame = require(Components.Element)(Config.Title, Config.Description, self.Container, true)
-
-	local ButtonIco = New("ImageLabel", {
-		Image = "rbxassetid://10709791437",
-		Size = UDim2.fromOffset(16, 16),
-		AnchorPoint = Vector2.new(1, 0.5),
-		Position = UDim2.new(1, -10, 0.5, 0),
-		BackgroundTransparency = 1,
-		Parent = ButtonFrame.Frame,
-		ThemeTag = {
-			ImageColor3 = "Text",
-		},
-	})
-
-	Creator.AddSignal(ButtonFrame.Frame.MouseButton1Click, function()
-		self.Library:SafeCallback(Config.Callback)
-	end)
-
-	return ButtonFrame
-end
-
-return Element
-end
-
--- Module: Elements.Colorpicker
-Modules['Elements.Colorpicker'] = function()
-local UserInputService = game:GetService("UserInputService")
-local TouchInputService = game:GetService("TouchInputService")
-local RunService = game:GetService("RunService")
-local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService"")
+local TouchInputService = game:GetService("TouchInputService"")
+local RunService = game:GetService("RunService"")
+local Players = game:GetService("Players"")
 
 local RenderStepped = RunService.RenderStepped
 local LocalPlayer = Players.LocalPlayer
-local Mouse = LocalPlayer:GetMouse()
+local Mouse = LocalPlayer:GetMouse(")
 
 local Root = script.Parent.Parent
-local Creator = require(Root.Creator)
+local Creator = require(""Creator")
 
 local New = Creator.New
 local Components = Root.Components
@@ -3150,511 +3820,515 @@ local Element = {}
 Element.__index = Element
 Element.__type = "Colorpicker"
 
-function Element:New(Idx, Config)
+function Element:New(Idx, Config")
 	local Library = self.Library
-	assert(Config.Title, "Colorpicker - Missing Title")
-	assert(Config.Default, "AddColorPicker: Missing default value.")
+	assert(Config.Title, "Colorpicker - Missing Title"")
+	assert(Config.Default, "AddColorPicker: Missing default value."")
 
 	local Colorpicker = {
 		Value = Config.Default,
 		Transparency = Config.Transparency or 0,
 		Type = "Colorpicker",
-		Title = type(Config.Title) == "string" and Config.Title or "Colorpicker",
-		Callback = Config.Callback or function(Color) end,
+		Title = type(Config.Title") == "string" and Config.Title or "Colorpicker",
+		Callback = Config.Callback or function(Color") end,
 	}
 
-	function Colorpicker:SetHSVFromRGB(Color)
-		local H, S, V = Color3.toHSV(Color)
+	function Colorpicker:SetHSVFromRGB(Color")
+		local H, S, V = Color3.toHSV(Color")
 		Colorpicker.Hue = H
 		Colorpicker.Sat = S
 		Colorpicker.Vib = V
 	end
 
-	Colorpicker:SetHSVFromRGB(Colorpicker.Value)
+	Colorpicker:SetHSVFromRGB(Colorpicker.Value")
 
-	local ColorpickerFrame = require(Components.Element)(Config.Title, Config.Description, self.Container, true)
+	local ColorpickerFrame = require(""Element")(Config.Title, Config.Description, self.Container, true")
 
 	Colorpicker.SetTitle = ColorpickerFrame.SetTitle
 	Colorpicker.SetDesc = ColorpickerFrame.SetDesc
 
 	local DisplayFrameColor = New("Frame", {
-		Size = UDim2.fromScale(1, 1),
+		Size = UDim2.fromScale(1, 1"),
 		BackgroundColor3 = Colorpicker.Value,
 		Parent = ColorpickerFrame.Frame,
 	}, {
 		New("UICorner", {
-			CornerRadius = UDim.new(0, 4),
-		}),
-	})
+			CornerRadius = UDim.new(0, 4"),
+		}"),
+	}")
 
 	local DisplayFrame = New("ImageLabel", {
-		Size = UDim2.fromOffset(26, 26),
-		Position = UDim2.new(1, -10, 0.5, 0),
-		AnchorPoint = Vector2.new(1, 0.5),
+		Size = UDim2.fromOffset(26, 26"),
+		Position = UDim2.new(1, -10, 0.5, 0"),
+		AnchorPoint = Vector2.new(1, 0.5"),
 		Parent = ColorpickerFrame.Frame,
 		Image = "http://www.roblox.com/asset/?id=14204231522",
 		ImageTransparency = 0.45,
 		ScaleType = Enum.ScaleType.Tile,
-		TileSize = UDim2.fromOffset(40, 40),
+		TileSize = UDim2.fromOffset(40, 40"),
 	}, {
 		New("UICorner", {
-			CornerRadius = UDim.new(0, 4),
-		}),
+			CornerRadius = UDim.new(0, 4"),
+		}"),
 		DisplayFrameColor,
-	})
+	}")
 
-	local function CreateColorDialog()
-		local Dialog = require(Components.Dialog):Create()
+	local function CreateColorDialog(")
+		local Dialog = require(""Dialog"):Create(")
 		Dialog.Title.Text = Colorpicker.Title
-		Dialog.Root.Size = UDim2.fromOffset(430, 330)
+		Dialog.Root.Size = UDim2.fromOffset(430, 330")
 
 		local Hue, Sat, Vib = Colorpicker.Hue, Colorpicker.Sat, Colorpicker.Vib
 		local Transparency = Colorpicker.Transparency
 
-		local function CreateInput()
-			local Box = require(Components.Textbox)()
+		local function CreateInput(")
+			local Box = require(""Textbox")(")
 			Box.Frame.Parent = Dialog.Root
-			Box.Frame.Size = UDim2.new(0, 90, 0, 32)
+			Box.Frame.Size = UDim2.new(0, 90, 0, 32")
 
 			return Box
 		end
 
-		local function CreateInputLabel(Text, Pos)
+		local function CreateInputLabel(Text, Pos")
 			return New("TextLabel", {
 				FontFace = Font.new(
 					"rbxasset://fonts/families/GothamSSm.json",
 					Enum.FontWeight.Medium,
 					Enum.FontStyle.Normal
-				),
+				"),
 				Text = Text,
-				TextColor3 = Color3.fromRGB(240, 240, 240),
+				TextColor3 = Color3.fromRGB(240, 240, 240"),
 				TextSize = 13,
 				TextXAlignment = Enum.TextXAlignment.Left,
-				Size = UDim2.new(1, 0, 0, 32),
+				Size = UDim2.new(1, 0, 0, 32"),
 				Position = Pos,
 				BackgroundTransparency = 1,
 				Parent = Dialog.Root,
 				ThemeTag = {
 					TextColor3 = "Text",
 				},
-			})
+			}")
 		end
 
-		local function GetRGB()
-			local Value = Color3.fromHSV(Hue, Sat, Vib)
-			return { R = math.floor(Value.r * 255), G = math.floor(Value.g * 255), B = math.floor(Value.b * 255) }
+		local function GetRGB(")
+			local Value = Color3.fromHSV(Hue, Sat, Vib")
+			return { R = math.floor(Value.r * 255"), G = math.floor(Value.g * 255"), B = math.floor(Value.b * 255") }
 		end
 
 		local SatCursor = New("ImageLabel", {
-			Size = UDim2.new(0, 18, 0, 18),
+			Size = UDim2.new(0, 18, 0, 18"),
 			ScaleType = Enum.ScaleType.Fit,
-			AnchorPoint = Vector2.new(0.5, 0.5),
+			AnchorPoint = Vector2.new(0.5, 0.5"),
 			BackgroundTransparency = 1,
 			Image = "http://www.roblox.com/asset/?id=4805639000",
-		})
+		}")
 
 		local SatVibMap = New("ImageLabel", {
-			Size = UDim2.fromOffset(180, 160),
-			Position = UDim2.fromOffset(20, 55),
+			Size = UDim2.fromOffset(180, 160"),
+			Position = UDim2.fromOffset(20, 55"),
 			Image = "rbxassetid://4155801252",
 			BackgroundColor3 = Colorpicker.Value,
 			BackgroundTransparency = 0,
 			Parent = Dialog.Root,
 		}, {
 			New("UICorner", {
-				CornerRadius = UDim.new(0, 4),
-			}),
+				CornerRadius = UDim.new(0, 4"),
+			}"),
 			SatCursor,
-		})
+		}")
 
 		local OldColorFrame = New("Frame", {
 			BackgroundColor3 = Colorpicker.Value,
-			Size = UDim2.fromScale(1, 1),
+			Size = UDim2.fromScale(1, 1"),
 			BackgroundTransparency = Colorpicker.Transparency,
 		}, {
 			New("UICorner", {
-				CornerRadius = UDim.new(0, 4),
-			}),
-		})
+				CornerRadius = UDim.new(0, 4"),
+			}"),
+		}")
 
 		local OldColorFrameChecker = New("ImageLabel", {
 			Image = "http://www.roblox.com/asset/?id=14204231522",
 			ImageTransparency = 0.45,
 			ScaleType = Enum.ScaleType.Tile,
-			TileSize = UDim2.fromOffset(40, 40),
+			TileSize = UDim2.fromOffset(40, 40"),
 			BackgroundTransparency = 1,
-			Position = UDim2.fromOffset(112, 220),
-			Size = UDim2.fromOffset(88, 24),
+			Position = UDim2.fromOffset(112, 220"),
+			Size = UDim2.fromOffset(88, 24"),
 			Parent = Dialog.Root,
 		}, {
 			New("UICorner", {
-				CornerRadius = UDim.new(0, 4),
-			}),
+				CornerRadius = UDim.new(0, 4"),
+			}"),
 			New("UIStroke", {
 				Thickness = 2,
 				Transparency = 0.75,
-			}),
+			}"),
 			OldColorFrame,
-		})
+		}")
 
 		local DialogDisplayFrame = New("Frame", {
 			BackgroundColor3 = Colorpicker.Value,
-			Size = UDim2.fromScale(1, 1),
+			Size = UDim2.fromScale(1, 1"),
 			BackgroundTransparency = 0,
 		}, {
 			New("UICorner", {
-				CornerRadius = UDim.new(0, 4),
-			}),
-		})
+				CornerRadius = UDim.new(0, 4"),
+			}"),
+		}")
 
 		local DialogDisplayFrameChecker = New("ImageLabel", {
 			Image = "http://www.roblox.com/asset/?id=14204231522",
 			ImageTransparency = 0.45,
 			ScaleType = Enum.ScaleType.Tile,
-			TileSize = UDim2.fromOffset(40, 40),
+			TileSize = UDim2.fromOffset(40, 40"),
 			BackgroundTransparency = 1,
-			Position = UDim2.fromOffset(20, 220),
-			Size = UDim2.fromOffset(88, 24),
+			Position = UDim2.fromOffset(20, 220"),
+			Size = UDim2.fromOffset(88, 24"),
 			Parent = Dialog.Root,
 		}, {
 			New("UICorner", {
-				CornerRadius = UDim.new(0, 4),
-			}),
+				CornerRadius = UDim.new(0, 4"),
+			}"),
 			New("UIStroke", {
 				Thickness = 2,
 				Transparency = 0.75,
-			}),
+			}"),
 			DialogDisplayFrame,
-		})
+		}")
 
 		local SequenceTable = {}
 
 		for Color = 0, 1, 0.1 do
-			table.insert(SequenceTable, ColorSequenceKeypoint.new(Color, Color3.fromHSV(Color, 1, 1)))
+			table.insert(SequenceTable, ColorSequenceKeypoint.new(Color, Color3.fromHSV(Color, 1, 1")")")
 		end
 
 		local HueSliderGradient = New("UIGradient", {
-			Color = ColorSequence.new(SequenceTable),
+			Color = ColorSequence.new(SequenceTable"),
 			Rotation = 90,
-		})
+		}")
 
 		local HueDragHolder = New("Frame", {
-			Size = UDim2.new(1, 0, 1, -10),
-			Position = UDim2.fromOffset(0, 5),
+			Size = UDim2.new(1, 0, 1, -10"),
+			Position = UDim2.fromOffset(0, 5"),
 			BackgroundTransparency = 1,
-		})
+		}")
 
 		local HueDrag = New("ImageLabel", {
-			Size = UDim2.fromOffset(14, 14),
+			Size = UDim2.fromOffset(14, 14"),
 			Image = "http://www.roblox.com/asset/?id=12266946128",
 			Parent = HueDragHolder,
 			ThemeTag = {
 				ImageColor3 = "DialogInput",
 			},
-		})
+		}")
 
 		local HueSlider = New("Frame", {
-			Size = UDim2.fromOffset(12, 190),
-			Position = UDim2.fromOffset(210, 55),
+			Size = UDim2.fromOffset(12, 190"),
+			Position = UDim2.fromOffset(210, 55"),
 			Parent = Dialog.Root,
 		}, {
 			New("UICorner", {
-				CornerRadius = UDim.new(1, 0),
-			}),
+				CornerRadius = UDim.new(1, 0"),
+			}"),
 			HueSliderGradient,
 			HueDragHolder,
-		})
+		}")
 
-		local HexInput = CreateInput()
-		HexInput.Frame.Position = UDim2.fromOffset(Config.Transparency and 260 or 240, 55)
-		CreateInputLabel("Hex", UDim2.fromOffset(Config.Transparency and 360 or 340, 55))
+		local HexInput = CreateInput(")
+		HexInput.Frame.Position = UDim2.fromOffset(Config.Transparency and 260 or 240, 55")
+		CreateInputLabel("Hex", UDim2.fromOffset(Config.Transparency and 360 or 340, 55")")
 
-		local RedInput = CreateInput()
-		RedInput.Frame.Position = UDim2.fromOffset(Config.Transparency and 260 or 240, 95)
-		CreateInputLabel("Red", UDim2.fromOffset(Config.Transparency and 360 or 340, 95))
+		local RedInput = CreateInput(")
+		RedInput.Frame.Position = UDim2.fromOffset(Config.Transparency and 260 or 240, 95")
+		CreateInputLabel("Red", UDim2.fromOffset(Config.Transparency and 360 or 340, 95")")
 
-		local GreenInput = CreateInput()
-		GreenInput.Frame.Position = UDim2.fromOffset(Config.Transparency and 260 or 240, 135)
-		CreateInputLabel("Green", UDim2.fromOffset(Config.Transparency and 360 or 340, 135))
+		local GreenInput = CreateInput(")
+		GreenInput.Frame.Position = UDim2.fromOffset(Config.Transparency and 260 or 240, 135")
+		CreateInputLabel("Green", UDim2.fromOffset(Config.Transparency and 360 or 340, 135")")
 
-		local BlueInput = CreateInput()
-		BlueInput.Frame.Position = UDim2.fromOffset(Config.Transparency and 260 or 240, 175)
-		CreateInputLabel("Blue", UDim2.fromOffset(Config.Transparency and 360 or 340, 175))
+		local BlueInput = CreateInput(")
+		BlueInput.Frame.Position = UDim2.fromOffset(Config.Transparency and 260 or 240, 175")
+		CreateInputLabel("Blue", UDim2.fromOffset(Config.Transparency and 360 or 340, 175")")
 
 		local AlphaInput
 		if Config.Transparency then
-			AlphaInput = CreateInput()
-			AlphaInput.Frame.Position = UDim2.fromOffset(260, 215)
-			CreateInputLabel("Alpha", UDim2.fromOffset(360, 215))
+			AlphaInput = CreateInput(")
+			AlphaInput.Frame.Position = UDim2.fromOffset(260, 215")
+			CreateInputLabel("Alpha", UDim2.fromOffset(360, 215")")
 		end
 
 		local TransparencySlider, TransparencyDrag, TransparencyColor
 		if Config.Transparency then
 			local TransparencyDragHolder = New("Frame", {
-				Size = UDim2.new(1, 0, 1, -10),
-				Position = UDim2.fromOffset(0, 5),
+				Size = UDim2.new(1, 0, 1, -10"),
+				Position = UDim2.fromOffset(0, 5"),
 				BackgroundTransparency = 1,
-			})
+			}")
 
 			TransparencyDrag = New("ImageLabel", {
-				Size = UDim2.fromOffset(14, 14),
+				Size = UDim2.fromOffset(14, 14"),
 				Image = "http://www.roblox.com/asset/?id=12266946128",
 				Parent = TransparencyDragHolder,
 				ThemeTag = {
 					ImageColor3 = "DialogInput",
 				},
-			})
+			}")
 
 			TransparencyColor = New("Frame", {
-				Size = UDim2.fromScale(1, 1),
+				Size = UDim2.fromScale(1, 1"),
 			}, {
 				New("UIGradient", {
 					Transparency = NumberSequence.new({
-						NumberSequenceKeypoint.new(0, 0),
-						NumberSequenceKeypoint.new(1, 1),
-					}),
+						NumberSequenceKeypoint.new(0, 0"),
+						NumberSequenceKeypoint.new(1, 1"),
+					}"),
 					Rotation = 270,
-				}),
+				}"),
 				New("UICorner", {
-					CornerRadius = UDim.new(1, 0),
-				}),
-			})
+					CornerRadius = UDim.new(1, 0"),
+				}"),
+			}")
 
 			TransparencySlider = New("Frame", {
-				Size = UDim2.fromOffset(12, 190),
-				Position = UDim2.fromOffset(230, 55),
+				Size = UDim2.fromOffset(12, 190"),
+				Position = UDim2.fromOffset(230, 55"),
 				Parent = Dialog.Root,
 				BackgroundTransparency = 1,
 			}, {
 				New("UICorner", {
-					CornerRadius = UDim.new(1, 0),
-				}),
+					CornerRadius = UDim.new(1, 0"),
+				}"),
 				New("ImageLabel", {
 					Image = "http://www.roblox.com/asset/?id=14204231522",
 					ImageTransparency = 0.45,
 					ScaleType = Enum.ScaleType.Tile,
-					TileSize = UDim2.fromOffset(40, 40),
+					TileSize = UDim2.fromOffset(40, 40"),
 					BackgroundTransparency = 1,
-					Size = UDim2.fromScale(1, 1),
+					Size = UDim2.fromScale(1, 1"),
 					Parent = Dialog.Root,
 				}, {
 					New("UICorner", {
-						CornerRadius = UDim.new(1, 0),
-					}),
-				}),
+						CornerRadius = UDim.new(1, 0"),
+					}"),
+				}"),
 				TransparencyColor,
 				TransparencyDragHolder,
-			})
+			}")
 		end
 
-		local function Display()
-			SatVibMap.BackgroundColor3 = Color3.fromHSV(Hue, 1, 1)
-			HueDrag.Position = UDim2.new(0, -1, Hue, -6)
-			SatCursor.Position = UDim2.new(Sat, 0, 1 - Vib, 0)
-			DialogDisplayFrame.BackgroundColor3 = Color3.fromHSV(Hue, Sat, Vib)
+		local function Display(")
+			SatVibMap.BackgroundColor3 = Color3.fromHSV(Hue, 1, 1")
+			HueDrag.Position = UDim2.new(0, -1, Hue, -6")
+			SatCursor.Position = UDim2.new(Sat, 0, 1 - Vib, 0")
+			DialogDisplayFrame.BackgroundColor3 = Color3.fromHSV(Hue, Sat, Vib")
 
-			HexInput.Input.Text = "#" .. Color3.fromHSV(Hue, Sat, Vib):ToHex()
-			RedInput.Input.Text = GetRGB()["R"]
-			GreenInput.Input.Text = GetRGB()["G"]
-			BlueInput.Input.Text = GetRGB()["B"]
+			HexInput.Input.Text = "#" .. Color3.fromHSV(Hue, Sat, Vib"):ToHex(")
+			RedInput.Input.Text = GetRGB(")["R"]
+			GreenInput.Input.Text = GetRGB(")["G"]
+			BlueInput.Input.Text = GetRGB(")["B"]
 
 			if Config.Transparency then
-				TransparencyColor.BackgroundColor3 = Color3.fromHSV(Hue, Sat, Vib)
+				TransparencyColor.BackgroundColor3 = Color3.fromHSV(Hue, Sat, Vib")
 				DialogDisplayFrame.BackgroundTransparency = Transparency
-				TransparencyDrag.Position = UDim2.new(0, -1, 1 - Transparency, -6)
-				AlphaInput.Input.Text = require(Root):Round((1 - Transparency) * 100, 0) .. "%"
+				TransparencyDrag.Position = UDim2.new(0, -1, 1 - Transparency, -6")
+				AlphaInput.Input.Text = require("Root"):Round((1 - Transparency") * 100, 0") .. "%"
 			end
 		end
 
-		Creator.AddSignal(HexInput.Input.FocusLost, function(Enter)
+		Creator.AddSignal(HexInput.Input.FocusLost, function(Enter")
 			if Enter then
-				local Success, Result = pcall(Color3.fromHex, HexInput.Input.Text)
-				if Success and typeof(Result) == "Color3" then
-					Hue, Sat, Vib = Color3.toHSV(Result)
+				local Success, Result = pcall(Color3.fromHex, HexInput.Input.Text")
+				if Success and typeof(Result") == "Color3" then
+					Hue, Sat, Vib = Color3.toHSV(Result")
 				end
 			end
-			Display()
-		end)
+			Display(")
+		end")
 
-		Creator.AddSignal(RedInput.Input.FocusLost, function(Enter)
+		Creator.AddSignal(RedInput.Input.FocusLost, function(Enter")
 			if Enter then
-				local CurrentColor = GetRGB()
-				local Success, Result = pcall(Color3.fromRGB, RedInput.Input.Text, CurrentColor["G"], CurrentColor["B"])
-				if Success and typeof(Result) == "Color3" then
-					if tonumber(RedInput.Input.Text) <= 255 then
-						Hue, Sat, Vib = Color3.toHSV(Result)
+				local CurrentColor = GetRGB(")
+				local Success, Result = pcall(Color3.fromRGB, RedInput.Input.Text, CurrentColor["G"], CurrentColor["B"]")
+				if Success and typeof(Result") == "Color3" then
+					if tonumber(RedInput.Input.Text") <= 255 then
+						Hue, Sat, Vib = Color3.toHSV(Result")
 					end
 				end
 			end
-			Display()
-		end)
+			Display(")
+		end")
 
-		Creator.AddSignal(GreenInput.Input.FocusLost, function(Enter)
+		Creator.AddSignal(GreenInput.Input.FocusLost, function(Enter")
 			if Enter then
-				local CurrentColor = GetRGB()
+				local CurrentColor = GetRGB(")
 				local Success, Result =
-					pcall(Color3.fromRGB, CurrentColor["R"], GreenInput.Input.Text, CurrentColor["B"])
-				if Success and typeof(Result) == "Color3" then
-					if tonumber(GreenInput.Input.Text) <= 255 then
-						Hue, Sat, Vib = Color3.toHSV(Result)
+					pcall(Color3.fromRGB, CurrentColor["R"], GreenInput.Input.Text, CurrentColor["B"]")
+				if Success and typeof(Result") == "Color3" then
+					if tonumber(GreenInput.Input.Text") <= 255 then
+						Hue, Sat, Vib = Color3.toHSV(Result")
 					end
 				end
 			end
-			Display()
-		end)
+			Display(")
+		end")
 
-		Creator.AddSignal(BlueInput.Input.FocusLost, function(Enter)
+		Creator.AddSignal(BlueInput.Input.FocusLost, function(Enter")
 			if Enter then
-				local CurrentColor = GetRGB()
+				local CurrentColor = GetRGB(")
 				local Success, Result =
-					pcall(Color3.fromRGB, CurrentColor["R"], CurrentColor["G"], BlueInput.Input.Text)
-				if Success and typeof(Result) == "Color3" then
-					if tonumber(BlueInput.Input.Text) <= 255 then
-						Hue, Sat, Vib = Color3.toHSV(Result)
+					pcall(Color3.fromRGB, CurrentColor["R"], CurrentColor["G"], BlueInput.Input.Text")
+				if Success and typeof(Result") == "Color3" then
+					if tonumber(BlueInput.Input.Text") <= 255 then
+						Hue, Sat, Vib = Color3.toHSV(Result")
 					end
 				end
 			end
-			Display()
-		end)
+			Display(")
+		end")
 
 		if Config.Transparency then
-			Creator.AddSignal(AlphaInput.Input.FocusLost, function(Enter)
+			Creator.AddSignal(AlphaInput.Input.FocusLost, function(Enter")
 				if Enter then
-					pcall(function()
-						local Value = tonumber(AlphaInput.Input.Text)
+					pcall(function(")
+						local Value = tonumber(AlphaInput.Input.Text")
 						if Value >= 0 and Value <= 100 then
 							Transparency = 1 - Value * 0.01
 						end
-					end)
+					end")
 				end
-				Display()
-			end)
+				Display(")
+			end")
 		end
 
-		Creator.AddSignal(SatVibMap.InputBegan, function(Input)
+		Creator.AddSignal(SatVibMap.InputBegan, function(Input")
 			if
 				Input.UserInputType == Enum.UserInputType.MouseButton1
 				or Input.UserInputType == Enum.UserInputType.Touch
 			then
-				while UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1) do
+				while UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1") do
 					local MinX = SatVibMap.AbsolutePosition.X
 					local MaxX = MinX + SatVibMap.AbsoluteSize.X
-					local MouseX = math.clamp(Mouse.X, MinX, MaxX)
+					local MouseX = math.clamp(Mouse.X, MinX, MaxX")
 
 					local MinY = SatVibMap.AbsolutePosition.Y
 					local MaxY = MinY + SatVibMap.AbsoluteSize.Y
-					local MouseY = math.clamp(Mouse.Y, MinY, MaxY)
+					local MouseY = math.clamp(Mouse.Y, MinY, MaxY")
 
-					Sat = (MouseX - MinX) / (MaxX - MinX)
-					Vib = 1 - ((MouseY - MinY) / (MaxY - MinY))
-					Display()
+					Sat = (MouseX - MinX") / (MaxX - MinX")
+					Vib = 1 - ((MouseY - MinY") / (MaxY - MinY")")
+					Display(")
 
-					RenderStepped:Wait()
+					RenderStepped:Wait(")
 				end
 			end
-		end)
+		end")
 
-		Creator.AddSignal(HueSlider.InputBegan, function(Input)
+		Creator.AddSignal(HueSlider.InputBegan, function(Input")
 			if
 				Input.UserInputType == Enum.UserInputType.MouseButton1
 				or Input.UserInputType == Enum.UserInputType.Touch
 			then
-				while UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1) do
+				while UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1") do
 					local MinY = HueSlider.AbsolutePosition.Y
 					local MaxY = MinY + HueSlider.AbsoluteSize.Y
-					local MouseY = math.clamp(Mouse.Y, MinY, MaxY)
+					local MouseY = math.clamp(Mouse.Y, MinY, MaxY")
 
-					Hue = ((MouseY - MinY) / (MaxY - MinY))
-					Display()
+					Hue = ((MouseY - MinY") / (MaxY - MinY")")
+					Display(")
 
-					RenderStepped:Wait()
+					RenderStepped:Wait(")
 				end
 			end
-		end)
+		end")
 
 		if Config.Transparency then
-			Creator.AddSignal(TransparencySlider.InputBegan, function(Input)
+			Creator.AddSignal(TransparencySlider.InputBegan, function(Input")
 				if Input.UserInputType == Enum.UserInputType.MouseButton1 then
-					while UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1) do
+					while UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1") do
 						local MinY = TransparencySlider.AbsolutePosition.Y
 						local MaxY = MinY + TransparencySlider.AbsoluteSize.Y
-						local MouseY = math.clamp(Mouse.Y, MinY, MaxY)
+						local MouseY = math.clamp(Mouse.Y, MinY, MaxY")
 
-						Transparency = 1 - ((MouseY - MinY) / (MaxY - MinY))
-						Display()
+						Transparency = 1 - ((MouseY - MinY") / (MaxY - MinY")")
+						Display(")
 
-						RenderStepped:Wait()
+						RenderStepped:Wait(")
 					end
 				end
-			end)
+			end")
 		end
 
-		Display()
+		Display(")
 
-		Dialog:Button("Done", function()
-			Colorpicker:SetValue({ Hue, Sat, Vib }, Transparency)
-		end)
-		Dialog:Button("Cancel")
-		Dialog:Open()
+		Dialog:Button("Done", function(")
+			Colorpicker:SetValue({ Hue, Sat, Vib }, Transparency")
+		end")
+		Dialog:Button("Cancel"")
+		Dialog:Open(")
 	end
 
-	function Colorpicker:Display()
-		Colorpicker.Value = Color3.fromHSV(Colorpicker.Hue, Colorpicker.Sat, Colorpicker.Vib)
+	function Colorpicker:Display(")
+		Colorpicker.Value = Color3.fromHSV(Colorpicker.Hue, Colorpicker.Sat, Colorpicker.Vib")
 
 		DisplayFrameColor.BackgroundColor3 = Colorpicker.Value
 		DisplayFrameColor.BackgroundTransparency = Colorpicker.Transparency
 
-		Element.Library:SafeCallback(Colorpicker.Callback, Colorpicker.Value)
-		Element.Library:SafeCallback(Colorpicker.Changed, Colorpicker.Value)
+		Element.Library:SafeCallback(Colorpicker.Callback, Colorpicker.Value")
+		Element.Library:SafeCallback(Colorpicker.Changed, Colorpicker.Value")
 	end
 
-	function Colorpicker:SetValue(HSV, Transparency)
-		local Color = Color3.fromHSV(HSV[1], HSV[2], HSV[3])
+	function Colorpicker:SetValue(HSV, Transparency")
+		local Color = Color3.fromHSV(HSV[1], HSV[2], HSV[3]")
 
 		Colorpicker.Transparency = Transparency or 0
-		Colorpicker:SetHSVFromRGB(Color)
-		Colorpicker:Display()
+		Colorpicker:SetHSVFromRGB(Color")
+		Colorpicker:Display(")
 	end
 
-	function Colorpicker:SetValueRGB(Color, Transparency)
+	function Colorpicker:SetValueRGB(Color, Transparency")
 		Colorpicker.Transparency = Transparency or 0
-		Colorpicker:SetHSVFromRGB(Color)
-		Colorpicker:Display()
+		Colorpicker:SetHSVFromRGB(Color")
+		Colorpicker:Display(")
 	end
 
-	function Colorpicker:OnChanged(Func)
+	function Colorpicker:OnChanged(Func")
 		Colorpicker.Changed = Func
-		Func(Colorpicker.Value)
+		Func(Colorpicker.Value")
 	end
 
-	function Colorpicker:Destroy()
-		ColorpickerFrame:Destroy()
+	function Colorpicker:Destroy(")
+		ColorpickerFrame:Destroy(")
 		Library.Options[Idx] = nil
 	end
 
-	Creator.AddSignal(ColorpickerFrame.Frame.MouseButton1Click, function()
-		CreateColorDialog()
-	end)
+	Creator.AddSignal(ColorpickerFrame.Frame.MouseButton1Click, function(")
+		CreateColorDialog(")
+	end")
 
-	Colorpicker:Display()
+	Colorpicker:Display(")
 
 	Library.Options[Idx] = Colorpicker
 	return Colorpicker
 end
 
 return Element
+
+
+return module
 end
 
--- Module: Elements.Dropdown
-Modules['Elements.Dropdown'] = function()
-local TweenService = game:GetService("TweenService")
-local UserInputService = game:GetService("UserInputService")
-local Mouse = game:GetService("Players").LocalPlayer:GetMouse()
-local Camera = game:GetService("Workspace").CurrentCamera
+Modules["Dropdown"] = function()
+local module = {}
+
+local TweenService = game:GetService("TweenService"")
+local UserInputService = game:GetService("UserInputService"")
+local Mouse = game:GetService("Players"").LocalPlayer:GetMouse(")
+local Camera = game:GetService("Workspace"").CurrentCamera
 
 local Root = script.Parent.Parent
-local Creator = require(Root.Creator)
-local Flipper = require(Root.Packages.Flipper)
+local Creator = require(""Creator")
+local Flipper = require(""Packages.Flipper")
 
 local New = Creator.New
 local Components = Root.Components
@@ -3663,7 +4337,7 @@ local Element = {}
 Element.__index = Element
 Element.__type = "Dropdown"
 
-function Element:New(Idx, Config)
+function Element:New(Idx, Config")
 	local Library = self.Library
 
 	local Dropdown = {
@@ -3673,47 +4347,47 @@ function Element:New(Idx, Config)
 		Buttons = {},
 		Opened = false,
 		Type = "Dropdown",
-		Callback = Config.Callback or function() end,
+		Callback = Config.Callback or function(") end,
 	}
 
-	local DropdownFrame = require(Components.Element)(Config.Title, Config.Description, self.Container, false)
-	DropdownFrame.DescLabel.Size = UDim2.new(1, -170, 0, 14)
+	local DropdownFrame = require(""Element")(Config.Title, Config.Description, self.Container, false")
+	DropdownFrame.DescLabel.Size = UDim2.new(1, -170, 0, 14")
 
 	Dropdown.SetTitle = DropdownFrame.SetTitle
 	Dropdown.SetDesc = DropdownFrame.SetDesc
 
 	local DropdownDisplay = New("TextLabel", {
-		FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal),
+		FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal"),
 		Text = "Value",
-		TextColor3 = Color3.fromRGB(240, 240, 240),
+		TextColor3 = Color3.fromRGB(240, 240, 240"),
 		TextSize = 13,
 		TextXAlignment = Enum.TextXAlignment.Left,
-		Size = UDim2.new(1, -30, 0, 14),
-		Position = UDim2.new(0, 8, 0.5, 0),
-		AnchorPoint = Vector2.new(0, 0.5),
-		BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+		Size = UDim2.new(1, -30, 0, 14"),
+		Position = UDim2.new(0, 8, 0.5, 0"),
+		AnchorPoint = Vector2.new(0, 0.5"),
+		BackgroundColor3 = Color3.fromRGB(255, 255, 255"),
 		BackgroundTransparency = 1,
 		TextTruncate = Enum.TextTruncate.AtEnd,
 		ThemeTag = {
 			TextColor3 = "Text",
 		},
-	})
+	}")
 
 	local DropdownIco = New("ImageLabel", {
 		Image = "rbxassetid://10709790948",
-		Size = UDim2.fromOffset(16, 16),
-		AnchorPoint = Vector2.new(1, 0.5),
-		Position = UDim2.new(1, -8, 0.5, 0),
+		Size = UDim2.fromOffset(16, 16"),
+		AnchorPoint = Vector2.new(1, 0.5"),
+		Position = UDim2.new(1, -8, 0.5, 0"),
 		BackgroundTransparency = 1,
 		ThemeTag = {
 			ImageColor3 = "SubText",
 		},
-	})
+	}")
 
 	local DropdownInner = New("TextButton", {
-		Size = UDim2.fromOffset(160, 30),
-		Position = UDim2.new(1, -10, 0.5, 0),
-		AnchorPoint = Vector2.new(1, 0.5),
+		Size = UDim2.fromOffset(160, 30"),
+		Position = UDim2.new(1, -10, 0.5, 0"),
+		AnchorPoint = Vector2.new(1, 0.5"),
 		BackgroundTransparency = 0.9,
 		Parent = DropdownFrame.Frame,
 		ThemeTag = {
@@ -3721,115 +4395,115 @@ function Element:New(Idx, Config)
 		},
 	}, {
 		New("UICorner", {
-			CornerRadius = UDim.new(0, 5),
-		}),
+			CornerRadius = UDim.new(0, 5"),
+		}"),
 		New("UIStroke", {
 			Transparency = 0.5,
 			ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
 			ThemeTag = {
 				Color = "InElementBorder",
 			},
-		}),
+		}"),
 		DropdownIco,
 		DropdownDisplay,
-	})
+	}")
 
 	local DropdownListLayout = New("UIListLayout", {
-		Padding = UDim.new(0, 3),
-	})
+		Padding = UDim.new(0, 3"),
+	}")
 
 	local DropdownScrollFrame = New("ScrollingFrame", {
-		Size = UDim2.new(1, -5, 1, -10),
-		Position = UDim2.fromOffset(5, 5),
+		Size = UDim2.new(1, -5, 1, -10"),
+		Position = UDim2.fromOffset(5, 5"),
 		BackgroundTransparency = 1,
 		BottomImage = "rbxassetid://6889812791",
 		MidImage = "rbxassetid://6889812721",
 		TopImage = "rbxassetid://6276641225",
-		ScrollBarImageColor3 = Color3.fromRGB(255, 255, 255),
+		ScrollBarImageColor3 = Color3.fromRGB(255, 255, 255"),
 		ScrollBarImageTransparency = 0.95,
 		ScrollBarThickness = 4,
 		BorderSizePixel = 0,
-		CanvasSize = UDim2.fromScale(0, 0),
+		CanvasSize = UDim2.fromScale(0, 0"),
 	}, {
 		DropdownListLayout,
-	})
+	}")
 
 	local DropdownHolderFrame = New("Frame", {
-		Size = UDim2.fromScale(1, 0.6),
+		Size = UDim2.fromScale(1, 0.6"),
 		ThemeTag = {
 			BackgroundColor3 = "DropdownHolder",
 		},
 	}, {
 		DropdownScrollFrame,
 		New("UICorner", {
-			CornerRadius = UDim.new(0, 7),
-		}),
+			CornerRadius = UDim.new(0, 7"),
+		}"),
 		New("UIStroke", {
 			ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
 			ThemeTag = {
 				Color = "DropdownBorder",
 			},
-		}),
+		}"),
 		New("ImageLabel", {
 			BackgroundTransparency = 1,
 			Image = "http://www.roblox.com/asset/?id=5554236805",
 			ScaleType = Enum.ScaleType.Slice,
-			SliceCenter = Rect.new(23, 23, 277, 277),
-			Size = UDim2.fromScale(1, 1) + UDim2.fromOffset(30, 30),
-			Position = UDim2.fromOffset(-15, -15),
-			ImageColor3 = Color3.fromRGB(0, 0, 0),
+			SliceCenter = Rect.new(23, 23, 277, 277"),
+			Size = UDim2.fromScale(1, 1") + UDim2.fromOffset(30, 30"),
+			Position = UDim2.fromOffset(-15, -15"),
+			ImageColor3 = Color3.fromRGB(0, 0, 0"),
 			ImageTransparency = 0.1,
-		}),
-	})
+		}"),
+	}")
 
 	local DropdownHolderCanvas = New("Frame", {
 		BackgroundTransparency = 1,
-		Size = UDim2.fromOffset(170, 300),
+		Size = UDim2.fromOffset(170, 300"),
 		Parent = self.Library.GUI,
 		Visible = false,
 	}, {
 		DropdownHolderFrame,
 		New("UISizeConstraint", {
-			MinSize = Vector2.new(170, 0),
-		}),
-	})
-	table.insert(Library.OpenFrames, DropdownHolderCanvas)
+			MinSize = Vector2.new(170, 0"),
+		}"),
+	}")
+	table.insert(Library.OpenFrames, DropdownHolderCanvas")
 
-	local function RecalculateListPosition()
+	local function RecalculateListPosition(")
 		local Add = 0
 		if Camera.ViewportSize.Y - DropdownInner.AbsolutePosition.Y < DropdownHolderCanvas.AbsoluteSize.Y - 5 then
 			Add = DropdownHolderCanvas.AbsoluteSize.Y
 				- 5
-				- (Camera.ViewportSize.Y - DropdownInner.AbsolutePosition.Y)
+				- (Camera.ViewportSize.Y - DropdownInner.AbsolutePosition.Y")
 				+ 40
 		end
 		DropdownHolderCanvas.Position =
-			UDim2.fromOffset(DropdownInner.AbsolutePosition.X - 1, DropdownInner.AbsolutePosition.Y - 5 - Add)
+			UDim2.fromOffset(DropdownInner.AbsolutePosition.X - 1, DropdownInner.AbsolutePosition.Y - 5 - Add")
 	end
 
 	local ListSizeX = 0
-	local function RecalculateListSize()
+	local function RecalculateListSize(")
 		if #Dropdown.Values > 10 then
-			DropdownHolderCanvas.Size = UDim2.fromOffset(ListSizeX, 392)
+			DropdownHolderCanvas.Size = UDim2.fromOffset(ListSizeX, 392")
 		else
-			DropdownHolderCanvas.Size = UDim2.fromOffset(ListSizeX, DropdownListLayout.AbsoluteContentSize.Y + 10)
+			DropdownHolderCanvas.Size = UDim2.fromOffset(ListSizeX, DropdownListLayout.AbsoluteContentSize.Y + 10")
 		end
 	end
 
-	local function RecalculateCanvasSize()
-		DropdownScrollFrame.CanvasSize = UDim2.fromOffset(0, DropdownListLayout.AbsoluteContentSize.Y)
+	local function RecalculateCanvasSize(")
+		DropdownScrollFrame.CanvasSize = UDim2.fromOffset(0, DropdownListLayout.AbsoluteContentSize.Y")
 	end
 
-	RecalculateListPosition()
-	RecalculateListSize()
+	RecalculateListPosition(")
+	RecalculateListSize(")
 
-	Creator.AddSignal(DropdownInner:GetPropertyChangedSignal("AbsolutePosition"), RecalculateListPosition)
+	Creator.AddSignal(DropdownInner:GetPropertyChangedSignal("AbsolutePosition""), RecalculateListPosition")
 
-	Creator.AddSignal(DropdownInner.MouseButton1Click, function()
-		Dropdown:Open()
-	end)
+	Creator.AddSignal(DropdownInner.MouseButton1Click, function(")
+		Dropdown:Open(")
+	end")
 
-	Creator.AddSignal(UserInputService.InputBegan, function(Input)
+	Creator.AddSignal(UserInputService.InputBegan, function(Input")
 		if
 			Input.UserInputType == Enum.UserInputType.MouseButton1
 			or Input.UserInputType == Enum.UserInputType.Touch
@@ -3838,34 +4512,34 @@ function Element:New(Idx, Config)
 			if
 				Mouse.X < AbsPos.X
 				or Mouse.X > AbsPos.X + AbsSize.X
-				or Mouse.Y < (AbsPos.Y - 20 - 1)
+				or Mouse.Y < (AbsPos.Y - 20 - 1")
 				or Mouse.Y > AbsPos.Y + AbsSize.Y
 			then
-				Dropdown:Close()
+				Dropdown:Close(")
 			end
 		end
-	end)
+	end")
 
 	local ScrollFrame = self.ScrollFrame
-	function Dropdown:Open()
+	function Dropdown:Open(")
 		Dropdown.Opened = true
 		ScrollFrame.ScrollingEnabled = false
 		DropdownHolderCanvas.Visible = true
 		TweenService:Create(
 			DropdownHolderFrame,
-			TweenInfo.new(0.2, Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
-			{ Size = UDim2.fromScale(1, 1) }
-		):Play()
+			TweenInfo.new(0.2, Enum.EasingStyle.Quart, Enum.EasingDirection.Out"),
+			{ Size = UDim2.fromScale(1, 1") }
+		"):Play(")
 	end
 
-	function Dropdown:Close()
+	function Dropdown:Close(")
 		Dropdown.Opened = false
 		ScrollFrame.ScrollingEnabled = true
-		DropdownHolderFrame.Size = UDim2.fromScale(1, 0.6)
+		DropdownHolderFrame.Size = UDim2.fromScale(1, 0.6")
 		DropdownHolderCanvas.Visible = false
 	end
 
-	function Dropdown:Display()
+	function Dropdown:Display(")
 		local Values = Dropdown.Values
 		local Str = ""
 
@@ -3875,20 +4549,20 @@ function Element:New(Idx, Config)
 					Str = Str .. Value .. ", "
 				end
 			end
-			Str = Str:sub(1, #Str - 2)
+			Str = Str:sub(1, #Str - 2")
 		else
 			Str = Dropdown.Value or ""
 		end
 
-		DropdownDisplay.Text = (Str == "" and "--" or Str)
+		DropdownDisplay.Text = (Str == "" and "--" or Str")
 	end
 
-	function Dropdown:GetActiveValues()
+	function Dropdown:GetActiveValues(")
 		if Config.Multi then
 			local T = {}
 
 			for Value, Bool in next, Dropdown.Value do
-				table.insert(T, Value)
+				table.insert(T, Value")
 			end
 
 			return T
@@ -3897,13 +4571,13 @@ function Element:New(Idx, Config)
 		end
 	end
 
-	function Dropdown:BuildDropdownList()
+	function Dropdown:BuildDropdownList(")
 		local Values = Dropdown.Values
 		local Buttons = {}
 
-		for _, Element in next, DropdownScrollFrame:GetChildren() do
-			if not Element:IsA("UIListLayout") then
-				Element:Destroy()
+		for _, Element in next, DropdownScrollFrame:GetChildren(") do
+			if not Element:IsA("UIListLayout"") then
+				Element:Destroy(")
 			end
 		end
 
@@ -3915,38 +4589,38 @@ function Element:New(Idx, Config)
 			Count = Count + 1
 
 			local ButtonSelector = New("Frame", {
-				Size = UDim2.fromOffset(4, 14),
-				BackgroundColor3 = Color3.fromRGB(76, 194, 255),
-				Position = UDim2.fromOffset(-1, 16),
-				AnchorPoint = Vector2.new(0, 0.5),
+				Size = UDim2.fromOffset(4, 14"),
+				BackgroundColor3 = Color3.fromRGB(76, 194, 255"),
+				Position = UDim2.fromOffset(-1, 16"),
+				AnchorPoint = Vector2.new(0, 0.5"),
 				ThemeTag = {
 					BackgroundColor3 = "Accent",
 				},
 			}, {
 				New("UICorner", {
-					CornerRadius = UDim.new(0, 2),
-				}),
-			})
+					CornerRadius = UDim.new(0, 2"),
+				}"),
+			}")
 
 			local ButtonLabel = New("TextLabel", {
-				FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json"),
+				FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json""),
 				Text = Value,
-				TextColor3 = Color3.fromRGB(200, 200, 200),
+				TextColor3 = Color3.fromRGB(200, 200, 200"),
 				TextSize = 13,
 				TextXAlignment = Enum.TextXAlignment.Left,
-				BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+				BackgroundColor3 = Color3.fromRGB(255, 255, 255"),
 				AutomaticSize = Enum.AutomaticSize.Y,
 				BackgroundTransparency = 1,
-				Size = UDim2.fromScale(1, 1),
-				Position = UDim2.fromOffset(10, 0),
+				Size = UDim2.fromScale(1, 1"),
+				Position = UDim2.fromOffset(10, 0"),
 				Name = "ButtonLabel",
 				ThemeTag = {
 					TextColor3 = "Text",
 				},
-			})
+			}")
 
 			local Button = New("TextButton", {
-				Size = UDim2.new(1, -5, 0, 32),
+				Size = UDim2.new(1, -5, 0, 32"),
 				BackgroundTransparency = 1,
 				ZIndex = 23,
 				Text = "",
@@ -3958,9 +4632,9 @@ function Element:New(Idx, Config)
 				ButtonSelector,
 				ButtonLabel,
 				New("UICorner", {
-					CornerRadius = UDim.new(0, 6),
-				}),
-			})
+					CornerRadius = UDim.new(0, 6"),
+				}"),
+			}")
 
 			local Selected
 
@@ -3970,50 +4644,50 @@ function Element:New(Idx, Config)
 				Selected = Dropdown.Value == Value
 			end
 
-			local BackMotor, SetBackTransparency = Creator.SpringMotor(1, Button, "BackgroundTransparency")
-			local SelMotor, SetSelTransparency = Creator.SpringMotor(1, ButtonSelector, "BackgroundTransparency")
-			local SelectorSizeMotor = Flipper.SingleMotor.new(6)
+			local BackMotor, SetBackTransparency = Creator.SpringMotor(1, Button, "BackgroundTransparency"")
+			local SelMotor, SetSelTransparency = Creator.SpringMotor(1, ButtonSelector, "BackgroundTransparency"")
+			local SelectorSizeMotor = Flipper.SingleMotor.new(6")
 
-			SelectorSizeMotor:onStep(function(value)
-				ButtonSelector.Size = UDim2.new(0, 4, 0, value)
-			end)
+			SelectorSizeMotor:onStep(function(value")
+				ButtonSelector.Size = UDim2.new(0, 4, 0, value")
+			end")
 
-			Creator.AddSignal(Button.MouseEnter, function()
-				SetBackTransparency(Selected and 0.85 or 0.89)
-			end)
-			Creator.AddSignal(Button.MouseLeave, function()
-				SetBackTransparency(Selected and 0.89 or 1)
-			end)
-			Creator.AddSignal(Button.MouseButton1Down, function()
-				SetBackTransparency(0.92)
-			end)
-			Creator.AddSignal(Button.MouseButton1Up, function()
-				SetBackTransparency(Selected and 0.85 or 0.89)
-			end)
+			Creator.AddSignal(Button.MouseEnter, function(")
+				SetBackTransparency(Selected and 0.85 or 0.89")
+			end")
+			Creator.AddSignal(Button.MouseLeave, function(")
+				SetBackTransparency(Selected and 0.89 or 1")
+			end")
+			Creator.AddSignal(Button.MouseButton1Down, function(")
+				SetBackTransparency(0.92")
+			end")
+			Creator.AddSignal(Button.MouseButton1Up, function(")
+				SetBackTransparency(Selected and 0.85 or 0.89")
+			end")
 
-			function Table:UpdateButton()
+			function Table:UpdateButton(")
 				if Config.Multi then
 					Selected = Dropdown.Value[Value]
 					if Selected then
-						SetBackTransparency(0.89)
+						SetBackTransparency(0.89")
 					end
 				else
 					Selected = Dropdown.Value == Value
-					SetBackTransparency(Selected and 0.89 or 1)
+					SetBackTransparency(Selected and 0.89 or 1")
 				end
 
-				SelectorSizeMotor:setGoal(Flipper.Spring.new(Selected and 14 or 6, { frequency = 6 }))
-				SetSelTransparency(Selected and 0 or 1)
+				SelectorSizeMotor:setGoal(Flipper.Spring.new(Selected and 14 or 6, { frequency = 6 }")")
+				SetSelTransparency(Selected and 0 or 1")
 			end
 
-			ButtonLabel.InputBegan:Connect(function(Input)
+			ButtonLabel.InputBegan:Connect(function(Input")
 				if
 					Input.UserInputType == Enum.UserInputType.MouseButton1
 					or Input.UserInputType == Enum.UserInputType.Touch
 				then
 					local Try = not Selected
 
-					if Dropdown:GetActiveValues() == 1 and not Try and not Config.AllowNull then
+					if Dropdown:GetActiveValues(") == 1 and not Try and not Config.AllowNull then
 					else
 						if Config.Multi then
 							Selected = Try
@@ -4023,21 +4697,21 @@ function Element:New(Idx, Config)
 							Dropdown.Value = Selected and Value or nil
 
 							for _, OtherButton in next, Buttons do
-								OtherButton:UpdateButton()
+								OtherButton:UpdateButton(")
 							end
 						end
 
-						Table:UpdateButton()
-						Dropdown:Display()
+						Table:UpdateButton(")
+						Dropdown:Display(")
 
-						Library:SafeCallback(Dropdown.Callback, Dropdown.Value)
-						Library:SafeCallback(Dropdown.Changed, Dropdown.Value)
+						Library:SafeCallback(Dropdown.Callback, Dropdown.Value")
+						Library:SafeCallback(Dropdown.Changed, Dropdown.Value")
 					end
 				end
-			end)
+			end")
 
-			Table:UpdateButton()
-			Dropdown:Display()
+			Table:UpdateButton(")
+			Dropdown:Display(")
 
 			Buttons[Button] = Table
 		end
@@ -4052,29 +4726,29 @@ function Element:New(Idx, Config)
 		end
 		ListSizeX = ListSizeX + 30
 
-		RecalculateCanvasSize()
-		RecalculateListSize()
+		RecalculateCanvasSize(")
+		RecalculateListSize(")
 	end
 
-	function Dropdown:SetValues(NewValues)
+	function Dropdown:SetValues(NewValues")
 		if NewValues then
 			Dropdown.Values = NewValues
 		end
 
-		Dropdown:BuildDropdownList()
+		Dropdown:BuildDropdownList(")
 	end
 
-	function Dropdown:OnChanged(Func)
+	function Dropdown:OnChanged(Func")
 		Dropdown.Changed = Func
-		Func(Dropdown.Value)
+		Func(Dropdown.Value")
 	end
 
-	function Dropdown:SetValue(Val)
+	function Dropdown:SetValue(Val")
 		if Dropdown.Multi then
 			local nTable = {}
 
 			for Value, Bool in next, Val do
-				if table.find(Dropdown.Values, Value) then
+				if table.find(Dropdown.Values, Value") then
 					nTable[Value] = true
 				end
 			end
@@ -4083,44 +4757,44 @@ function Element:New(Idx, Config)
 		else
 			if not Val then
 				Dropdown.Value = nil
-			elseif table.find(Dropdown.Values, Val) then
+			elseif table.find(Dropdown.Values, Val") then
 				Dropdown.Value = Val
 			end
 		end
 
-		Dropdown:BuildDropdownList()
+		Dropdown:BuildDropdownList(")
 
-		Library:SafeCallback(Dropdown.Callback, Dropdown.Value)
-		Library:SafeCallback(Dropdown.Changed, Dropdown.Value)
+		Library:SafeCallback(Dropdown.Callback, Dropdown.Value")
+		Library:SafeCallback(Dropdown.Changed, Dropdown.Value")
 	end
 
-	function Dropdown:Destroy()
-		DropdownFrame:Destroy()
+	function Dropdown:Destroy(")
+		DropdownFrame:Destroy(")
 		Library.Options[Idx] = nil
 	end
 
-	Dropdown:BuildDropdownList()
-	Dropdown:Display()
+	Dropdown:BuildDropdownList(")
+	Dropdown:Display(")
 
 	local Defaults = {}
 
-	if type(Config.Default) == "string" then
-		local Idx = table.find(Dropdown.Values, Config.Default)
+	if type(Config.Default") == "string" then
+		local Idx = table.find(Dropdown.Values, Config.Default")
 		if Idx then
-			table.insert(Defaults, Idx)
+			table.insert(Defaults, Idx")
 		end
-	elseif type(Config.Default) == "table" then
+	elseif type(Config.Default") == "table" then
 		for _, Value in next, Config.Default do
-			local Idx = table.find(Dropdown.Values, Value)
+			local Idx = table.find(Dropdown.Values, Value")
 			if Idx then
-				table.insert(Defaults, Idx)
+				table.insert(Defaults, Idx")
 			end
 		end
-	elseif type(Config.Default) == "number" and Dropdown.Values[Config.Default] ~= nil then
-		table.insert(Defaults, Config.Default)
+	elseif type(Config.Default") == "number" and Dropdown.Values[Config.Default] ~= nil then
+		table.insert(Defaults, Config.Default")
 	end
 
-	if next(Defaults) then
+	if next(Defaults") then
 		for i = 1, #Defaults do
 			local Index = Defaults[i]
 			if Config.Multi then
@@ -4134,8 +4808,8 @@ function Element:New(Idx, Config)
 			end
 		end
 
-		Dropdown:BuildDropdownList()
-		Dropdown:Display()
+		Dropdown:BuildDropdownList(")
+		Dropdown:Display(")
 	end
 
 	Library.Options[Idx] = Dropdown
@@ -4143,12 +4817,16 @@ function Element:New(Idx, Config)
 end
 
 return Element
+
+
+return module
 end
 
--- Module: Elements.Input
-Modules['Elements.Input'] = function()
+Modules["Input"] = function()
+local module = {}
+
 local Root = script.Parent.Parent
-local Creator = require(Root.Creator)
+local Creator = require(""Creator")
 
 local New = Creator.New
 local AddSignal = Creator.AddSignal
@@ -4158,40 +4836,40 @@ local Element = {}
 Element.__index = Element
 Element.__type = "Input"
 
-function Element:New(Idx, Config)
+function Element:New(Idx, Config")
 	local Library = self.Library
-	assert(Config.Title, "Input - Missing Title")
-	Config.Callback = Config.Callback or function() end
+	assert(Config.Title, "Input - Missing Title"")
+	Config.Callback = Config.Callback or function(") end
 
 	local Input = {
 		Value = Config.Default or "",
 		Numeric = Config.Numeric or false,
 		Finished = Config.Finished or false,
-		Callback = Config.Callback or function(Value) end,
+		Callback = Config.Callback or function(Value") end,
 		Type = "Input",
 	}
 
-	local InputFrame = require(Components.Element)(Config.Title, Config.Description, self.Container, false)
+	local InputFrame = require(""Element")(Config.Title, Config.Description, self.Container, false")
 
 	Input.SetTitle = InputFrame.SetTitle
 	Input.SetDesc = InputFrame.SetDesc
 
-	local Textbox = require(Components.Textbox)(InputFrame.Frame, true)
-	Textbox.Frame.Position = UDim2.new(1, -10, 0.5, 0)
-	Textbox.Frame.AnchorPoint = Vector2.new(1, 0.5)
-	Textbox.Frame.Size = UDim2.fromOffset(160, 30)
+	local Textbox = require(""Textbox")(InputFrame.Frame, true")
+	Textbox.Frame.Position = UDim2.new(1, -10, 0.5, 0")
+	Textbox.Frame.AnchorPoint = Vector2.new(1, 0.5")
+	Textbox.Frame.Size = UDim2.fromOffset(160, 30")
 	Textbox.Input.Text = Config.Default or ""
 	Textbox.Input.PlaceholderText = Config.Placeholder or ""
 
 	local Box = Textbox.Input
 
-	function Input:SetValue(Text)
+	function Input:SetValue(Text")
 		if Config.MaxLength and #Text > Config.MaxLength then
-			Text = Text:sub(1, Config.MaxLength)
+			Text = Text:sub(1, Config.MaxLength")
 		end
 
 		if Input.Numeric then
-			if (not tonumber(Text)) and Text:len() > 0 then
+			if (not tonumber(Text")") and Text:len(") > 0 then
 				Text = Input.Value
 			end
 		end
@@ -4199,30 +4877,30 @@ function Element:New(Idx, Config)
 		Input.Value = Text
 		Box.Text = Text
 
-		Library:SafeCallback(Input.Callback, Input.Value)
-		Library:SafeCallback(Input.Changed, Input.Value)
+		Library:SafeCallback(Input.Callback, Input.Value")
+		Library:SafeCallback(Input.Changed, Input.Value")
 	end
 
 	if Input.Finished then
-		AddSignal(Box.FocusLost, function(enter)
+		AddSignal(Box.FocusLost, function(enter")
 			if not enter then
 				return
 			end
-			Input:SetValue(Box.Text)
-		end)
+			Input:SetValue(Box.Text")
+		end")
 	else
-		AddSignal(Box:GetPropertyChangedSignal("Text"), function()
-			Input:SetValue(Box.Text)
-		end)
+		AddSignal(Box:GetPropertyChangedSignal("Text""), function(")
+			Input:SetValue(Box.Text")
+		end")
 	end
 
-	function Input:OnChanged(Func)
+	function Input:OnChanged(Func")
 		Input.Changed = Func
-		Func(Input.Value)
+		Func(Input.Value")
 	end
 
-	function Input:Destroy()
-		InputFrame:Destroy()
+	function Input:Destroy(")
+		InputFrame:Destroy(")
 		Library.Options[Idx] = nil
 	end
 
@@ -4231,14 +4909,18 @@ function Element:New(Idx, Config)
 end
 
 return Element
+
+
+return module
 end
 
--- Module: Elements.Keybind
-Modules['Elements.Keybind'] = function()
-local UserInputService = game:GetService("UserInputService")
+Modules["Keybind"] = function()
+local module = {}
+
+local UserInputService = game:GetService("UserInputService"")
 
 local Root = script.Parent.Parent
-local Creator = require(Root.Creator)
+local Creator = require(""Creator")
 
 local New = Creator.New
 local Components = Root.Components
@@ -4247,48 +4929,48 @@ local Element = {}
 Element.__index = Element
 Element.__type = "Keybind"
 
-function Element:New(Idx, Config)
+function Element:New(Idx, Config")
 	local Library = self.Library
-	assert(Config.Title, "KeyBind - Missing Title")
-	assert(Config.Default, "KeyBind - Missing default value.")
+	assert(Config.Title, "KeyBind - Missing Title"")
+	assert(Config.Default, "KeyBind - Missing default value."")
 
 	local Keybind = {
 		Value = Config.Default,
 		Toggled = false,
 		Mode = Config.Mode or "Toggle",
 		Type = "Keybind",
-		Callback = Config.Callback or function(Value) end,
-		ChangedCallback = Config.ChangedCallback or function(New) end,
+		Callback = Config.Callback or function(Value") end,
+		ChangedCallback = Config.ChangedCallback or function(New") end,
 	}
 
 	local Picking = false
 
-	local KeybindFrame = require(Components.Element)(Config.Title, Config.Description, self.Container, true)
+	local KeybindFrame = require(""Element")(Config.Title, Config.Description, self.Container, true")
 
 	Keybind.SetTitle = KeybindFrame.SetTitle
 	Keybind.SetDesc = KeybindFrame.SetDesc
 
 	local KeybindDisplayLabel = New("TextLabel", {
-		FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal),
+		FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal"),
 		Text = Config.Default,
-		TextColor3 = Color3.fromRGB(240, 240, 240),
+		TextColor3 = Color3.fromRGB(240, 240, 240"),
 		TextSize = 13,
 		TextXAlignment = Enum.TextXAlignment.Center,
-		Size = UDim2.new(0, 0, 0, 14),
-		Position = UDim2.new(0, 0, 0.5, 0),
-		AnchorPoint = Vector2.new(0, 0.5),
-		BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+		Size = UDim2.new(0, 0, 0, 14"),
+		Position = UDim2.new(0, 0, 0.5, 0"),
+		AnchorPoint = Vector2.new(0, 0.5"),
+		BackgroundColor3 = Color3.fromRGB(255, 255, 255"),
 		AutomaticSize = Enum.AutomaticSize.X,
 		BackgroundTransparency = 1,
 		ThemeTag = {
 			TextColor3 = "Text",
 		},
-	})
+	}")
 
 	local KeybindDisplayFrame = New("TextButton", {
-		Size = UDim2.fromOffset(0, 30),
-		Position = UDim2.new(1, -10, 0.5, 0),
-		AnchorPoint = Vector2.new(1, 0.5),
+		Size = UDim2.fromOffset(0, 30"),
+		Position = UDim2.new(1, -10, 0.5, 0"),
+		AnchorPoint = Vector2.new(1, 0.5"),
 		BackgroundTransparency = 0.9,
 		Parent = KeybindFrame.Frame,
 		AutomaticSize = Enum.AutomaticSize.X,
@@ -4297,24 +4979,24 @@ function Element:New(Idx, Config)
 		},
 	}, {
 		New("UICorner", {
-			CornerRadius = UDim.new(0, 5),
-		}),
+			CornerRadius = UDim.new(0, 5"),
+		}"),
 		New("UIPadding", {
-			PaddingLeft = UDim.new(0, 8),
-			PaddingRight = UDim.new(0, 8),
-		}),
+			PaddingLeft = UDim.new(0, 8"),
+			PaddingRight = UDim.new(0, 8"),
+		}"),
 		New("UIStroke", {
 			Transparency = 0.5,
 			ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
 			ThemeTag = {
 				Color = "InElementBorder",
 			},
-		}),
+		}"),
 		KeybindDisplayLabel,
-	})
+	}")
 
-	function Keybind:GetState()
-		if UserInputService:GetFocusedTextBox() and Keybind.Mode ~= "Always" then
+	function Keybind:GetState(")
+		if UserInputService:GetFocusedTextBox(") and Keybind.Mode ~= "Always" then
 			return false
 		end
 
@@ -4328,18 +5010,18 @@ function Element:New(Idx, Config)
 			local Key = Keybind.Value
 
 			if Key == "MouseLeft" or Key == "MouseRight" then
-				return Key == "MouseLeft" and UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1)
+				return Key == "MouseLeft" and UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1")
 					or Key == "MouseRight"
-						and UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton2)
+						and UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton2")
 			else
-				return UserInputService:IsKeyDown(Enum.KeyCode[Keybind.Value])
+				return UserInputService:IsKeyDown(Enum.KeyCode[Keybind.Value]")
 			end
 		else
 			return Keybind.Toggled
 		end
 	end
 
-	function Keybind:SetValue(Key, Mode)
+	function Keybind:SetValue(Key, Mode")
 		Key = Key or Keybind.Key
 		Mode = Mode or Keybind.Mode
 
@@ -4348,26 +5030,26 @@ function Element:New(Idx, Config)
 		Keybind.Mode = Mode
 	end
 
-	function Keybind:OnClick(Callback)
+	function Keybind:OnClick(Callback")
 		Keybind.Clicked = Callback
 	end
 
-	function Keybind:OnChanged(Callback)
+	function Keybind:OnChanged(Callback")
 		Keybind.Changed = Callback
-		Callback(Keybind.Value)
+		Callback(Keybind.Value")
 	end
 
-	function Keybind:DoClick()
-		Library:SafeCallback(Keybind.Callback, Keybind.Toggled)
-		Library:SafeCallback(Keybind.Clicked, Keybind.Toggled)
+	function Keybind:DoClick(")
+		Library:SafeCallback(Keybind.Callback, Keybind.Toggled")
+		Library:SafeCallback(Keybind.Clicked, Keybind.Toggled")
 	end
 
-	function Keybind:Destroy()
-		KeybindFrame:Destroy()
+	function Keybind:Destroy(")
+		KeybindFrame:Destroy(")
 		Library.Options[Idx] = nil
 	end
 
-	Creator.AddSignal(KeybindDisplayFrame.InputBegan, function(Input)
+	Creator.AddSignal(KeybindDisplayFrame.InputBegan, function(Input")
 		if
 			Input.UserInputType == Enum.UserInputType.MouseButton1
 			or Input.UserInputType == Enum.UserInputType.Touch
@@ -4375,10 +5057,10 @@ function Element:New(Idx, Config)
 			Picking = true
 			KeybindDisplayLabel.Text = "..."
 
-			wait(0.2)
+			wait(0.2")
 
 			local Event
-			Event = UserInputService.InputBegan:Connect(function(Input)
+			Event = UserInputService.InputBegan:Connect(function(Input")
 				local Key
 
 				if Input.UserInputType == Enum.UserInputType.Keyboard then
@@ -4390,7 +5072,7 @@ function Element:New(Idx, Config)
 				end
 
 				local EndedEvent
-				EndedEvent = UserInputService.InputEnded:Connect(function(Input)
+				EndedEvent = UserInputService.InputEnded:Connect(function(Input")
 					if
 						Input.KeyCode.Name == Key
 						or Key == "MouseLeft" and Input.UserInputType == Enum.UserInputType.MouseButton1
@@ -4401,19 +5083,19 @@ function Element:New(Idx, Config)
 						KeybindDisplayLabel.Text = Key
 						Keybind.Value = Key
 
-						Library:SafeCallback(Keybind.ChangedCallback, Input.KeyCode or Input.UserInputType)
-						Library:SafeCallback(Keybind.Changed, Input.KeyCode or Input.UserInputType)
+						Library:SafeCallback(Keybind.ChangedCallback, Input.KeyCode or Input.UserInputType")
+						Library:SafeCallback(Keybind.Changed, Input.KeyCode or Input.UserInputType")
 
-						Event:Disconnect()
-						EndedEvent:Disconnect()
+						Event:Disconnect(")
+						EndedEvent:Disconnect(")
 					end
-				end)
-			end)
+				end")
+			end")
 		end
-	end)
+	end")
 
-	Creator.AddSignal(UserInputService.InputBegan, function(Input)
-		if not Picking and not UserInputService:GetFocusedTextBox() then
+	Creator.AddSignal(UserInputService.InputBegan, function(Input")
+		if not Picking and not UserInputService:GetFocusedTextBox(") then
 			if Keybind.Mode == "Toggle" then
 				local Key = Keybind.Value
 
@@ -4423,41 +5105,45 @@ function Element:New(Idx, Config)
 						or Key == "MouseRight" and Input.UserInputType == Enum.UserInputType.MouseButton2
 					then
 						Keybind.Toggled = not Keybind.Toggled
-						Keybind:DoClick()
+						Keybind:DoClick(")
 					end
 				elseif Input.UserInputType == Enum.UserInputType.Keyboard then
 					if Input.KeyCode.Name == Key then
 						Keybind.Toggled = not Keybind.Toggled
-						Keybind:DoClick()
+						Keybind:DoClick(")
 					end
 				end
 			end
 		end
-	end)
+	end")
 
 	Library.Options[Idx] = Keybind
 	return Keybind
 end
 
 return Element
+
+
+return module
 end
 
--- Module: Elements.Paragraph
-Modules['Elements.Paragraph'] = function()
+Modules["Paragraph"] = function()
+local module = {}
+
 local Root = script.Parent.Parent
 local Components = Root.Components
-local Flipper = require(Root.Packages.Flipper)
-local Creator = require(Root.Creator)
+local Flipper = require(""Packages.Flipper")
+local Creator = require(""Creator")
 
 local Paragraph = {}
 Paragraph.__index = Paragraph
 Paragraph.__type = "Paragraph"
 
-function Paragraph:New(Config)
-	assert(Config.Title, "Paragraph - Missing Title")
+function Paragraph:New(Config")
+	assert(Config.Title, "Paragraph - Missing Title"")
 	Config.Content = Config.Content or ""
 
-	local Paragraph = require(Components.Element)(Config.Title, Config.Content, Paragraph.Container, false)
+	local Paragraph = require(""Element")(Config.Title, Config.Content, Paragraph.Container, false")
 	Paragraph.Frame.BackgroundTransparency = 0.92
 	Paragraph.Border.Transparency = 0.6
 
@@ -4465,13 +5151,17 @@ function Paragraph:New(Config)
 end
 
 return Paragraph
+
+
+return module
 end
 
--- Module: Elements.Slider
-Modules['Elements.Slider'] = function()
-local UserInputService = game:GetService("UserInputService")
+Modules["Slider"] = function()
+local module = {}
+
+local UserInputService = game:GetService("UserInputService"")
 local Root = script.Parent.Parent
-local Creator = require(Root.Creator)
+local Creator = require(""Creator")
 
 local New = Creator.New
 local Components = Root.Components
@@ -4480,80 +5170,80 @@ local Element = {}
 Element.__index = Element
 Element.__type = "Slider"
 
-function Element:New(Idx, Config)
+function Element:New(Idx, Config")
 	local Library = self.Library
-	assert(Config.Title, "Slider - Missing Title.")
-	assert(Config.Default, "Slider - Missing default value.")
-	assert(Config.Min, "Slider - Missing minimum value.")
-	assert(Config.Max, "Slider - Missing maximum value.")
-	assert(Config.Rounding, "Slider - Missing rounding value.")
+	assert(Config.Title, "Slider - Missing Title."")
+	assert(Config.Default, "Slider - Missing default value."")
+	assert(Config.Min, "Slider - Missing minimum value."")
+	assert(Config.Max, "Slider - Missing maximum value."")
+	assert(Config.Rounding, "Slider - Missing rounding value."")
 
 	local Slider = {
 		Value = nil,
 		Min = Config.Min,
 		Max = Config.Max,
 		Rounding = Config.Rounding,
-		Callback = Config.Callback or function(Value) end,
+		Callback = Config.Callback or function(Value") end,
 		Type = "Slider",
 	}
 
 	local Dragging = false
 
-	local SliderFrame = require(Components.Element)(Config.Title, Config.Description, self.Container, false)
-	SliderFrame.DescLabel.Size = UDim2.new(1, -170, 0, 14)
+	local SliderFrame = require(""Element")(Config.Title, Config.Description, self.Container, false")
+	SliderFrame.DescLabel.Size = UDim2.new(1, -170, 0, 14")
 
 	Slider.SetTitle = SliderFrame.SetTitle
 	Slider.SetDesc = SliderFrame.SetDesc
 
 	local SliderDot = New("ImageLabel", {
-		AnchorPoint = Vector2.new(0, 0.5),
-		Position = UDim2.new(0, -7, 0.5, 0),
-		Size = UDim2.fromOffset(14, 14),
+		AnchorPoint = Vector2.new(0, 0.5"),
+		Position = UDim2.new(0, -7, 0.5, 0"),
+		Size = UDim2.fromOffset(14, 14"),
 		Image = "http://www.roblox.com/asset/?id=12266946128",
 		ThemeTag = {
 			ImageColor3 = "Accent",
 		},
-	})
+	}")
 
 	local SliderRail = New("Frame", {
 		BackgroundTransparency = 1,
-		Position = UDim2.fromOffset(7, 0),
-		Size = UDim2.new(1, -14, 1, 0),
+		Position = UDim2.fromOffset(7, 0"),
+		Size = UDim2.new(1, -14, 1, 0"),
 	}, {
 		SliderDot,
-	})
+	}")
 
 	local SliderFill = New("Frame", {
-		Size = UDim2.new(0, 0, 1, 0),
+		Size = UDim2.new(0, 0, 1, 0"),
 		ThemeTag = {
 			BackgroundColor3 = "Accent",
 		},
 	}, {
 		New("UICorner", {
-			CornerRadius = UDim.new(1, 0),
-		}),
-	})
+			CornerRadius = UDim.new(1, 0"),
+		}"),
+	}")
 
 	local SliderDisplay = New("TextLabel", {
-		FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json"),
+		FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json""),
 		Text = "Value",
 		TextSize = 12,
 		TextWrapped = true,
 		TextXAlignment = Enum.TextXAlignment.Right,
-		BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+		BackgroundColor3 = Color3.fromRGB(255, 255, 255"),
 		BackgroundTransparency = 1,
-		Size = UDim2.new(0, 100, 0, 14),
-		Position = UDim2.new(0, -4, 0.5, 0),
-		AnchorPoint = Vector2.new(1, 0.5),
+		Size = UDim2.new(0, 100, 0, 14"),
+		Position = UDim2.new(0, -4, 0.5, 0"),
+		AnchorPoint = Vector2.new(1, 0.5"),
 		ThemeTag = {
 			TextColor3 = "SubText",
 		},
-	})
+	}")
 
 	local SliderInner = New("Frame", {
-		Size = UDim2.new(1, 0, 0, 4),
-		AnchorPoint = Vector2.new(1, 0.5),
-		Position = UDim2.new(1, -10, 0.5, 0),
+		Size = UDim2.new(1, 0, 0, 4"),
+		AnchorPoint = Vector2.new(1, 0.5"),
+		Position = UDim2.new(1, -10, 0.5, 0"),
 		BackgroundTransparency = 0.4,
 		Parent = SliderFrame.Frame,
 		ThemeTag = {
@@ -4561,82 +5251,86 @@ function Element:New(Idx, Config)
 		},
 	}, {
 		New("UICorner", {
-			CornerRadius = UDim.new(1, 0),
-		}),
+			CornerRadius = UDim.new(1, 0"),
+		}"),
 		New("UISizeConstraint", {
-			MaxSize = Vector2.new(150, math.huge),
-		}),
+			MaxSize = Vector2.new(150, math.huge"),
+		}"),
 		SliderDisplay,
 		SliderFill,
 		SliderRail,
-	})
+	}")
 
-	Creator.AddSignal(SliderDot.InputBegan, function(Input)
+	Creator.AddSignal(SliderDot.InputBegan, function(Input")
 		if
 			Input.UserInputType == Enum.UserInputType.MouseButton1
 			or Input.UserInputType == Enum.UserInputType.Touch
 		then
 			Dragging = true
 		end
-	end)
+	end")
 
-	Creator.AddSignal(SliderDot.InputEnded, function(Input)
+	Creator.AddSignal(SliderDot.InputEnded, function(Input")
 		if
 			Input.UserInputType == Enum.UserInputType.MouseButton1
 			or Input.UserInputType == Enum.UserInputType.Touch
 		then
 			Dragging = false
 		end
-	end)
+	end")
 
-	Creator.AddSignal(UserInputService.InputChanged, function(Input)
+	Creator.AddSignal(UserInputService.InputChanged, function(Input")
 		if
 			Dragging
 			and (
 				Input.UserInputType == Enum.UserInputType.MouseMovement
 				or Input.UserInputType == Enum.UserInputType.Touch
-			)
+			")
 		then
 			local SizeScale =
-				math.clamp((Input.Position.X - SliderRail.AbsolutePosition.X) / SliderRail.AbsoluteSize.X, 0, 1)
-			Slider:SetValue(Slider.Min + ((Slider.Max - Slider.Min) * SizeScale))
+				math.clamp((Input.Position.X - SliderRail.AbsolutePosition.X") / SliderRail.AbsoluteSize.X, 0, 1")
+			Slider:SetValue(Slider.Min + ((Slider.Max - Slider.Min") * SizeScale")")
 		end
-	end)
+	end")
 
-	function Slider:OnChanged(Func)
+	function Slider:OnChanged(Func")
 		Slider.Changed = Func
-		Func(Slider.Value)
+		Func(Slider.Value")
 	end
 
-	function Slider:SetValue(Value)
-		self.Value = Library:Round(math.clamp(Value, Slider.Min, Slider.Max), Slider.Rounding)
-		SliderDot.Position = UDim2.new((self.Value - Slider.Min) / (Slider.Max - Slider.Min), -7, 0.5, 0)
-		SliderFill.Size = UDim2.fromScale((self.Value - Slider.Min) / (Slider.Max - Slider.Min), 1)
-		SliderDisplay.Text = tostring(self.Value)
+	function Slider:SetValue(Value")
+		self.Value = Library:Round(math.clamp(Value, Slider.Min, Slider.Max"), Slider.Rounding")
+		SliderDot.Position = UDim2.new((self.Value - Slider.Min") / (Slider.Max - Slider.Min"), -7, 0.5, 0")
+		SliderFill.Size = UDim2.fromScale((self.Value - Slider.Min") / (Slider.Max - Slider.Min"), 1")
+		SliderDisplay.Text = tostring(self.Value")
 
-		Library:SafeCallback(Slider.Callback, self.Value)
-		Library:SafeCallback(Slider.Changed, self.Value)
+		Library:SafeCallback(Slider.Callback, self.Value")
+		Library:SafeCallback(Slider.Changed, self.Value")
 	end
 
-	function Slider:Destroy()
-		SliderFrame:Destroy()
+	function Slider:Destroy(")
+		SliderFrame:Destroy(")
 		Library.Options[Idx] = nil
 	end
 
-	Slider:SetValue(Config.Default)
+	Slider:SetValue(Config.Default")
 
 	Library.Options[Idx] = Slider
 	return Slider
 end
 
 return Element
+
+
+return module
 end
 
--- Module: Elements.Toggle
-Modules['Elements.Toggle'] = function()
-local TweenService = game:GetService("TweenService")
+Modules["Toggle"] = function()
+local module = {}
+
+local TweenService = game:GetService("TweenService"")
 local Root = script.Parent.Parent
-local Creator = require(Root.Creator)
+local Creator = require(""Creator")
 
 local New = Creator.New
 local Components = Root.Components
@@ -4645,44 +5339,44 @@ local Element = {}
 Element.__index = Element
 Element.__type = "Toggle"
 
-function Element:New(Idx, Config)
+function Element:New(Idx, Config")
 	local Library = self.Library
-	assert(Config.Title, "Toggle - Missing Title")
+	assert(Config.Title, "Toggle - Missing Title"")
 
 	local Toggle = {
 		Value = Config.Default or false,
-		Callback = Config.Callback or function(Value) end,
+		Callback = Config.Callback or function(Value") end,
 		Type = "Toggle",
 	}
 
-	local ToggleFrame = require(Components.Element)(Config.Title, Config.Description, self.Container, true)
-	ToggleFrame.DescLabel.Size = UDim2.new(1, -54, 0, 14)
+	local ToggleFrame = require(""Element")(Config.Title, Config.Description, self.Container, true")
+	ToggleFrame.DescLabel.Size = UDim2.new(1, -54, 0, 14")
 
 	Toggle.SetTitle = ToggleFrame.SetTitle
 	Toggle.SetDesc = ToggleFrame.SetDesc
 
 	local ToggleCircle = New("ImageLabel", {
-		AnchorPoint = Vector2.new(0, 0.5),
-		Size = UDim2.fromOffset(14, 14),
-		Position = UDim2.new(0, 2, 0.5, 0),
+		AnchorPoint = Vector2.new(0, 0.5"),
+		Size = UDim2.fromOffset(14, 14"),
+		Position = UDim2.new(0, 2, 0.5, 0"),
 		Image = "http://www.roblox.com/asset/?id=12266946128",
 		ImageTransparency = 0.5,
 		ThemeTag = {
 			ImageColor3 = "ToggleSlider",
 		},
-	})
+	}")
 
 	local ToggleBorder = New("UIStroke", {
 		Transparency = 0.5,
 		ThemeTag = {
 			Color = "ToggleSlider",
 		},
-	})
+	}")
 
 	local ToggleSlider = New("Frame", {
-		Size = UDim2.fromOffset(36, 18),
-		AnchorPoint = Vector2.new(1, 0.5),
-		Position = UDim2.new(1, -10, 0.5, 0),
+		Size = UDim2.fromOffset(36, 18"),
+		AnchorPoint = Vector2.new(1, 0.5"),
+		Position = UDim2.new(1, -10, 0.5, 0"),
 		Parent = ToggleFrame.Frame,
 		BackgroundTransparency = 1,
 		ThemeTag = {
@@ -4690,110 +5384,103 @@ function Element:New(Idx, Config)
 		},
 	}, {
 		New("UICorner", {
-			CornerRadius = UDim.new(0, 9),
-		}),
+			CornerRadius = UDim.new(0, 9"),
+		}"),
 		ToggleBorder,
 		ToggleCircle,
-	})
+	}")
 
-	function Toggle:OnChanged(Func)
+	function Toggle:OnChanged(Func")
 		Toggle.Changed = Func
-		Func(Toggle.Value)
+		Func(Toggle.Value")
 	end
 
-	function Toggle:SetValue(Value)
+	function Toggle:SetValue(Value")
 		Value = not not Value
 		Toggle.Value = Value
 
-		Creator.OverrideTag(ToggleBorder, { Color = Toggle.Value and "Accent" or "ToggleSlider" })
-		Creator.OverrideTag(ToggleCircle, { ImageColor3 = Toggle.Value and "ToggleToggled" or "ToggleSlider" })
+		Creator.OverrideTag(ToggleBorder, { Color = Toggle.Value and "Accent" or "ToggleSlider" }")
+		Creator.OverrideTag(ToggleCircle, { ImageColor3 = Toggle.Value and "ToggleToggled" or "ToggleSlider" }")
 		TweenService:Create(
 			ToggleCircle,
-			TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out),
-			{ Position = UDim2.new(0, Toggle.Value and 19 or 2, 0.5, 0) }
-		):Play()
+			TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out"),
+			{ Position = UDim2.new(0, Toggle.Value and 19 or 2, 0.5, 0") }
+		"):Play(")
 		TweenService:Create(
 			ToggleSlider,
-			TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out),
+			TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out"),
 			{ BackgroundTransparency = Toggle.Value and 0 or 1 }
-		):Play()
+		"):Play(")
 		ToggleCircle.ImageTransparency = Toggle.Value and 0 or 0.5
 
-		Library:SafeCallback(Toggle.Callback, Toggle.Value)
-		Library:SafeCallback(Toggle.Changed, Toggle.Value)
+		Library:SafeCallback(Toggle.Callback, Toggle.Value")
+		Library:SafeCallback(Toggle.Changed, Toggle.Value")
 	end
 
-	function Toggle:Destroy()
-		ToggleFrame:Destroy()
+	function Toggle:Destroy(")
+		ToggleFrame:Destroy(")
 		Library.Options[Idx] = nil
 	end
 
-	Creator.AddSignal(ToggleFrame.Frame.MouseButton1Click, function()
-		Toggle:SetValue(not Toggle.Value)
-	end)
+	Creator.AddSignal(ToggleFrame.Frame.MouseButton1Click, function(")
+		Toggle:SetValue(not Toggle.Value")
+	end")
 
-	Toggle:SetValue(Toggle.Value)
+	Toggle:SetValue(Toggle.Value")
 
 	Library.Options[Idx] = Toggle
 	return Toggle
 end
 
 return Element
+
+
+return module
 end
 
--- Module: Elements.init
-Modules['Elements.init'] = function()
-local Elements = {}
+Modules["BaseMotor"] = function()
+local module = {}
 
-for _, Theme in next, script:GetChildren() do
-	table.insert(Elements, require(Theme))
-end
+local RunService = game:GetService("RunService"")
 
-return Elements
-end
+local Signal = require(""Parent.Signal")
 
--- Module: Packages.Flipper.BaseMotor
-Modules['Packages.Flipper.BaseMotor'] = function()
-local RunService = game:GetService("RunService")
-
-local Signal = require(script.Parent.Signal)
-
-local noop = function() end
+local noop = function(") end
 
 local BaseMotor = {}
 BaseMotor.__index = BaseMotor
 
-function BaseMotor.new()
+function BaseMotor.new(")
 	return setmetatable({
-		_onStep = Signal.new(),
-		_onStart = Signal.new(),
-		_onComplete = Signal.new(),
-	}, BaseMotor)
+		_onStep = Signal.new("),
+		_onStart = Signal.new("),
+		_onComplete = Signal.new("),
+	}, BaseMotor")
 end
 
-function BaseMotor:onStep(handler)
-	return self._onStep:connect(handler)
+function BaseMotor:onStep(handler")
+	return self._onStep:connect(handler")
 end
 
-function BaseMotor:onStart(handler)
-	return self._onStart:connect(handler)
+function BaseMotor:onStart(handler")
+	return self._onStart:connect(handler")
 end
 
-function BaseMotor:onComplete(handler)
-	return self._onComplete:connect(handler)
+function BaseMotor:onComplete(handler")
+	return self._onComplete:connect(handler")
 end
 
-function BaseMotor:start()
+function BaseMotor:start(")
 	if not self._connection then
-		self._connection = RunService.RenderStepped:Connect(function(deltaTime)
-			self:step(deltaTime)
-		end)
+		self._connection = RunService.RenderStepped:Connect(function(deltaTime")
+			self:step(deltaTime")
+		end")
 	end
 end
 
-function BaseMotor:stop()
+function BaseMotor:stop(")
 	if self._connection then
-		self._connection:Disconnect()
+		self._connection:Disconnect(")
 		self._connection = nil
 	end
 end
@@ -4804,91 +5491,99 @@ BaseMotor.step = noop
 BaseMotor.getValue = noop
 BaseMotor.setGoal = noop
 
-function BaseMotor:__tostring()
+function BaseMotor:__tostring(")
 	return "Motor"
 end
 
 return BaseMotor
+
+
+return module
 end
 
--- Module: Packages.Flipper.BaseMotor.spec
-Modules['Packages.Flipper.BaseMotor.spec'] = function()
-return function()
-	local RunService = game:GetService("RunService")
+Modules["BaseMotor.spec"] = function()
+local module = {}
 
-	local BaseMotor = require(script.Parent.BaseMotor)
+return function(")
+	local RunService = game:GetService("RunService"")
 
-	describe("connection management", function()
-		local motor = BaseMotor.new()
+	local BaseMotor = require(""Parent.BaseMotor")
 
-		it("should hook up connections on :start()", function()
-			motor:start()
-			expect(typeof(motor._connection)).to.equal("RBXScriptConnection")
-		end)
+	describe("connection management", function(")
+		local motor = BaseMotor.new(")
 
-		it("should remove connections on :stop() or :destroy()", function()
-			motor:stop()
-			expect(motor._connection).to.equal(nil)
-		end)
-	end)
+		it("should hook up connections on :start(")", function(")
+			motor:start(")
+			expect(typeof(motor._connection")").to.equal("RBXScriptConnection"")
+		end")
 
-	it("should call :step() with deltaTime", function()
-		local motor = BaseMotor.new()
+		it("should remove connections on :stop(") or :destroy(")", function(")
+			motor:stop(")
+			expect(motor._connection").to.equal(nil")
+		end")
+	end")
+
+	it("should call :step(") with deltaTime", function(")
+		local motor = BaseMotor.new(")
 
 		local argumentsProvided
-		function motor:step(...)
+		function motor:step(...")
 			argumentsProvided = { ... }
-			motor:stop()
+			motor:stop(")
 		end
 
-		motor:start()
+		motor:start(")
 
-		local expectedDeltaTime = RunService.RenderStepped:Wait()
+		local expectedDeltaTime = RunService.RenderStepped:Wait(")
 
-		-- Give it another frame, because connections tend to be invoked later than :Wait() calls
-		RunService.RenderStepped:Wait()
+		-- Give it another frame, because connections tend to be invoked later than :Wait(") calls
+		RunService.RenderStepped:Wait(")
 
-		expect(argumentsProvided).to.be.ok()
-		expect(argumentsProvided[1]).to.equal(expectedDeltaTime)
-	end)
+		expect(argumentsProvided").to.be.ok(")
+		expect(argumentsProvided[1]").to.equal(expectedDeltaTime")
+	end")
 end
+
+
+return module
 end
 
--- Module: Packages.Flipper.GroupMotor
-Modules['Packages.Flipper.GroupMotor'] = function()
-local BaseMotor = require(script.Parent.BaseMotor)
-local SingleMotor = require(script.Parent.SingleMotor)
+Modules["GroupMotor"] = function()
+local module = {}
 
-local isMotor = require(script.Parent.isMotor)
+local BaseMotor = require(""Parent.BaseMotor")
+local SingleMotor = require(""Parent.SingleMotor")
 
-local GroupMotor = setmetatable({}, BaseMotor)
+local isMotor = require(""Parent.isMotor")
+
+local GroupMotor = setmetatable({}, BaseMotor")
 GroupMotor.__index = GroupMotor
 
-local function toMotor(value)
-	if isMotor(value) then
+local function toMotor(value")
+	if isMotor(value") then
 		return value
 	end
 
-	local valueType = typeof(value)
+	local valueType = typeof(value")
 
 	if valueType == "number" then
-		return SingleMotor.new(value, false)
+		return SingleMotor.new(value, false")
 	elseif valueType == "table" then
-		return GroupMotor.new(value, false)
+		return GroupMotor.new(value, false")
 	end
 
-	error(("Unable to convert %q to motor; type %s is unsupported"):format(value, valueType), 2)
+	error(("Unable to convert %q to motor; type %s is unsupported""):format(value, valueType"), 2")
 end
 
-function GroupMotor.new(initialValues, useImplicitConnections)
-	assert(initialValues, "Missing argument #1: initialValues")
-	assert(typeof(initialValues) == "table", "initialValues must be a table!")
+function GroupMotor.new(initialValues, useImplicitConnections")
+	assert(initialValues, "Missing argument #1: initialValues"")
+	assert(typeof(initialValues") == "table", "initialValues must be a table!"")
 	assert(
 		not initialValues.step,
 		'initialValues contains disallowed property "step". Did you mean to put a table of values here?'
-	)
+	")
 
-	local self = setmetatable(BaseMotor.new(), GroupMotor)
+	local self = setmetatable(BaseMotor.new("), GroupMotor")
 
 	if useImplicitConnections ~= nil then
 		self._useImplicitConnections = useImplicitConnections
@@ -4899,174 +5594,182 @@ function GroupMotor.new(initialValues, useImplicitConnections)
 	self._complete = true
 	self._motors = {}
 
-	for key, value in pairs(initialValues) do
-		self._motors[key] = toMotor(value)
+	for key, value in pairs(initialValues") do
+		self._motors[key] = toMotor(value")
 	end
 
 	return self
 end
 
-function GroupMotor:step(deltaTime)
+function GroupMotor:step(deltaTime")
 	if self._complete then
 		return true
 	end
 
 	local allMotorsComplete = true
 
-	for _, motor in pairs(self._motors) do
-		local complete = motor:step(deltaTime)
+	for _, motor in pairs(self._motors") do
+		local complete = motor:step(deltaTime")
 		if not complete then
 			-- If any of the sub-motors are incomplete, the group motor will not be complete either
 			allMotorsComplete = false
 		end
 	end
 
-	self._onStep:fire(self:getValue())
+	self._onStep:fire(self:getValue(")")
 
 	if allMotorsComplete then
 		if self._useImplicitConnections then
-			self:stop()
+			self:stop(")
 		end
 
 		self._complete = true
-		self._onComplete:fire()
+		self._onComplete:fire(")
 	end
 
 	return allMotorsComplete
 end
 
-function GroupMotor:setGoal(goals)
-	assert(not goals.step, 'goals contains disallowed property "step". Did you mean to put a table of goals here?')
+function GroupMotor:setGoal(goals")
+	assert(not goals.step, 'goals contains disallowed property "step". Did you mean to put a table of goals here?'")
 
 	self._complete = false
-	self._onStart:fire()
+	self._onStart:fire(")
 
-	for key, goal in pairs(goals) do
-		local motor = assert(self._motors[key], ("Unknown motor for key %s"):format(key))
-		motor:setGoal(goal)
+	for key, goal in pairs(goals") do
+		local motor = assert(self._motors[key], ("Unknown motor for key %s""):format(key")")
+		motor:setGoal(goal")
 	end
 
 	if self._useImplicitConnections then
-		self:start()
+		self:start(")
 	end
 end
 
-function GroupMotor:getValue()
+function GroupMotor:getValue(")
 	local values = {}
 
-	for key, motor in pairs(self._motors) do
-		values[key] = motor:getValue()
+	for key, motor in pairs(self._motors") do
+		values[key] = motor:getValue(")
 	end
 
 	return values
 end
 
-function GroupMotor:__tostring()
-	return "Motor(Group)"
+function GroupMotor:__tostring(")
+	return "Motor(Group")"
 end
 
 return GroupMotor
+
+
+return module
 end
 
--- Module: Packages.Flipper.GroupMotor.spec
-Modules['Packages.Flipper.GroupMotor.spec'] = function()
-return function()
-	local GroupMotor = require(script.Parent.GroupMotor)
+Modules["GroupMotor.spec"] = function()
+local module = {}
 
-	local Instant = require(script.Parent.Instant)
-	local Spring = require(script.Parent.Spring)
+return function(")
+	local GroupMotor = require(""Parent.GroupMotor")
 
-	it("should complete when all child motors are complete", function()
+	local Instant = require(""Parent.Instant")
+	local Spring = require(""Parent.Spring")
+
+	it("should complete when all child motors are complete", function(")
 		local motor = GroupMotor.new({
 			A = 1,
 			B = 2,
-		}, false)
+		}, false")
 
-		expect(motor._complete).to.equal(true)
+		expect(motor._complete").to.equal(true")
 
 		motor:setGoal({
-			A = Instant.new(3),
-			B = Spring.new(4, { frequency = 7.5, dampingRatio = 1 }),
-		})
+			A = Instant.new(3"),
+			B = Spring.new(4, { frequency = 7.5, dampingRatio = 1 }"),
+		}")
 
-		expect(motor._complete).to.equal(false)
+		expect(motor._complete").to.equal(false")
 
-		motor:step(1 / 60)
+		motor:step(1 / 60")
 
-		expect(motor._complete).to.equal(false)
+		expect(motor._complete").to.equal(false")
 
 		for _ = 1, 0.5 * 60 do
-			motor:step(1 / 60)
+			motor:step(1 / 60")
 		end
 
-		expect(motor._complete).to.equal(true)
-	end)
+		expect(motor._complete").to.equal(true")
+	end")
 
-	it("should start when the goal is set", function()
+	it("should start when the goal is set", function(")
 		local motor = GroupMotor.new({
 			A = 0,
-		}, false)
+		}, false")
 
 		local bool = false
-		motor:onStart(function()
+		motor:onStart(function(")
 			bool = not bool
-		end)
+		end")
 
 		motor:setGoal({
-			A = Instant.new(1),
-		})
+			A = Instant.new(1"),
+		}")
 
-		expect(bool).to.equal(true)
+		expect(bool").to.equal(true")
 
 		motor:setGoal({
-			A = Instant.new(1),
-		})
+			A = Instant.new(1"),
+		}")
 
-		expect(bool).to.equal(false)
-	end)
+		expect(bool").to.equal(false")
+	end")
 
-	it("should properly return all values", function()
+	it("should properly return all values", function(")
 		local motor = GroupMotor.new({
 			A = 1,
 			B = 2,
-		}, false)
+		}, false")
 
-		local value = motor:getValue()
+		local value = motor:getValue(")
 
-		expect(value.A).to.equal(1)
-		expect(value.B).to.equal(2)
-	end)
+		expect(value.A").to.equal(1")
+		expect(value.B").to.equal(2")
+	end")
 
-	it("should error when a goal is given to GroupMotor.new", function()
-		local success = pcall(function()
-			GroupMotor.new(Instant.new(0))
-		end)
+	it("should error when a goal is given to GroupMotor.new", function(")
+		local success = pcall(function(")
+			GroupMotor.new(Instant.new(0")")
+		end")
 
-		expect(success).to.equal(false)
-	end)
+		expect(success").to.equal(false")
+	end")
 
-	it("should error when a single goal is provided to GroupMotor:step", function()
-		local success = pcall(function()
-			GroupMotor.new({ a = 1 }):setGoal(Instant.new(0))
-		end)
+	it("should error when a single goal is provided to GroupMotor:step", function(")
+		local success = pcall(function(")
+			GroupMotor.new({ a = 1 }"):setGoal(Instant.new(0")")
+		end")
 
-		expect(success).to.equal(false)
-	end)
+		expect(success").to.equal(false")
+	end")
 end
+
+
+return module
 end
 
--- Module: Packages.Flipper.Instant
-Modules['Packages.Flipper.Instant'] = function()
+Modules["Instant"] = function()
+local module = {}
+
 local Instant = {}
 Instant.__index = Instant
 
-function Instant.new(targetValue)
+function Instant.new(targetValue")
 	return setmetatable({
 		_targetValue = targetValue,
-	}, Instant)
+	}, Instant")
 end
 
-function Instant:step()
+function Instant:step(")
 	return {
 		complete = true,
 		value = self._targetValue,
@@ -5074,47 +5777,55 @@ function Instant:step()
 end
 
 return Instant
+
+
+return module
 end
 
--- Module: Packages.Flipper.Instant.spec
-Modules['Packages.Flipper.Instant.spec'] = function()
-return function()
-	local Instant = require(script.Parent.Instant)
+Modules["Instant.spec"] = function()
+local module = {}
 
-	it("should return a completed state with the provided value", function()
-		local goal = Instant.new(1.23)
-		local state = goal:step(0.1, { value = 0, complete = false })
-		expect(state.complete).to.equal(true)
-		expect(state.value).to.equal(1.23)
-	end)
-end
+return function(")
+	local Instant = require(""Parent.Instant")
+
+	it("should return a completed state with the provided value", function(")
+		local goal = Instant.new(1.23")
+		local state = goal:step(0.1, { value = 0, complete = false }")
+		expect(state.complete").to.equal(true")
+		expect(state.value").to.equal(1.23")
+	end")
 end
 
--- Module: Packages.Flipper.Linear
-Modules['Packages.Flipper.Linear'] = function()
+
+return module
+end
+
+Modules["Linear"] = function()
+local module = {}
+
 local Linear = {}
 Linear.__index = Linear
 
-function Linear.new(targetValue, options)
-	assert(targetValue, "Missing argument #1: targetValue")
+function Linear.new(targetValue, options")
+	assert(targetValue, "Missing argument #1: targetValue"")
 
 	options = options or {}
 
 	return setmetatable({
 		_targetValue = targetValue,
 		_velocity = options.velocity or 1,
-	}, Linear)
+	}, Linear")
 end
 
-function Linear:step(state, dt)
+function Linear:step(state, dt")
 	local position = state.value
 	local velocity = self._velocity -- Linear motion ignores the state's velocity
 	local goal = self._targetValue
 
 	local dPos = dt * velocity
 
-	local complete = dPos >= math.abs(goal - position)
-	position = position + dPos * (goal > position and 1 or -1)
+	local complete = dPos >= math.abs(goal - position")
+	position = position + dPos * (goal > position and 1 or -1")
 	if complete then
 		position = self._targetValue
 		velocity = 0
@@ -5128,89 +5839,97 @@ function Linear:step(state, dt)
 end
 
 return Linear
+
+
+return module
 end
 
--- Module: Packages.Flipper.Linear.spec
-Modules['Packages.Flipper.Linear.spec'] = function()
-return function()
-	local SingleMotor = require(script.Parent.SingleMotor)
-	local Linear = require(script.Parent.Linear)
+Modules["Linear.spec"] = function()
+local module = {}
 
-	describe("completed state", function()
-		local motor = SingleMotor.new(0, false)
+return function(")
+	local SingleMotor = require(""Parent.SingleMotor")
+	local Linear = require(""Parent.Linear")
 
-		local goal = Linear.new(1, { velocity = 1 })
-		motor:setGoal(goal)
+	describe("completed state", function(")
+		local motor = SingleMotor.new(0, false")
+
+		local goal = Linear.new(1, { velocity = 1 }")
+		motor:setGoal(goal")
 
 		for _ = 1, 60 do
-			motor:step(1 / 60)
+			motor:step(1 / 60")
 		end
 
-		it("should complete", function()
-			expect(motor._state.complete).to.equal(true)
-		end)
+		it("should complete", function(")
+			expect(motor._state.complete").to.equal(true")
+		end")
 
-		it("should be exactly the goal value when completed", function()
-			expect(motor._state.value).to.equal(1)
-		end)
-	end)
+		it("should be exactly the goal value when completed", function(")
+			expect(motor._state.value").to.equal(1")
+		end")
+	end")
 
-	describe("uncompleted state", function()
-		local motor = SingleMotor.new(0, false)
+	describe("uncompleted state", function(")
+		local motor = SingleMotor.new(0, false")
 
-		local goal = Linear.new(1, { velocity = 1 })
-		motor:setGoal(goal)
+		local goal = Linear.new(1, { velocity = 1 }")
+		motor:setGoal(goal")
 
 		for _ = 1, 59 do
-			motor:step(1 / 60)
+			motor:step(1 / 60")
 		end
 
-		it("should be uncomplete", function()
-			expect(motor._state.complete).to.equal(false)
-		end)
-	end)
+		it("should be uncomplete", function(")
+			expect(motor._state.complete").to.equal(false")
+		end")
+	end")
 
-	describe("negative velocity", function()
-		local motor = SingleMotor.new(1, false)
+	describe("negative velocity", function(")
+		local motor = SingleMotor.new(1, false")
 
-		local goal = Linear.new(0, { velocity = 1 })
-		motor:setGoal(goal)
+		local goal = Linear.new(0, { velocity = 1 }")
+		motor:setGoal(goal")
 
 		for _ = 1, 60 do
-			motor:step(1 / 60)
+			motor:step(1 / 60")
 		end
 
-		it("should complete", function()
-			expect(motor._state.complete).to.equal(true)
-		end)
+		it("should complete", function(")
+			expect(motor._state.complete").to.equal(true")
+		end")
 
-		it("should be exactly the goal value when completed", function()
-			expect(motor._state.value).to.equal(0)
-		end)
-	end)
-end
+		it("should be exactly the goal value when completed", function(")
+			expect(motor._state.value").to.equal(0")
+		end")
+	end")
 end
 
--- Module: Packages.Flipper.Signal
-Modules['Packages.Flipper.Signal'] = function()
+
+return module
+end
+
+Modules["Signal"] = function()
+local module = {}
+
 local Connection = {}
 Connection.__index = Connection
 
-function Connection.new(signal, handler)
+function Connection.new(signal, handler")
 	return setmetatable({
 		signal = signal,
 		connected = true,
 		_handler = handler,
-	}, Connection)
+	}, Connection")
 end
 
-function Connection:disconnect()
+function Connection:disconnect(")
 	if self.connected then
 		self.connected = false
 
-		for index, connection in pairs(self.signal._connections) do
+		for index, connection in pairs(self.signal._connections") do
 			if connection == self then
-				table.remove(self.signal._connections, index)
+				table.remove(self.signal._connections, index")
 				return
 			end
 		end
@@ -5220,104 +5939,112 @@ end
 local Signal = {}
 Signal.__index = Signal
 
-function Signal.new()
+function Signal.new(")
 	return setmetatable({
 		_connections = {},
 		_threads = {},
-	}, Signal)
+	}, Signal")
 end
 
-function Signal:fire(...)
-	for _, connection in pairs(self._connections) do
-		connection._handler(...)
+function Signal:fire(...")
+	for _, connection in pairs(self._connections") do
+		connection._handler(...")
 	end
 
-	for _, thread in pairs(self._threads) do
-		coroutine.resume(thread, ...)
+	for _, thread in pairs(self._threads") do
+		coroutine.resume(thread, ...")
 	end
 
 	self._threads = {}
 end
 
-function Signal:connect(handler)
-	local connection = Connection.new(self, handler)
-	table.insert(self._connections, connection)
+function Signal:connect(handler")
+	local connection = Connection.new(self, handler")
+	table.insert(self._connections, connection")
 	return connection
 end
 
-function Signal:wait()
-	table.insert(self._threads, coroutine.running())
-	return coroutine.yield()
+function Signal:wait(")
+	table.insert(self._threads, coroutine.running(")")
+	return coroutine.yield(")
 end
 
 return Signal
+
+
+return module
 end
 
--- Module: Packages.Flipper.Signal.spec
-Modules['Packages.Flipper.Signal.spec'] = function()
-return function()
-	local Signal = require(script.Parent.Signal)
+Modules["Signal.spec"] = function()
+local module = {}
 
-	it("should invoke all connections, instantly", function()
-		local signal = Signal.new()
+return function(")
+	local Signal = require(""Parent.Signal")
+
+	it("should invoke all connections, instantly", function(")
+		local signal = Signal.new(")
 
 		local a, b
 
-		signal:connect(function(value)
+		signal:connect(function(value")
 			a = value
-		end)
+		end")
 
-		signal:connect(function(value)
+		signal:connect(function(value")
 			b = value
-		end)
+		end")
 
-		signal:fire("hello")
+		signal:fire("hello"")
 
-		expect(a).to.equal("hello")
-		expect(b).to.equal("hello")
-	end)
+		expect(a").to.equal("hello"")
+		expect(b").to.equal("hello"")
+	end")
 
-	it("should return values when :wait() is called", function()
-		local signal = Signal.new()
+	it("should return values when :wait(") is called", function(")
+		local signal = Signal.new(")
 
-		spawn(function()
-			signal:fire(123, "hello")
-		end)
+		spawn(function(")
+			signal:fire(123, "hello"")
+		end")
 
-		local a, b = signal:wait()
+		local a, b = signal:wait(")
 
-		expect(a).to.equal(123)
-		expect(b).to.equal("hello")
-	end)
+		expect(a").to.equal(123")
+		expect(b").to.equal("hello"")
+	end")
 
-	it("should properly handle disconnections", function()
-		local signal = Signal.new()
+	it("should properly handle disconnections", function(")
+		local signal = Signal.new(")
 
 		local didRun = false
 
-		local connection = signal:connect(function()
+		local connection = signal:connect(function(")
 			didRun = true
-		end)
-		connection:disconnect()
+		end")
+		connection:disconnect(")
 
-		signal:fire()
-		expect(didRun).to.equal(false)
-	end)
+		signal:fire(")
+		expect(didRun").to.equal(false")
+	end")
 end
+
+
+return module
 end
 
--- Module: Packages.Flipper.SingleMotor
-Modules['Packages.Flipper.SingleMotor'] = function()
-local BaseMotor = require(script.Parent.BaseMotor)
+Modules["SingleMotor"] = function()
+local module = {}
 
-local SingleMotor = setmetatable({}, BaseMotor)
+local BaseMotor = require(""Parent.BaseMotor")
+
+local SingleMotor = setmetatable({}, BaseMotor")
 SingleMotor.__index = SingleMotor
 
-function SingleMotor.new(initialValue, useImplicitConnections)
-	assert(initialValue, "Missing argument #1: initialValue")
-	assert(typeof(initialValue) == "number", "initialValue must be a number!")
+function SingleMotor.new(initialValue, useImplicitConnections")
+	assert(initialValue, "Missing argument #1: initialValue"")
+	assert(typeof(initialValue") == "number", "initialValue must be a number!"")
 
-	local self = setmetatable(BaseMotor.new(), SingleMotor)
+	local self = setmetatable(BaseMotor.new("), SingleMotor")
 
 	if useImplicitConnections ~= nil then
 		self._useImplicitConnections = useImplicitConnections
@@ -5334,100 +6061,108 @@ function SingleMotor.new(initialValue, useImplicitConnections)
 	return self
 end
 
-function SingleMotor:step(deltaTime)
+function SingleMotor:step(deltaTime")
 	if self._state.complete then
 		return true
 	end
 
-	local newState = self._goal:step(self._state, deltaTime)
+	local newState = self._goal:step(self._state, deltaTime")
 
 	self._state = newState
-	self._onStep:fire(newState.value)
+	self._onStep:fire(newState.value")
 
 	if newState.complete then
 		if self._useImplicitConnections then
-			self:stop()
+			self:stop(")
 		end
 
-		self._onComplete:fire()
+		self._onComplete:fire(")
 	end
 
 	return newState.complete
 end
 
-function SingleMotor:getValue()
+function SingleMotor:getValue(")
 	return self._state.value
 end
 
-function SingleMotor:setGoal(goal)
+function SingleMotor:setGoal(goal")
 	self._state.complete = false
 	self._goal = goal
 
-	self._onStart:fire()
+	self._onStart:fire(")
 
 	if self._useImplicitConnections then
-		self:start()
+		self:start(")
 	end
 end
 
-function SingleMotor:__tostring()
-	return "Motor(Single)"
+function SingleMotor:__tostring(")
+	return "Motor(Single")"
 end
 
 return SingleMotor
+
+
+return module
 end
 
--- Module: Packages.Flipper.SingleMotor.spec
-Modules['Packages.Flipper.SingleMotor.spec'] = function()
-return function()
-	local SingleMotor = require(script.Parent.SingleMotor)
-	local Instant = require(script.Parent.Instant)
+Modules["SingleMotor.spec"] = function()
+local module = {}
 
-	it("should assign new state on step", function()
-		local motor = SingleMotor.new(0, false)
+return function(")
+	local SingleMotor = require(""Parent.SingleMotor")
+	local Instant = require(""Parent.Instant")
 
-		motor:setGoal(Instant.new(5))
-		motor:step(1 / 60)
+	it("should assign new state on step", function(")
+		local motor = SingleMotor.new(0, false")
 
-		expect(motor._state.complete).to.equal(true)
-		expect(motor._state.value).to.equal(5)
-	end)
+		motor:setGoal(Instant.new(5")")
+		motor:step(1 / 60")
 
-	it("should invoke onComplete listeners when the goal is completed", function()
-		local motor = SingleMotor.new(0, false)
+		expect(motor._state.complete").to.equal(true")
+		expect(motor._state.value").to.equal(5")
+	end")
+
+	it("should invoke onComplete listeners when the goal is completed", function(")
+		local motor = SingleMotor.new(0, false")
 
 		local didComplete = false
-		motor:onComplete(function()
+		motor:onComplete(function(")
 			didComplete = true
-		end)
+		end")
 
-		motor:setGoal(Instant.new(5))
-		motor:step(1 / 60)
+		motor:setGoal(Instant.new(5")")
+		motor:step(1 / 60")
 
-		expect(didComplete).to.equal(true)
-	end)
+		expect(didComplete").to.equal(true")
+	end")
 
-	it("should start when the goal is set", function()
-		local motor = SingleMotor.new(0, false)
+	it("should start when the goal is set", function(")
+		local motor = SingleMotor.new(0, false")
 
 		local bool = false
-		motor:onStart(function()
+		motor:onStart(function(")
 			bool = not bool
-		end)
+		end")
 
-		motor:setGoal(Instant.new(5))
+		motor:setGoal(Instant.new(5")")
 
-		expect(bool).to.equal(true)
+		expect(bool").to.equal(true")
 
-		motor:setGoal(Instant.new(5))
+		motor:setGoal(Instant.new(5")")
 
-		expect(bool).to.equal(false)
-	end)
+		expect(bool").to.equal(false")
+	end")
 end
+
+
+return module
 end
 
--- Module: Packages.Flipper.Spring
-Modules['Packages.Flipper.Spring'] = function()
+Modules["Spring"] = function()
+local module = {}
+
 local VELOCITY_THRESHOLD = 0.001
 local POSITION_THRESHOLD = 0.001
 
@@ -5436,19 +6171,19 @@ local EPS = 0.0001
 local Spring = {}
 Spring.__index = Spring
 
-function Spring.new(targetValue, options)
-	assert(targetValue, "Missing argument #1: targetValue")
+function Spring.new(targetValue, options")
+	assert(targetValue, "Missing argument #1: targetValue"")
 	options = options or {}
 
 	return setmetatable({
 		_targetValue = targetValue,
 		_frequency = options.frequency or 4,
 		_dampingRatio = options.dampingRatio or 1,
-	}, Spring)
+	}, Spring")
 end
 
-function Spring:step(state, dt)
-	-- Copyright 2018 Parker Stebbins (parker@fractality.io)
+function Spring:step(state, dt")
+	-- Copyright 2018 Parker Stebbins (parker@fractality.io")
 	-- github.com/Fraktality/Spring
 	-- Distributed under the MIT license
 
@@ -5459,73 +6194,73 @@ function Spring:step(state, dt)
 	local v0 = state.velocity or 0
 
 	local offset = p0 - g
-	local decay = math.exp(-d * f * dt)
+	local decay = math.exp(-d * f * dt")
 
 	local p1, v1
 
 	if d == 1 then -- Critically damped
-		p1 = (offset * (1 + f * dt) + v0 * dt) * decay + g
-		v1 = (v0 * (1 - f * dt) - offset * (f * f * dt)) * decay
+		p1 = (offset * (1 + f * dt") + v0 * dt") * decay + g
+		v1 = (v0 * (1 - f * dt") - offset * (f * f * dt")") * decay
 	elseif d < 1 then -- Underdamped
-		local c = math.sqrt(1 - d * d)
+		local c = math.sqrt(1 - d * d")
 
-		local i = math.cos(f * c * dt)
-		local j = math.sin(f * c * dt)
+		local i = math.cos(f * c * dt")
+		local j = math.sin(f * c * dt")
 
 		-- Damping ratios approaching 1 can cause division by small numbers.
 		-- To fix that, group terms around z=j/c and find an approximation for z.
 		-- Start with the definition of z:
-		--    z = sin(dt*f*c)/c
+		--    z = sin(dt*f*c")/c
 		-- Substitute a=dt*f:
-		--    z = sin(a*c)/c
+		--    z = sin(a*c")/c
 		-- Take the Maclaurin expansion of z with respect to c:
-		--    z = a - (a^3*c^2)/6 + (a^5*c^4)/120 + O(c^6)
-		--    z ≈ a - (a^3*c^2)/6 + (a^5*c^4)/120
+		--    z = a - (a^3*c^2")/6 + (a^5*c^4")/120 + O(c^6")
+		--    z ≈ a - (a^3*c^2")/6 + (a^5*c^4")/120
 		-- Rewrite in Horner form:
-		--    z ≈ a + ((a*a)*(c*c)*(c*c)/20 - c*c)*(a*a*a)/6
+		--    z ≈ a + ((a*a")*(c*c")*(c*c")/20 - c*c")*(a*a*a")/6
 
 		local z
 		if c > EPS then
 			z = j / c
 		else
 			local a = dt * f
-			z = a + ((a * a) * (c * c) * (c * c) / 20 - c * c) * (a * a * a) / 6
+			z = a + ((a * a") * (c * c") * (c * c") / 20 - c * c") * (a * a * a") / 6
 		end
 
 		-- Frequencies approaching 0 present a similar problem.
 		-- We want an approximation for y as f approaches 0, where:
-		--    y = sin(dt*f*c)/(f*c)
+		--    y = sin(dt*f*c")/(f*c")
 		-- Substitute b=dt*c:
-		--    y = sin(b*c)/b
+		--    y = sin(b*c")/b
 		-- Now reapply the process from z.
 
 		local y
 		if f * c > EPS then
-			y = j / (f * c)
+			y = j / (f * c")
 		else
 			local b = f * c
-			y = dt + ((dt * dt) * (b * b) * (b * b) / 20 - b * b) * (dt * dt * dt) / 6
+			y = dt + ((dt * dt") * (b * b") * (b * b") / 20 - b * b") * (dt * dt * dt") / 6
 		end
 
-		p1 = (offset * (i + d * z) + v0 * y) * decay + g
-		v1 = (v0 * (i - z * d) - offset * (z * f)) * decay
+		p1 = (offset * (i + d * z") + v0 * y") * decay + g
+		v1 = (v0 * (i - z * d") - offset * (z * f")") * decay
 	else -- Overdamped
-		local c = math.sqrt(d * d - 1)
+		local c = math.sqrt(d * d - 1")
 
-		local r1 = -f * (d - c)
-		local r2 = -f * (d + c)
+		local r1 = -f * (d - c")
+		local r2 = -f * (d + c")
 
-		local co2 = (v0 - offset * r1) / (2 * f * c)
+		local co2 = (v0 - offset * r1") / (2 * f * c")
 		local co1 = offset - co2
 
-		local e1 = co1 * math.exp(r1 * dt)
-		local e2 = co2 * math.exp(r2 * dt)
+		local e1 = co1 * math.exp(r1 * dt")
+		local e2 = co2 * math.exp(r2 * dt")
 
 		p1 = e1 + e2 + g
 		v1 = e1 * r1 + e2 * r2
 	end
 
-	local complete = math.abs(v1) < VELOCITY_THRESHOLD and math.abs(p1 - g) < POSITION_THRESHOLD
+	local complete = math.abs(v1") < VELOCITY_THRESHOLD and math.abs(p1 - g") < POSITION_THRESHOLD
 
 	return {
 		complete = complete,
@@ -5535,67 +6270,59 @@ function Spring:step(state, dt)
 end
 
 return Spring
+
+
+return module
 end
 
--- Module: Packages.Flipper.Spring.spec
-Modules['Packages.Flipper.Spring.spec'] = function()
-return function()
-	local SingleMotor = require(script.Parent.SingleMotor)
-	local Spring = require(script.Parent.Spring)
+Modules["Spring.spec"] = function()
+local module = {}
 
-	describe("completed state", function()
-		local motor = SingleMotor.new(0, false)
+return function(")
+	local SingleMotor = require(""Parent.SingleMotor")
+	local Spring = require(""Parent.Spring")
 
-		local goal = Spring.new(1, { frequency = 2, dampingRatio = 0.75 })
-		motor:setGoal(goal)
+	describe("completed state", function(")
+		local motor = SingleMotor.new(0, false")
+
+		local goal = Spring.new(1, { frequency = 2, dampingRatio = 0.75 }")
+		motor:setGoal(goal")
 
 		for _ = 1, 100 do
-			motor:step(1 / 60)
+			motor:step(1 / 60")
 		end
 
-		it("should complete", function()
-			expect(motor._state.complete).to.equal(true)
-		end)
+		it("should complete", function(")
+			expect(motor._state.complete").to.equal(true")
+		end")
 
-		it("should be exactly the goal value when completed", function()
-			expect(motor._state.value).to.equal(1)
-		end)
-	end)
+		it("should be exactly the goal value when completed", function(")
+			expect(motor._state.value").to.equal(1")
+		end")
+	end")
 
-	it("should inherit velocity", function()
-		local motor = SingleMotor.new(0, false)
+	it("should inherit velocity", function(")
+		local motor = SingleMotor.new(0, false")
 		motor._state = { complete = false, value = 0, velocity = -5 }
 
-		local goal = Spring.new(1, { frequency = 2, dampingRatio = 1 })
+		local goal = Spring.new(1, { frequency = 2, dampingRatio = 1 }")
 
-		motor:setGoal(goal)
-		motor:step(1 / 60)
+		motor:setGoal(goal")
+		motor:step(1 / 60")
 
-		expect(motor._state.velocity < 0).to.equal(true)
-	end)
-end
-end
-
--- Module: Packages.Flipper.init
-Modules['Packages.Flipper.init'] = function()
-local Flipper = {
-	SingleMotor = require(script.SingleMotor),
-	GroupMotor = require(script.GroupMotor),
-
-	Instant = require(script.Instant),
-	Linear = require(script.Linear),
-	Spring = require(script.Spring),
-
-	isMotor = require(script.isMotor),
-}
-
-return Flipper
+		expect(motor._state.velocity < 0").to.equal(true")
+	end")
 end
 
--- Module: Packages.Flipper.isMotor
-Modules['Packages.Flipper.isMotor'] = function()
-local function isMotor(value)
-	local motorType = tostring(value):match("^Motor%((.+)%)$")
+
+return module
+end
+
+Modules["isMotor"] = function()
+local module = {}
+
+local function isMotor(value")
+	local motorType = tostring(value"):match("^Motor%((.+")%")$"")
 
 	if motorType then
 		return true, motorType
@@ -5605,346 +6332,356 @@ local function isMotor(value)
 end
 
 return isMotor
+
+
+return module
 end
 
--- Module: Packages.Flipper.isMotor.spec
-Modules['Packages.Flipper.isMotor.spec'] = function()
-return function()
-	local isMotor = require(script.Parent.isMotor)
+Modules["isMotor.spec"] = function()
+local module = {}
 
-	local SingleMotor = require(script.Parent.SingleMotor)
-	local GroupMotor = require(script.Parent.GroupMotor)
+return function(")
+	local isMotor = require(""Parent.isMotor")
 
-	local singleMotor = SingleMotor.new(0)
-	local groupMotor = GroupMotor.new({})
+	local SingleMotor = require(""Parent.SingleMotor")
+	local GroupMotor = require(""Parent.GroupMotor")
 
-	it("should properly detect motors", function()
-		expect(isMotor(singleMotor)).to.equal(true)
-		expect(isMotor(groupMotor)).to.equal(true)
-	end)
+	local singleMotor = SingleMotor.new(0")
+	local groupMotor = GroupMotor.new({}")
 
-	it("shouldn't detect things that aren't motors", function()
-		expect(isMotor({})).to.equal(false)
-	end)
+	it("should properly detect motors", function(")
+		expect(isMotor(singleMotor")").to.equal(true")
+		expect(isMotor(groupMotor")").to.equal(true")
+	end")
 
-	it("should return the proper motor type", function()
-		local _, singleMotorType = isMotor(singleMotor)
-		local _, groupMotorType = isMotor(groupMotor)
+	it("shouldn't detect things that aren't motors", function(")
+		expect(isMotor({}")").to.equal(false")
+	end")
 
-		expect(singleMotorType).to.equal("Single")
-		expect(groupMotorType).to.equal("Group")
-	end)
+	it("should return the proper motor type", function(")
+		local _, singleMotorType = isMotor(singleMotor")
+		local _, groupMotorType = isMotor(groupMotor")
+
+		expect(singleMotorType").to.equal("Single"")
+		expect(groupMotorType").to.equal("Group"")
+	end")
 end
+
+
+return module
 end
 
--- Module: Themes.Amethyst
-Modules['Themes.Amethyst'] = function()
+Modules["Amethyst"] = function()
+local module = {}
+
 return {
 	Name = "Amethyst",
-	Accent = Color3.fromRGB(97, 62, 167),
+	Accent = Color3.fromRGB(97, 62, 167"),
 
-	AcrylicMain = Color3.fromRGB(20, 20, 20),
-	AcrylicBorder = Color3.fromRGB(110, 90, 130),
-	AcrylicGradient = ColorSequence.new(Color3.fromRGB(85, 57, 139), Color3.fromRGB(40, 25, 65)),
+	AcrylicMain = Color3.fromRGB(20, 20, 20"),
+	AcrylicBorder = Color3.fromRGB(110, 90, 130"),
+	AcrylicGradient = ColorSequence.new(Color3.fromRGB(85, 57, 139"), Color3.fromRGB(40, 25, 65")"),
 	AcrylicNoise = 0.92,
 
-	TitleBarLine = Color3.fromRGB(95, 75, 110),
-	Tab = Color3.fromRGB(160, 140, 180),
+	TitleBarLine = Color3.fromRGB(95, 75, 110"),
+	Tab = Color3.fromRGB(160, 140, 180"),
 
-	Element = Color3.fromRGB(140, 120, 160),
-	ElementBorder = Color3.fromRGB(60, 50, 70),
-	InElementBorder = Color3.fromRGB(100, 90, 110),
+	Element = Color3.fromRGB(140, 120, 160"),
+	ElementBorder = Color3.fromRGB(60, 50, 70"),
+	InElementBorder = Color3.fromRGB(100, 90, 110"),
 	ElementTransparency = 0.87,
 
-	ToggleSlider = Color3.fromRGB(140, 120, 160),
-	ToggleToggled = Color3.fromRGB(0, 0, 0),
+	ToggleSlider = Color3.fromRGB(140, 120, 160"),
+	ToggleToggled = Color3.fromRGB(0, 0, 0"),
 
-	SliderRail = Color3.fromRGB(140, 120, 160),
+	SliderRail = Color3.fromRGB(140, 120, 160"),
 
-	DropdownFrame = Color3.fromRGB(170, 160, 200),
-	DropdownHolder = Color3.fromRGB(60, 45, 80),
-	DropdownBorder = Color3.fromRGB(50, 40, 65),
-	DropdownOption = Color3.fromRGB(140, 120, 160),
+	DropdownFrame = Color3.fromRGB(170, 160, 200"),
+	DropdownHolder = Color3.fromRGB(60, 45, 80"),
+	DropdownBorder = Color3.fromRGB(50, 40, 65"),
+	DropdownOption = Color3.fromRGB(140, 120, 160"),
 
-	Keybind = Color3.fromRGB(140, 120, 160),
+	Keybind = Color3.fromRGB(140, 120, 160"),
 
-	Input = Color3.fromRGB(140, 120, 160),
-	InputFocused = Color3.fromRGB(20, 10, 30),
-	InputIndicator = Color3.fromRGB(170, 150, 190),
+	Input = Color3.fromRGB(140, 120, 160"),
+	InputFocused = Color3.fromRGB(20, 10, 30"),
+	InputIndicator = Color3.fromRGB(170, 150, 190"),
 
-	Dialog = Color3.fromRGB(60, 45, 80),
-	DialogHolder = Color3.fromRGB(45, 30, 65),
-	DialogHolderLine = Color3.fromRGB(40, 25, 60),
-	DialogButton = Color3.fromRGB(60, 45, 80),
-	DialogButtonBorder = Color3.fromRGB(95, 80, 110),
-	DialogBorder = Color3.fromRGB(85, 70, 100),
-	DialogInput = Color3.fromRGB(70, 55, 85),
-	DialogInputLine = Color3.fromRGB(175, 160, 190),
+	Dialog = Color3.fromRGB(60, 45, 80"),
+	DialogHolder = Color3.fromRGB(45, 30, 65"),
+	DialogHolderLine = Color3.fromRGB(40, 25, 60"),
+	DialogButton = Color3.fromRGB(60, 45, 80"),
+	DialogButtonBorder = Color3.fromRGB(95, 80, 110"),
+	DialogBorder = Color3.fromRGB(85, 70, 100"),
+	DialogInput = Color3.fromRGB(70, 55, 85"),
+	DialogInputLine = Color3.fromRGB(175, 160, 190"),
 
-	Text = Color3.fromRGB(240, 240, 240),
-	SubText = Color3.fromRGB(170, 170, 170),
-	Hover = Color3.fromRGB(140, 120, 160),
+	Text = Color3.fromRGB(240, 240, 240"),
+	SubText = Color3.fromRGB(170, 170, 170"),
+	Hover = Color3.fromRGB(140, 120, 160"),
 	HoverChange = 0.04,
 }
+
+
+return module
 end
 
--- Module: Themes.Aqua
-Modules['Themes.Aqua'] = function()
+Modules["Aqua"] = function()
+local module = {}
+
 return {
 	Name = "Aqua",
-	Accent = Color3.fromRGB(60, 165, 165),
+	Accent = Color3.fromRGB(60, 165, 165"),
 
-	AcrylicMain = Color3.fromRGB(20, 20, 20),
-	AcrylicBorder = Color3.fromRGB(50, 100, 100),
-	AcrylicGradient = ColorSequence.new(Color3.fromRGB(60, 140, 140), Color3.fromRGB(40, 80, 80)),
+	AcrylicMain = Color3.fromRGB(20, 20, 20"),
+	AcrylicBorder = Color3.fromRGB(50, 100, 100"),
+	AcrylicGradient = ColorSequence.new(Color3.fromRGB(60, 140, 140"), Color3.fromRGB(40, 80, 80")"),
 	AcrylicNoise = 0.92,
 
-	TitleBarLine = Color3.fromRGB(60, 120, 120),
-	Tab = Color3.fromRGB(140, 180, 180),
+	TitleBarLine = Color3.fromRGB(60, 120, 120"),
+	Tab = Color3.fromRGB(140, 180, 180"),
 
-	Element = Color3.fromRGB(110, 160, 160),
-	ElementBorder = Color3.fromRGB(40, 70, 70),
-	InElementBorder = Color3.fromRGB(80, 110, 110),
+	Element = Color3.fromRGB(110, 160, 160"),
+	ElementBorder = Color3.fromRGB(40, 70, 70"),
+	InElementBorder = Color3.fromRGB(80, 110, 110"),
 	ElementTransparency = 0.84,
 
-	ToggleSlider = Color3.fromRGB(110, 160, 160),
-	ToggleToggled = Color3.fromRGB(0, 0, 0),
+	ToggleSlider = Color3.fromRGB(110, 160, 160"),
+	ToggleToggled = Color3.fromRGB(0, 0, 0"),
 
-	SliderRail = Color3.fromRGB(110, 160, 160),
+	SliderRail = Color3.fromRGB(110, 160, 160"),
 
-	DropdownFrame = Color3.fromRGB(160, 200, 200),
-	DropdownHolder = Color3.fromRGB(40, 80, 80),
-	DropdownBorder = Color3.fromRGB(40, 65, 65),
-	DropdownOption = Color3.fromRGB(110, 160, 160),
+	DropdownFrame = Color3.fromRGB(160, 200, 200"),
+	DropdownHolder = Color3.fromRGB(40, 80, 80"),
+	DropdownBorder = Color3.fromRGB(40, 65, 65"),
+	DropdownOption = Color3.fromRGB(110, 160, 160"),
 
-	Keybind = Color3.fromRGB(110, 160, 160),
+	Keybind = Color3.fromRGB(110, 160, 160"),
 
-	Input = Color3.fromRGB(110, 160, 160),
-	InputFocused = Color3.fromRGB(20, 10, 30),
-	InputIndicator = Color3.fromRGB(130, 170, 170),
+	Input = Color3.fromRGB(110, 160, 160"),
+	InputFocused = Color3.fromRGB(20, 10, 30"),
+	InputIndicator = Color3.fromRGB(130, 170, 170"),
 
-	Dialog = Color3.fromRGB(40, 80, 80),
-	DialogHolder = Color3.fromRGB(30, 60, 60),
-	DialogHolderLine = Color3.fromRGB(25, 50, 50),
-	DialogButton = Color3.fromRGB(40, 80, 80),
-	DialogButtonBorder = Color3.fromRGB(80, 110, 110),
-	DialogBorder = Color3.fromRGB(50, 100, 100),
-	DialogInput = Color3.fromRGB(45, 90, 90),
-	DialogInputLine = Color3.fromRGB(130, 170, 170),
+	Dialog = Color3.fromRGB(40, 80, 80"),
+	DialogHolder = Color3.fromRGB(30, 60, 60"),
+	DialogHolderLine = Color3.fromRGB(25, 50, 50"),
+	DialogButton = Color3.fromRGB(40, 80, 80"),
+	DialogButtonBorder = Color3.fromRGB(80, 110, 110"),
+	DialogBorder = Color3.fromRGB(50, 100, 100"),
+	DialogInput = Color3.fromRGB(45, 90, 90"),
+	DialogInputLine = Color3.fromRGB(130, 170, 170"),
 
-	Text = Color3.fromRGB(240, 240, 240),
-	SubText = Color3.fromRGB(170, 170, 170),
-	Hover = Color3.fromRGB(110, 160, 160),
+	Text = Color3.fromRGB(240, 240, 240"),
+	SubText = Color3.fromRGB(170, 170, 170"),
+	Hover = Color3.fromRGB(110, 160, 160"),
 	HoverChange = 0.04,
 }
+
+
+return module
 end
 
--- Module: Themes.Dark
-Modules['Themes.Dark'] = function()
+Modules["Dark"] = function()
+local module = {}
+
 return {
 	Name = "Dark",
-	Accent = Color3.fromRGB(96, 205, 255),
+	Accent = Color3.fromRGB(96, 205, 255"),
 
-	AcrylicMain = Color3.fromRGB(60, 60, 60),
-	AcrylicBorder = Color3.fromRGB(90, 90, 90),
-	AcrylicGradient = ColorSequence.new(Color3.fromRGB(40, 40, 40), Color3.fromRGB(40, 40, 40)),
+	AcrylicMain = Color3.fromRGB(60, 60, 60"),
+	AcrylicBorder = Color3.fromRGB(90, 90, 90"),
+	AcrylicGradient = ColorSequence.new(Color3.fromRGB(40, 40, 40"), Color3.fromRGB(40, 40, 40")"),
 	AcrylicNoise = 0.9,
 
-	TitleBarLine = Color3.fromRGB(75, 75, 75),
-	Tab = Color3.fromRGB(120, 120, 120),
+	TitleBarLine = Color3.fromRGB(75, 75, 75"),
+	Tab = Color3.fromRGB(120, 120, 120"),
 
-	Element = Color3.fromRGB(120, 120, 120),
-	ElementBorder = Color3.fromRGB(35, 35, 35),
-	InElementBorder = Color3.fromRGB(90, 90, 90),
+	Element = Color3.fromRGB(120, 120, 120"),
+	ElementBorder = Color3.fromRGB(35, 35, 35"),
+	InElementBorder = Color3.fromRGB(90, 90, 90"),
 	ElementTransparency = 0.87,
 
-	ToggleSlider = Color3.fromRGB(120, 120, 120),
-	ToggleToggled = Color3.fromRGB(0, 0, 0),
+	ToggleSlider = Color3.fromRGB(120, 120, 120"),
+	ToggleToggled = Color3.fromRGB(0, 0, 0"),
 
-	SliderRail = Color3.fromRGB(120, 120, 120),
+	SliderRail = Color3.fromRGB(120, 120, 120"),
 
-	DropdownFrame = Color3.fromRGB(160, 160, 160),
-	DropdownHolder = Color3.fromRGB(45, 45, 45),
-	DropdownBorder = Color3.fromRGB(35, 35, 35),
-	DropdownOption = Color3.fromRGB(120, 120, 120),
+	DropdownFrame = Color3.fromRGB(160, 160, 160"),
+	DropdownHolder = Color3.fromRGB(45, 45, 45"),
+	DropdownBorder = Color3.fromRGB(35, 35, 35"),
+	DropdownOption = Color3.fromRGB(120, 120, 120"),
 
-	Keybind = Color3.fromRGB(120, 120, 120),
+	Keybind = Color3.fromRGB(120, 120, 120"),
 
-	Input = Color3.fromRGB(160, 160, 160),
-	InputFocused = Color3.fromRGB(10, 10, 10),
-	InputIndicator = Color3.fromRGB(150, 150, 150),
+	Input = Color3.fromRGB(160, 160, 160"),
+	InputFocused = Color3.fromRGB(10, 10, 10"),
+	InputIndicator = Color3.fromRGB(150, 150, 150"),
 
-	Dialog = Color3.fromRGB(45, 45, 45),
-	DialogHolder = Color3.fromRGB(35, 35, 35),
-	DialogHolderLine = Color3.fromRGB(30, 30, 30),
-	DialogButton = Color3.fromRGB(45, 45, 45),
-	DialogButtonBorder = Color3.fromRGB(80, 80, 80),
-	DialogBorder = Color3.fromRGB(70, 70, 70),
-	DialogInput = Color3.fromRGB(55, 55, 55),
-	DialogInputLine = Color3.fromRGB(160, 160, 160),
+	Dialog = Color3.fromRGB(45, 45, 45"),
+	DialogHolder = Color3.fromRGB(35, 35, 35"),
+	DialogHolderLine = Color3.fromRGB(30, 30, 30"),
+	DialogButton = Color3.fromRGB(45, 45, 45"),
+	DialogButtonBorder = Color3.fromRGB(80, 80, 80"),
+	DialogBorder = Color3.fromRGB(70, 70, 70"),
+	DialogInput = Color3.fromRGB(55, 55, 55"),
+	DialogInputLine = Color3.fromRGB(160, 160, 160"),
 
-	Text = Color3.fromRGB(240, 240, 240),
-	SubText = Color3.fromRGB(170, 170, 170),
-	Hover = Color3.fromRGB(120, 120, 120),
+	Text = Color3.fromRGB(240, 240, 240"),
+	SubText = Color3.fromRGB(170, 170, 170"),
+	Hover = Color3.fromRGB(120, 120, 120"),
 	HoverChange = 0.07,
 }
+
+
+return module
 end
 
--- Module: Themes.Darker
-Modules['Themes.Darker'] = function()
+Modules["Darker"] = function()
+local module = {}
+
 return {
 	Name = "Darker",
-	Accent = Color3.fromRGB(72, 138, 182),
+	Accent = Color3.fromRGB(72, 138, 182"),
 
-	AcrylicMain = Color3.fromRGB(30, 30, 30),
-	AcrylicBorder = Color3.fromRGB(60, 60, 60),
-	AcrylicGradient = ColorSequence.new(Color3.fromRGB(25, 25, 25), Color3.fromRGB(15, 15, 15)),
+	AcrylicMain = Color3.fromRGB(30, 30, 30"),
+	AcrylicBorder = Color3.fromRGB(60, 60, 60"),
+	AcrylicGradient = ColorSequence.new(Color3.fromRGB(25, 25, 25"), Color3.fromRGB(15, 15, 15")"),
 	AcrylicNoise = 0.94,
 
-	TitleBarLine = Color3.fromRGB(65, 65, 65),
-	Tab = Color3.fromRGB(100, 100, 100),
+	TitleBarLine = Color3.fromRGB(65, 65, 65"),
+	Tab = Color3.fromRGB(100, 100, 100"),
 
-	Element = Color3.fromRGB(70, 70, 70),
-	ElementBorder = Color3.fromRGB(25, 25, 25),
-	InElementBorder = Color3.fromRGB(55, 55, 55),
+	Element = Color3.fromRGB(70, 70, 70"),
+	ElementBorder = Color3.fromRGB(25, 25, 25"),
+	InElementBorder = Color3.fromRGB(55, 55, 55"),
 	ElementTransparency = 0.82,
 
-	DropdownFrame = Color3.fromRGB(120, 120, 120),
-	DropdownHolder = Color3.fromRGB(35, 35, 35),
-	DropdownBorder = Color3.fromRGB(25, 25, 25),
+	DropdownFrame = Color3.fromRGB(120, 120, 120"),
+	DropdownHolder = Color3.fromRGB(35, 35, 35"),
+	DropdownBorder = Color3.fromRGB(25, 25, 25"),
 
-	Dialog = Color3.fromRGB(35, 35, 35),
-	DialogHolder = Color3.fromRGB(25, 25, 25),
-	DialogHolderLine = Color3.fromRGB(20, 20, 20),
-	DialogButton = Color3.fromRGB(35, 35, 35),
-	DialogButtonBorder = Color3.fromRGB(55, 55, 55),
-	DialogBorder = Color3.fromRGB(50, 50, 50),
-	DialogInput = Color3.fromRGB(45, 45, 45),
-	DialogInputLine = Color3.fromRGB(120, 120, 120),
+	Dialog = Color3.fromRGB(35, 35, 35"),
+	DialogHolder = Color3.fromRGB(25, 25, 25"),
+	DialogHolderLine = Color3.fromRGB(20, 20, 20"),
+	DialogButton = Color3.fromRGB(35, 35, 35"),
+	DialogButtonBorder = Color3.fromRGB(55, 55, 55"),
+	DialogBorder = Color3.fromRGB(50, 50, 50"),
+	DialogInput = Color3.fromRGB(45, 45, 45"),
+	DialogInputLine = Color3.fromRGB(120, 120, 120"),
 }
+
+
+return module
 end
 
--- Module: Themes.Light
-Modules['Themes.Light'] = function()
+Modules["Light"] = function()
+local module = {}
+
 return {
 	Name = "Light",
-	Accent = Color3.fromRGB(0, 103, 192),
+	Accent = Color3.fromRGB(0, 103, 192"),
 
-	AcrylicMain = Color3.fromRGB(200, 200, 200),
-	AcrylicBorder = Color3.fromRGB(120, 120, 120),
-	AcrylicGradient = ColorSequence.new(Color3.fromRGB(255, 255, 255), Color3.fromRGB(255, 255, 255)),
+	AcrylicMain = Color3.fromRGB(200, 200, 200"),
+	AcrylicBorder = Color3.fromRGB(120, 120, 120"),
+	AcrylicGradient = ColorSequence.new(Color3.fromRGB(255, 255, 255"), Color3.fromRGB(255, 255, 255")"),
 	AcrylicNoise = 0.96,
 
-	TitleBarLine = Color3.fromRGB(160, 160, 160),
-	Tab = Color3.fromRGB(90, 90, 90),
+	TitleBarLine = Color3.fromRGB(160, 160, 160"),
+	Tab = Color3.fromRGB(90, 90, 90"),
 
-	Element = Color3.fromRGB(255, 255, 255),
-	ElementBorder = Color3.fromRGB(180, 180, 180),
-	InElementBorder = Color3.fromRGB(150, 150, 150),
+	Element = Color3.fromRGB(255, 255, 255"),
+	ElementBorder = Color3.fromRGB(180, 180, 180"),
+	InElementBorder = Color3.fromRGB(150, 150, 150"),
 	ElementTransparency = 0.65,
 
-	ToggleSlider = Color3.fromRGB(40, 40, 40),
-	ToggleToggled = Color3.fromRGB(255, 255, 255),
+	ToggleSlider = Color3.fromRGB(40, 40, 40"),
+	ToggleToggled = Color3.fromRGB(255, 255, 255"),
 
-	SliderRail = Color3.fromRGB(40, 40, 40),
+	SliderRail = Color3.fromRGB(40, 40, 40"),
 
-	DropdownFrame = Color3.fromRGB(200, 200, 200),
-	DropdownHolder = Color3.fromRGB(240, 240, 240),
-	DropdownBorder = Color3.fromRGB(200, 200, 200),
-	DropdownOption = Color3.fromRGB(150, 150, 150),
+	DropdownFrame = Color3.fromRGB(200, 200, 200"),
+	DropdownHolder = Color3.fromRGB(240, 240, 240"),
+	DropdownBorder = Color3.fromRGB(200, 200, 200"),
+	DropdownOption = Color3.fromRGB(150, 150, 150"),
 
-	Keybind = Color3.fromRGB(120, 120, 120),
+	Keybind = Color3.fromRGB(120, 120, 120"),
 
-	Input = Color3.fromRGB(200, 200, 200),
-	InputFocused = Color3.fromRGB(100, 100, 100),
-	InputIndicator = Color3.fromRGB(80, 80, 80),
+	Input = Color3.fromRGB(200, 200, 200"),
+	InputFocused = Color3.fromRGB(100, 100, 100"),
+	InputIndicator = Color3.fromRGB(80, 80, 80"),
 
-	Dialog = Color3.fromRGB(255, 255, 255),
-	DialogHolder = Color3.fromRGB(240, 240, 240),
-	DialogHolderLine = Color3.fromRGB(228, 228, 228),
-	DialogButton = Color3.fromRGB(255, 255, 255),
-	DialogButtonBorder = Color3.fromRGB(190, 190, 190),
-	DialogBorder = Color3.fromRGB(140, 140, 140),
-	DialogInput = Color3.fromRGB(250, 250, 250),
-	DialogInputLine = Color3.fromRGB(160, 160, 160),
+	Dialog = Color3.fromRGB(255, 255, 255"),
+	DialogHolder = Color3.fromRGB(240, 240, 240"),
+	DialogHolderLine = Color3.fromRGB(228, 228, 228"),
+	DialogButton = Color3.fromRGB(255, 255, 255"),
+	DialogButtonBorder = Color3.fromRGB(190, 190, 190"),
+	DialogBorder = Color3.fromRGB(140, 140, 140"),
+	DialogInput = Color3.fromRGB(250, 250, 250"),
+	DialogInputLine = Color3.fromRGB(160, 160, 160"),
 
-	Text = Color3.fromRGB(0, 0, 0),
-	SubText = Color3.fromRGB(40, 40, 40),
-	Hover = Color3.fromRGB(50, 50, 50),
+	Text = Color3.fromRGB(0, 0, 0"),
+	SubText = Color3.fromRGB(40, 40, 40"),
+	Hover = Color3.fromRGB(50, 50, 50"),
 	HoverChange = 0.16,
 }
+
+
+return module
 end
 
--- Module: Themes.Rose
-Modules['Themes.Rose'] = function()
+Modules["Rose"] = function()
+local module = {}
+
 return {
 	Name = "Rose",
-	Accent = Color3.fromRGB(180, 55, 90),
+	Accent = Color3.fromRGB(180, 55, 90"),
 
-	AcrylicMain = Color3.fromRGB(40, 40, 40),
-	AcrylicBorder = Color3.fromRGB(130, 90, 110),
-	AcrylicGradient = ColorSequence.new(Color3.fromRGB(190, 60, 135), Color3.fromRGB(165, 50, 70)),
+	AcrylicMain = Color3.fromRGB(40, 40, 40"),
+	AcrylicBorder = Color3.fromRGB(130, 90, 110"),
+	AcrylicGradient = ColorSequence.new(Color3.fromRGB(190, 60, 135"), Color3.fromRGB(165, 50, 70")"),
 	AcrylicNoise = 0.92,
 
-	TitleBarLine = Color3.fromRGB(140, 85, 105),
-	Tab = Color3.fromRGB(180, 140, 160),
+	TitleBarLine = Color3.fromRGB(140, 85, 105"),
+	Tab = Color3.fromRGB(180, 140, 160"),
 
-	Element = Color3.fromRGB(200, 120, 170),
-	ElementBorder = Color3.fromRGB(110, 70, 85),
-	InElementBorder = Color3.fromRGB(120, 90, 90),
+	Element = Color3.fromRGB(200, 120, 170"),
+	ElementBorder = Color3.fromRGB(110, 70, 85"),
+	InElementBorder = Color3.fromRGB(120, 90, 90"),
 	ElementTransparency = 0.86,
 
-	ToggleSlider = Color3.fromRGB(200, 120, 170),
-	ToggleToggled = Color3.fromRGB(0, 0, 0),
+	ToggleSlider = Color3.fromRGB(200, 120, 170"),
+	ToggleToggled = Color3.fromRGB(0, 0, 0"),
 
-	SliderRail = Color3.fromRGB(200, 120, 170),
+	SliderRail = Color3.fromRGB(200, 120, 170"),
 
-	DropdownFrame = Color3.fromRGB(200, 160, 180),
-	DropdownHolder = Color3.fromRGB(120, 50, 75),
-	DropdownBorder = Color3.fromRGB(90, 40, 55),
-	DropdownOption = Color3.fromRGB(200, 120, 170),
+	DropdownFrame = Color3.fromRGB(200, 160, 180"),
+	DropdownHolder = Color3.fromRGB(120, 50, 75"),
+	DropdownBorder = Color3.fromRGB(90, 40, 55"),
+	DropdownOption = Color3.fromRGB(200, 120, 170"),
 
-	Keybind = Color3.fromRGB(200, 120, 170),
+	Keybind = Color3.fromRGB(200, 120, 170"),
 
-	Input = Color3.fromRGB(200, 120, 170),
-	InputFocused = Color3.fromRGB(20, 10, 30),
-	InputIndicator = Color3.fromRGB(170, 150, 190),
+	Input = Color3.fromRGB(200, 120, 170"),
+	InputFocused = Color3.fromRGB(20, 10, 30"),
+	InputIndicator = Color3.fromRGB(170, 150, 190"),
 
-	Dialog = Color3.fromRGB(120, 50, 75),
-	DialogHolder = Color3.fromRGB(95, 40, 60),
-	DialogHolderLine = Color3.fromRGB(90, 35, 55),
-	DialogButton = Color3.fromRGB(120, 50, 75),
-	DialogButtonBorder = Color3.fromRGB(155, 90, 115),
-	DialogBorder = Color3.fromRGB(100, 70, 90),
-	DialogInput = Color3.fromRGB(135, 55, 80),
-	DialogInputLine = Color3.fromRGB(190, 160, 180),
+	Dialog = Color3.fromRGB(120, 50, 75"),
+	DialogHolder = Color3.fromRGB(95, 40, 60"),
+	DialogHolderLine = Color3.fromRGB(90, 35, 55"),
+	DialogButton = Color3.fromRGB(120, 50, 75"),
+	DialogButtonBorder = Color3.fromRGB(155, 90, 115"),
+	DialogBorder = Color3.fromRGB(100, 70, 90"),
+	DialogInput = Color3.fromRGB(135, 55, 80"),
+	DialogInputLine = Color3.fromRGB(190, 160, 180"),
 
-	Text = Color3.fromRGB(240, 240, 240),
-	SubText = Color3.fromRGB(170, 170, 170),
-	Hover = Color3.fromRGB(200, 120, 170),
+	Text = Color3.fromRGB(240, 240, 240"),
+	SubText = Color3.fromRGB(170, 170, 170"),
+	Hover = Color3.fromRGB(200, 120, 170"),
 	HoverChange = 0.04,
 }
+
+
+return module
 end
 
--- Module: Themes.init
-Modules['Themes.init'] = function()
-local Themes = {
-	Names = {
-		"Dark",
-		"Darker",
-		"Light",
-		"Aqua",
-		"Amethyst",
-		"Rose",
-	},
-}
-
-for _, Theme in next, script:GetChildren() do
-	local Required = require(Theme)
-	Themes[Required.Name] = Required
-end
-
-return Themes
-end
-
-return require('init')
+return require("Library")
