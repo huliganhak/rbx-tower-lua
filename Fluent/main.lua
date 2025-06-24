@@ -2121,19 +2121,21 @@ local aa = {
             n.Callback = n.Callback or function()
                 end
             local o = e(k.Element)(n.Title, n.Description, m.Container, true)
-            local p =
-                j(
-                "ImageLabel",
-                {
-                    Image = "rbxassetid://10709791437",
-                    Size = UDim2.fromOffset(16, 16),
-                    AnchorPoint = Vector2.new(1, 0.5),
-                    Position = UDim2.new(1, -10, 0.5, 0),
-                    BackgroundTransparency = 1,
-                    Parent = o.Frame,
-                    ThemeTag = {ImageColor3 = "Text"}
-                }
-            )
+            if n.Icon ~= false then
+                local p =
+                    j(
+                    "ImageLabel",
+                    {
+                        Image = "rbxassetid://10709791437",
+                        Size = UDim2.fromOffset(16, 16),
+                        AnchorPoint = Vector2.new(1, 0.5),
+                        Position = UDim2.new(1, -10, 0.5, 0),
+                        BackgroundTransparency = 1,
+                        Parent = o.Frame,
+                        ThemeTag = {ImageColor3 = "Text"}
+                    }
+                )
+            end
             i.AddSignal(
                 o.Frame.MouseButton1Click,
                 function()
