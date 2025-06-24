@@ -39,6 +39,7 @@ do
 
     Tabs.Main:AddButton({
         Title = "Button",
+        Icon = false,
         Description = "Very important button",
         Callback = function()
             Window:Dialog({
