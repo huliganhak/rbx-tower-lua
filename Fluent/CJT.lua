@@ -1,225 +1,298 @@
 local Fluent = loadstring(game:HttpGet("https://raw.githubusercontent.com/huliganhak/rbx-tower-lua/main/Fluent/main.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/huliganhak/rbx-tower-lua/main/Fluent/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/huliganhak/rbx-tower-lua/main/Fluent/InterfaceManager.lua"))()
+local Utils = require(game:GetService("ReplicatedStorage"):WaitForChild("Utils"))
 
 local Window = Fluent:CreateWindow({
-    Title = "Fluent " .. Fluent.Version,
-    SubTitle = "by dawid",
-    TabWidth = 100,
-    Size = UDim2.fromOffset(450, 400),
-    Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
-    Theme = "Dark",
-    MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
+	Title = "Fluent " .. Fluent.Version,
+	SubTitle = "by dawid",
+	TabWidth = 120,
+	Size = UDim2.fromOffset(500, 450),
+	Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
+	Theme = "Dark",
+	MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
 })
 
 --Fluent provides Lucide Icons https://lucide.dev/icons/ for the tabs, icons are optional
 local Tabs = {
-    Main = Window:AddTab({ Title = "Main", Icon = "" }),
-    Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
+	Main = Window:AddTab({ Title = "Main", Icon = "globe-2" }),
+	Hatch = Window:AddTab({ Title = "Hatch Eggs", Icon = "globe-2" }),
+	Character = Window:AddTab({ Title = "Character", Icon = "globe-2" }),
+	Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
 }
+
+Window.TabDisplayInSection(true) -- Display the tabs Title at the top of the window true / false
 
 local Options = Fluent.Options
 
+-- Farm
+local roundsBoxFarm = 0
+local selectedWorldFarm = nil
+local textFarm  = nil
+local ReceiveWins = false
+local ReceiveCrystal = false
+
+-- Character
+local WalkSpeed = nil
+local JumpPower = nil
+
+-- Hatch
+local hatchLoopRunning = false
+local hatchLoopCount = 0
+local textHatch = nil
+local roundsBoxHatch = 0
+local dropdownHatch = nil
+local selectedEggId = nil
+
 do
-    Fluent:Notify({
-        Title = "Notification",
-        Content = "This is a notification",
-        SubContent = "SubContent", -- Optional
-        Duration = 5 -- Set to nil to make the notification not disappear
-    })
+    -------------------------------------------------------
+	-- Main
+	-------------------------------------------------------
+	Tabs.Main:AddSection("[⚙️]Main Options")
+	textFarm = Tabs.Main:AddParagraph({ Title = "", Content = ""})
+	textFarm.Frame.Text = "📜 Status Porcess....! 📜"
+	textFarm.Frame.TextColor3 = Color3.fromRGB(255, 255, 255)
 
+	roundsBoxFarm = Tabs.Main:AddInput("InputRounds", {
+		Title = "Rounds",
+		Default = "5",
+		Placeholder = "Placeholder",
+		Numeric = true, -- Only allows numbers
+		Finished = false, -- Only calls callback when you press enter
+		Callback = function(Value)
+			print("Input changed:", Value)
+		end
+	})
+	
+	ReceiveWins = Tabs.Main:AddToggle("shouldClaimWins", {
+		Title = "Receive Trophy wins", 
+		Default = false,
+		Callback = function(Value)
+			
+		end
+	})
+	
+	ReceiveCrystal = Tabs.Main:AddToggle("shouldClaimCrystal", {
+		Title = "Receive Enchant Crystal", 
+		Default = false,
+		Callback = function(Value)
+		
+		end
+	})	
+	
+	selectedWorldFarm = Tabs.Main:AddDropdown("DropdownWorldFarm", {
+		Title = "Select Worlds",
+		Values = {"World1", "World2", "World3", "World4", "World5", "World6", "World7", "World8"},
+		Multi = false,
+		Default = 1,
+		Callback = function(Value)
+			print("DropdownWorldFarm changed:", Value)
+		end
+	})
+	
+	function RunLoopFarm(roundsValue)
+		local label = textFarm.Frame
+		for i = 1, roundsValue do
+			if not Utils.getFarmloopRunning() then break end
 
+			label.Text = ("🔁 รอบที่ " .. i .. "/" .. roundsValue)
+			Utils.TpPosStart() task.wait(1)
+			Utils.WalkToStairs() task.wait(1)
+			Utils.WalkUp() task.wait(3)
+			Utils.TpPosTrophy() task.wait(1)
 
-    Tabs.Main:AddParagraph({
-        Title = "Paragraph",
-        Content = "This is a paragraph.\nSecond line!"
-    })
+			if ReceiveWins then 
+				Utils.ClaimRewardWins() 
+				task.wait(1) 
+			end	
+			if ReceiveCrystal then 
+				Utils.ClaimRewardMagicToken() 
+				task.wait(1) 
+			end
 
+			Utils.WalkDown() task.wait(5)
+		end
+		label.Text = ("✅ ครบ " .. roundsValue .. " รอบแล้ว")
+		Utils.setFarmloopRunning(false)
+	end
+	local StartMain = Tabs.Main:AddButton({
+		Title = "",
+		Icon = false,
+		Callback = function()
+			--print(textFarm.Frame.Text)
+			--local label = textFarm.Frame -- ตัวนี้เป็น TextButton
+			--label.Text = "อัปเดตแล้ว!" -- อัปเดตข้อความ
+			--local location = Utils.locationPresets["World1"]
+			--print(location.trophy)
+			-------------------------------------------------------------
 
+			local label = textFarm.Frame
+			local WorldValue = selectedWorldFarm.Value
+			local roundsValue = tonumber(roundsBoxFarm.Value)
+			
+			print("WorldValue:", WorldValue)
+			
+			if not WorldValue then 
+				label.Text = ("⚠️ กรุณาเลือก World ก่อนเริ่ม") 
+				return
+			end
+			if Utils.getFarmloopRunning() then
+				label.Text = ("⚠️ กำลังทำงานอยู่ กรุณาหยุดก่อนเริ่มใหม่")
+				return
+			end
 
-    Tabs.Main:AddButton({
-        Title = "Button",
-        Icon = false,
-        Description = "Very important button",
-        Callback = function()
-            Window:Dialog({
-                Title = "Title",
-                Content = "This is a dialog",
-                Buttons = {
-                    {
-                        Title = "Confirm",
-                        Callback = function()
-                            print("Confirmed the dialog.")
-                        end
-                    },
-                    {
-                        Title = "Cancel",
-                        Callback = function()
-                            print("Cancelled the dialog.")
-                        end
-                    }
-                }
-            })
-        end
-    })
+			if not roundsValue or roundsValue <= 0 then
+				label.Text = ("❌ จำนวนรอบไม่ถูกต้อง กรุณากรอกตัวเลขมากกว่า 0")
+				return
+			end	
 
+			task.spawn(function()
+				label.Text =("✅ เริ่มรอบใน " .. WorldValue)
+				Utils.setFarmloopRunning(true)
+				Utils.setSelectedWorldFarm(WorldValue)
+				RunLoopFarm(roundsValue)
+				label.Text =("⏹️ เสร็จสิ้นการทำงาน")
+			end)
+		end
+	})
+	StartMain.Frame.Text = "Start"
+	StartMain.Frame.TextColor3 = Color3.fromRGB(255, 255, 255)
+	
+	local StopMain = Tabs.Main:AddButton({
+		Title = "",
+		Icon = false,
+		Callback = function()
+			if Utils.getFarmloopRunning() then
+				Utils.setFarmloopRunning(false)
+				textFarm.Frame.Text = ("⏹️ หยุดการทำงานแล้ว")
+			else
+				textFarm.Frame.Text = ("⚠️ ยังไม่ได้เริ่มทำงาน")
+			end
+		end
+	})
+	StopMain.Frame.Text = "Stop"
+	StopMain.Frame.TextColor3 = Color3.fromRGB(255, 255, 255)
+	
+	-------------------------------------------------------
+	-- Hatch Eggs
+	-------------------------------------------------------
+	Tabs.Hatch:AddSection("[⚙️]Hatch Eggs Options")
+	textHatch = Tabs.Hatch:AddParagraph({ Title = "", Content = ""})
+	textHatch.Frame.Text = "📜 Status Porcess....! 📜"
+	textHatch.Frame.TextColor3 = Color3.fromRGB(255, 255, 255)
 
+	roundsBoxHatch = Tabs.Hatch:AddInput("InputRounds", {
+		Title = "Rounds",
+		Default = "5",
+		Placeholder = "Placeholder",
+		Numeric = true, -- Only allows numbers
+		Finished = false, -- Only calls callback when you press enter
+		Callback = function(Value)
+			print("Input changed:", Value)
+		end
+	})
 
-    local Toggle = Tabs.Main:AddToggle("MyToggle", {Title = "Toggle", Default = false })
+	dropdownHatch = Tabs.Hatch:AddDropdown("DropdownWorldFarm", {
+		Title = "Select Incubator",
+		Values = {"World1", "World2", "World3", "World4", "World5", "World6", "World7", "World8"},
+		Multi = false,
+		Default = 1,
+		Callback = function(Value)
 
-    Toggle:OnChanged(function()
-        print("Toggle changed:", Options.MyToggle.Value)
-    end)
+		end
+	})
 
-    Options.MyToggle:SetValue(false)
+	local StartHatch = Tabs.Hatch:AddButton({
+		Title = "",
+		Icon = false,
+		Callback = function()
 
+		end
+	})
+	StartHatch.Frame.Text = "Start"
+	StartHatch.Frame.TextColor3 = Color3.fromRGB(255, 255, 255)
 
-    
-    local Slider = Tabs.Main:AddSlider("Slider", {
-        Title = "Slider",
-        Description = "This is a slider",
-        Default = 2,
-        Min = 0,
-        Max = 5,
-        Rounding = 1,
-        Callback = function(Value)
-            print("Slider was changed:", Value)
-        end
-    })
+	local StopHatch = Tabs.Hatch:AddButton({
+		Title = "",
+		Icon = false,
+		Callback = function()
 
-    Slider:OnChanged(function(Value)
-        print("Slider changed:", Value)
-    end)
+		end
+	})
+	StopHatch.Frame.Text = "Stop"
+	StopHatch.Frame.TextColor3 = Color3.fromRGB(255, 255, 255)
+	
+	-------------------------------------------------------
+	-- Character
+	-------------------------------------------------------
+	Tabs.Character:AddSection("[⚙️]Character Options")
+	WalkSpeed  = Tabs.Character:AddSlider("SliderWalkSpeed", {
+		Title = "Walk Speed",
+		--Description = "This is a slider",
+		Default = 16,
+		Min = 1,
+		Max = 1000,
+		Rounding = 0
+	})
+	WalkSpeed:OnChanged(function(Value)
+		local hum = Utils.GetHumanoid()
+		if hum then
+			hum.WalkSpeed = Value
+		end
+	end)
+	
 
-    Slider:SetValue(3)
+	JumpPower  = Tabs.Character:AddSlider("SliderJumpPower", {
+		Title = "Jump Power",
+		--Description = "This is a slider",
+		Default = 50,
+		Min = 1,
+		Max = 1000,
+		Rounding = 0
+	})
+	JumpPower:OnChanged(function(Value)
+		local hum = Utils.GetHumanoid()
+		if hum then
+			hum.UseJumpPower = true
+			hum.JumpPower = Value
+		end
+	end)
+	
+	
+	local RefreshCharacter = Tabs.Character:AddButton({ 
+		Title = "", 
+		Icon = false,
+		Callback = function()
+			WalkSpeed:SetValue(16)
+			JumpPower:SetValue(50)
+		end
+	})
+	RefreshCharacter.Frame.Text = "Refresh value"
+	RefreshCharacter.Frame.TextColor3 = Color3.fromRGB(255, 255, 255)
 
-
-
-    local Dropdown = Tabs.Main:AddDropdown("Dropdown", {
-        Title = "Dropdown",
-        Values = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen"},
-        Multi = false,
-        Default = 1,
-    })
-
-    Dropdown:SetValue("four")
-
-    Dropdown:OnChanged(function(Value)
-        print("Dropdown changed:", Value)
-    end)
-
-
-    
-    local MultiDropdown = Tabs.Main:AddDropdown("MultiDropdown", {
-        Title = "Dropdown",
-        Description = "You can select multiple values.",
-        Values = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen"},
-        Multi = true,
-        Default = {"seven", "twelve"},
-    })
-
-    MultiDropdown:SetValue({
-        three = true,
-        five = true,
-        seven = false
-    })
-
-    MultiDropdown:OnChanged(function(Value)
-        local Values = {}
-        for Value, State in next, Value do
-            table.insert(Values, Value)
-        end
-        print("Mutlidropdown changed:", table.concat(Values, ", "))
-    end)
-
-
-
-    local Colorpicker = Tabs.Main:AddColorpicker("Colorpicker", {
-        Title = "Colorpicker",
-        Default = Color3.fromRGB(96, 205, 255)
-    })
-
-    Colorpicker:OnChanged(function()
-        print("Colorpicker changed:", Colorpicker.Value)
-    end)
-    
-    Colorpicker:SetValueRGB(Color3.fromRGB(0, 255, 140))
-
-
-
-    local TColorpicker = Tabs.Main:AddColorpicker("TransparencyColorpicker", {
-        Title = "Colorpicker",
-        Description = "but you can change the transparency.",
-        Transparency = 0,
-        Default = Color3.fromRGB(96, 205, 255)
-    })
-
-    TColorpicker:OnChanged(function()
-        print(
-            "TColorpicker changed:", TColorpicker.Value,
-            "Transparency:", TColorpicker.Transparency
-        )
-    end)
-
-
-
-    local Keybind = Tabs.Main:AddKeybind("Keybind", {
-        Title = "KeyBind",
-        Mode = "Toggle", -- Always, Toggle, Hold
-        Default = "LeftControl", -- String as the name of the keybind (MB1, MB2 for mouse buttons)
-
-        -- Occurs when the keybind is clicked, Value is `true`/`false`
-        Callback = function(Value)
-            print("Keybind clicked!", Value)
-        end,
-
-        -- Occurs when the keybind itself is changed, `New` is a KeyCode Enum OR a UserInputType Enum
-        ChangedCallback = function(New)
-            print("Keybind changed!", New)
-        end
-    })
-
-    -- OnClick is only fired when you press the keybind and the mode is Toggle
-    -- Otherwise, you will have to use Keybind:GetState()
-    Keybind:OnClick(function()
-        print("Keybind clicked:", Keybind:GetState())
-    end)
-
-    Keybind:OnChanged(function()
-        print("Keybind changed:", Keybind.Value)
-    end)
-
-    task.spawn(function()
-        while true do
-            wait(1)
-
-            -- example for checking if a keybind is being pressed
-            local state = Keybind:GetState()
-            if state then
-                print("Keybind is being held down")
-            end
-
-            if Fluent.Unloaded then break end
-        end
-    end)
-
-    Keybind:SetValue("MB2", "Toggle") -- Sets keybind to MB2, mode to Hold
-
-
-    local Input = Tabs.Main:AddInput("Input", {
-        Title = "Input",
-        Default = "Default",
-        Placeholder = "Placeholder",
-        Numeric = false, -- Only allows numbers
-        Finished = false, -- Only calls callback when you press enter
-        Callback = function(Value)
-            print("Input changed:", Value)
-        end
-    })
-
-    Input:OnChanged(function()
-        print("Input updated:", Input.Value)
-    end)
+	
+	Tabs.Character:AddSection("[⚙️]Reward Options")
+	local GetFreeGift = Tabs.Character:AddToggle("GetFreeGift", { Title = "Receive Gift", Default = false})
+	GetFreeGift:OnChanged(function(Value)
+		
+	end)
+	
+	local GetFreeSpin = Tabs.Character:AddToggle("GetFreeSpin", { Title = "Receive Spin", Default = false})
+	GetFreeSpin:OnChanged(function(Value)
+		
+	end)
+	
+	Tabs.Character:AddSection("[⚙️]Hope Server")
+	local HopeServer = Tabs.Character:AddButton({ 
+		Title = "", 
+		Icon = false,
+		Callback = function()
+			WalkSpeed:SetValue(16)
+			JumpPower:SetValue(50)
+		end
+	})
+	HopeServer.Frame.Text = "Hope Server"
+	HopeServer.Frame.TextColor3 = Color3.fromRGB(255, 255, 255)
 end
 
 
