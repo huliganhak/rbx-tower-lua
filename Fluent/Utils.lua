@@ -112,4 +112,19 @@ function Utils.GetHumanoid()
 	return char:FindFirstChild("Humanoid")
 end
 
+function Utils.GetFreeGift()
+	local remote = game:GetService("ReplicatedStorage"):WaitForChild("Msg"):WaitForChild("RemoteEvent")
+	local msg = "\233\162\134\229\143\150\229\156\168\231\186\191\229\165\150\229\138\177"
+	for i = 1, 12 do
+		local args = {msg, i}
+		remote:FireServer(unpack(args))
+	end
+end
+
+function Utils.GetFreeSpin()
+	for i = 1, 5 do
+		game:GetService("ReplicatedStorage"):WaitForChild("System"):WaitForChild("SystemDailyLottery"):WaitForChild("Spin"):InvokeServer()
+	end
+end
+
 return Utils
