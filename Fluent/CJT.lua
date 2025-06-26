@@ -26,11 +26,7 @@ Window.TabDisplayInSection(true) -- Display the tabs Title at the top of the win
 local Options = Fluent.Options
 
 -- Farm
-local roundsBoxFarm = 0
-local selectedWorldFarm = nil
 local textFarm  = nil
-local ReceiveWins = false
-local ReceiveCrystal = false
 
 -- Character
 local WalkSpeed = nil
@@ -40,12 +36,10 @@ local JumpPower = nil
 local hatchLoopRunning = false
 local hatchLoopCount = 0
 local textHatch = nil
-local roundsBoxHatch = 0
-local dropdownHatch = nil
 local selectedEggId = nil
 
 do
-    -------------------------------------------------------
+	-------------------------------------------------------
 	-- Main
 	-------------------------------------------------------
 	Tabs.Main:AddSection("[⚙️]Main Options")
@@ -53,42 +47,36 @@ do
 	textFarm.Frame.Text = "📜 Status Porcess....! 📜"
 	textFarm.Frame.TextColor3 = Color3.fromRGB(255, 255, 255)
 
-	roundsBoxFarm = Tabs.Main:AddInput("InputRounds", {
+	local roundsBoxFarm = Tabs.Main:AddInput("InputRoundsFarm", {
 		Title = "Rounds",
 		Default = "5",
 		Placeholder = "Placeholder",
 		Numeric = true, -- Only allows numbers
-		Finished = false, -- Only calls callback when you press enter
-		Callback = function(Value)
-			print("Input changed:", Value)
-		end
+		Finished = false -- Only calls callback when you press enter
 	})
+	roundsBoxFarm:OnChanged(function()
+		print("InputRoundsFarm changed:", Options.InputRoundsFarm.Value)
+	end)
 	
-	ReceiveWins = Tabs.Main:AddToggle("shouldClaimWins", {
-		Title = "Receive Trophy wins", 
-		Default = false,
-		Callback = function(Value)
-			
-		end
-	})
+	local ReceiveWins = Tabs.Main:AddToggle("shouldClaimWins", { Title = "Receive Trophy wins", Default = false})
+	ReceiveWins:OnChanged(function()
+		print("ReceiveWins changed:", Options.shouldClaimWins.Value)
+	end)
 	
-	ReceiveCrystal = Tabs.Main:AddToggle("shouldClaimCrystal", {
-		Title = "Receive Enchant Crystal", 
-		Default = false,
-		Callback = function(Value)
-		
-		end
-	})	
+	local ReceiveCrystal = Tabs.Main:AddToggle("shouldClaimCrystal", { Title = "Receive Enchant Crystal", Default = false})	
+	ReceiveCrystal:OnChanged(function()
+		print("ReceiveCrystal changed:", Options.shouldClaimCrystal.Value)
+	end)
 	
-	selectedWorldFarm = Tabs.Main:AddDropdown("DropdownWorldFarm", {
+	local selectedWorldFarm = Tabs.Main:AddDropdown("DropdownWorldFarm", {
 		Title = "Select Worlds",
 		Values = {"World1", "World2", "World3", "World4", "World5", "World6", "World7", "World8"},
 		Multi = false,
-		Default = 1,
-		Callback = function(Value)
-			print("DropdownWorldFarm changed:", Value)
-		end
+		Default = 1
 	})
+	selectedWorldFarm:OnChanged(function(Value)
+		print("DropdownWorldFarm changed:", Options.DropdownWorldFarm.Value)
+	end)
 	
 	function RunLoopFarm(roundsValue)
 		local label = textFarm.Frame
@@ -101,11 +89,11 @@ do
 			Utils.WalkUp() task.wait(3)
 			Utils.TpPosTrophy() task.wait(1)
 
-			if ReceiveWins then 
+			if Options.shouldClaimWins.Value then 
 				Utils.ClaimRewardWins() 
 				task.wait(1) 
 			end	
-			if ReceiveCrystal then 
+			if Options.shouldClaimCrystal.Value then 
 				Utils.ClaimRewardMagicToken() 
 				task.wait(1) 
 			end
@@ -119,15 +107,8 @@ do
 		Title = "",
 		Icon = false,
 		Callback = function()
-			--print(textFarm.Frame.Text)
-			--local label = textFarm.Frame -- ตัวนี้เป็น TextButton
-			--label.Text = "อัปเดตแล้ว!" -- อัปเดตข้อความ
-			--local location = Utils.locationPresets["World1"]
-			--print(location.trophy)
-			-------------------------------------------------------------
-
 			local label = textFarm.Frame
-			local WorldValue = selectedWorldFarm.Value
+			local WorldValue = Options.DropdownWorldFarm.Value
 			local roundsValue = tonumber(roundsBoxFarm.Value)
 			
 			print("WorldValue:", WorldValue)
@@ -181,26 +162,26 @@ do
 	textHatch.Frame.Text = "📜 Status Porcess....! 📜"
 	textHatch.Frame.TextColor3 = Color3.fromRGB(255, 255, 255)
 
-	roundsBoxHatch = Tabs.Hatch:AddInput("InputRounds", {
+	local roundsBoxHatch = Tabs.Hatch:AddInput("InputRoundsHatch", {
 		Title = "Rounds",
 		Default = "5",
 		Placeholder = "Placeholder",
 		Numeric = true, -- Only allows numbers
-		Finished = false, -- Only calls callback when you press enter
-		Callback = function(Value)
-			print("Input changed:", Value)
-		end
+		Finished = false -- Only calls callback when you press enter
 	})
+	roundsBoxHatch:OnChanged(function(Value)
+		print("InputRoundsHatch changed:", Options.InputRoundsHatch.Value)
+	end)
 
-	dropdownHatch = Tabs.Hatch:AddDropdown("DropdownWorldFarm", {
+	local dropdownHatch = Tabs.Hatch:AddDropdown("DropdownHatch", {
 		Title = "Select Incubator",
 		Values = {"World1", "World2", "World3", "World4", "World5", "World6", "World7", "World8"},
 		Multi = false,
-		Default = 1,
-		Callback = function(Value)
-
-		end
+		Default = 1
 	})
+	dropdownHatch:OnChanged(function(Value)
+		print("DropdownHatch changed:", Options.DropdownHatch.Value)
+	end)
 
 	local StartHatch = Tabs.Hatch:AddButton({
 		Title = "",
@@ -241,7 +222,6 @@ do
 		end
 	end)
 	
-
 	JumpPower  = Tabs.Character:AddSlider("SliderJumpPower", {
 		Title = "Jump Power",
 		--Description = "This is a slider",
@@ -258,7 +238,6 @@ do
 		end
 	end)
 	
-	
 	local RefreshCharacter = Tabs.Character:AddButton({ 
 		Title = "", 
 		Icon = false,
@@ -270,7 +249,6 @@ do
 	RefreshCharacter.Frame.Text = "Refresh value"
 	RefreshCharacter.Frame.TextColor3 = Color3.fromRGB(255, 255, 255)
 
-	
 	Tabs.Character:AddSection("[⚙️]Reward Options")
 	local GetFreeGift = Tabs.Character:AddToggle("GetFreeGift", { Title = "Receive Gift", Default = false})
 	GetFreeGift:OnChanged(function(Value)
@@ -291,8 +269,7 @@ do
 		Title = "", 
 		Icon = false,
 		Callback = function()
-			WalkSpeed:SetValue(16)
-			JumpPower:SetValue(50)
+			Utils.TeleportToRandomServer()
 		end
 	})
 	HopeServer.Frame.Text = "Hope Server"
