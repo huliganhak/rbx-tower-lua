@@ -763,9 +763,9 @@ local aa = {
                     ),
                     Text = m,
                     TextColor3 = Color3.fromRGB(240, 240, 240),
-                    TextSize = 13,
+                    TextSize = 12, -- Viper Add
                     TextXAlignment = Enum.TextXAlignment.Left,
-                    Size = UDim2.new(1, 0, 0, 14),
+                    Size = UDim2.new(1, 0, 0, 12), -- Viper Add
                     BackgroundColor3 = Color3.fromRGB(255, 255, 255),
                     BackgroundTransparency = 1,
                     ThemeTag = {TextColor3 = "Text"}
@@ -778,7 +778,7 @@ local aa = {
                     FontFace = Font.new "rbxasset://fonts/families/GothamSSm.json",
                     Text = n,
                     TextColor3 = Color3.fromRGB(200, 200, 200),
-                    TextSize = 12,
+                    TextSize = 10, -- Viper Add
                     TextWrapped = true,
                     TextXAlignment = Enum.TextXAlignment.Left,
                     BackgroundColor3 = Color3.fromRGB(255, 255, 255),
@@ -2146,20 +2146,20 @@ local aa = {
             n.Callback = n.Callback or function()
                 end
             local o = e(k.Element)(n.Title, n.Description, m.Container, true)
-            if n.Icon ~= false then
+            if n.Icon ~= false then -- Viper Add
                 local p =
-                    j(
-                    "ImageLabel",
-                    {
-                        Image = "rbxassetid://10709791437",
-                        Size = UDim2.fromOffset(16, 16),
-                        AnchorPoint = Vector2.new(1, 0.5),
-                        Position = UDim2.new(1, -10, 0.5, 0),
-                        BackgroundTransparency = 1,
-                        Parent = o.Frame,
-                        ThemeTag = {ImageColor3 = "Text"}
-                    }
-                )
+		  j(
+			"ImageLabel",
+			{
+			   Image = "rbxassetid://10709791437",
+			   Size = UDim2.fromOffset(16, 16),
+			   AnchorPoint = Vector2.new(1, 0.5),
+			   Position = UDim2.new(1, -10, 0.5, 0),
+			   BackgroundTransparency = 1,
+			   Parent = o.Frame,
+			   ThemeTag = {ImageColor3 = "Text"}
+			}
+		  )
             end
             i.AddSignal(
                 o.Frame.MouseButton1Click,
@@ -2719,7 +2719,7 @@ local aa = {
                 e(
                     "TextButton",
                     {
-                        Size = UDim2.fromOffset(160, 30),
+                        Size = UDim2.fromOffset(100, 25), -- Viper Add
                         Position = UDim2.new(1, -10, 0.5, 0),
                         AnchorPoint = Vector2.new(1, 0.5),
                         BackgroundTransparency = 0.9,
@@ -2960,6 +2960,16 @@ local aa = {
                             P(N and 0.85 or 0.89)
                         end
                     )
+		    c.AddSignal(ag.InputBegan, function(input, gameProcessed) -- Viper Add
+			if input.UserInputType == Enum.UserInputType.Keyboard then
+				if input.KeyCode == Enum.KeyCode.Backspace then
+					if l.Opened then
+						l:Close()
+					end
+				end
+			end
+		    end
+	   	    )
                     function J.UpdateButton(T)
                         if j.Multi then
                             N = l.Value[I]
