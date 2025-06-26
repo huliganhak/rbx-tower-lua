@@ -10,6 +10,10 @@ local FarmloopRunning = false
 local selectedIncubatorHatch = nil
 local HatchloopRunning = false
 
+Utils.characterOverride = false
+Utils.targetWalkSpeed = 16
+Utils.targetJumpPower = 50
+
 Utils.locationPresets = {
 	World1 = { start = Vector3.new(-3.75, 5, -55), stairs = Vector3.new(-3.75, 5, -60), trophy = Vector3.new(-5, 14410, -65), down = Vector3.new(-3.75, 5, -55) },
 	World2 = { start = Vector3.new(5000, 5, -60), stairs = Vector3.new(5000, 5, -65), trophy = Vector3.new(5000, 14410, -70), down = Vector3.new(5000, 5, -60) },
@@ -201,6 +205,45 @@ function Utils.TeleportToRandomServer()
 		TeleportService:TeleportToPlaceInstance(game.PlaceId, targetServer.id, game.Players.LocalPlayer)
 	else
 		warn("Suitable target server not found.")
+	end
+end
+
+-- ฟังก์ชัน Speed และ Jump
+function Utils.SetCharacterOverride(value)
+	Utils.characterOverride = value
+end
+function Utils.SetTargetWalkSpeed(value)
+	Utils.targetWalkSpeed = value
+end
+function Utils.SetTargetJumpPower(value)
+	Utils.targetJumpPower = value
+end
+
+function Utils.StartCharacterOverride()
+	if Utils.characterOverride then return end
+	Utils.characterOverride = true
+	task.spawn(function()
+		while Utils.characterOverride do
+			task.wait(0.5)
+			local hum = Utils.GetHumanoid()
+			if hum then
+				hum.WalkSpeed = Utils.targetWalkSpeed
+				hum.UseJumpPower = true
+				hum.JumpPower = Utils.targetJumpPower
+			end
+		end
+	end)
+end
+
+function Utils.StopCharacterOverride()
+	Utils.characterOverride = false
+	Utils.targetWalkSpeed = 16
+	Utils.targetJumpPower = 50
+	local hum = Utils.GetHumanoid()
+	if hum then
+		hum.WalkSpeed = Utils.targetWalkSpeed
+		hum.UseJumpPower = false
+		hum.JumpPower = Utils.targetJumpPower
 	end
 end
 
