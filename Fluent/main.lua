@@ -1759,7 +1759,7 @@ local aa = {
             )
             v.ContainerPosMotor:onStep(
                 function(K)
-                    v.ContainerHolder.Position = UDim2.fromOffset(t.TabWidth + 26, K)
+                    -- v.ContainerHolder.Position = UDim2.fromOffset(t.TabWidth + 26, K) -- Viper Add
                 end
             )
             local K, L
@@ -1939,6 +1939,31 @@ local aa = {
             function v.SelectTab(O, P)
                 N:SelectTab(1)
             end
+            local isTabDisplayShown = true -- Viper Add
+			function v.TabDisplayInSection(show) -- Viper Add
+				show = show == nil and true or show  -- ถ้าไม่ได้ส่งค่า -> ถือว่าเป็น true
+
+				if typeof(show) ~= "boolean" then
+					warn("❌ TabDisplaySection You must only send true or false!")
+					return
+				end
+				
+				if show == isTabDisplayShown then
+					return -- ถ้า state เดิมเหมือนกัน ไม่ต้องทำอะไร
+				end
+
+				isTabDisplayShown = show
+
+				if show then
+					v.TabDisplay.Visible = true
+					v.ContainerPosMotor:onStep(function(K)
+						v.ContainerHolder.Position = UDim2.fromOffset(t.TabWidth + 26, K)
+					end)
+				else
+					v.TabDisplay.Visible = false
+					v.ContainerHolder.Position = UDim2.fromOffset(t.TabWidth + 26, 50)
+				end
+			end
             m.AddSignal(
                 v.TabHolder:GetPropertyChangedSignal "CanvasPosition",
                 function()
@@ -3090,7 +3115,7 @@ local aa = {
             local j = ac(aj.Textbox)(i.Frame, true)
             j.Frame.Position = UDim2.new(1, -10, 0.5, 0)
             j.Frame.AnchorPoint = Vector2.new(1, 0.5)
-            j.Frame.Size = UDim2.fromOffset(160, 30)
+            j.Frame.Size = UDim2.fromOffset(100, 25) -- Viper Add
             j.Input.Text = f.Default or ""
             j.Input.PlaceholderText = f.Placeholder or ""
             local k = j.Input
