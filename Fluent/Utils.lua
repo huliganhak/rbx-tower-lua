@@ -151,7 +151,7 @@ end
 -- ฟังก์ชันที่เกี่ยวข้องกับการเล่น
 function Utils.GetHumanoid()
 	local char = player.Character or player.CharacterAdded:Wait()
-	return char:FindFirstChild("Humanoid")
+	return char:FindFirstChildOfClass("Humanoid")
 end
 
 function Utils.GetFreeGift()
