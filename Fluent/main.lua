@@ -1940,30 +1940,30 @@ local aa = {
                 N:SelectTab(1)
             end
             local isTabDisplayShown = true -- Viper Add
-			function v.TabDisplayInSection(show) -- Viper Add
-				show = show == nil and true or show  -- ถ้าไม่ได้ส่งค่า -> ถือว่าเป็น true
+	    function v.TabDisplayInSection(show) -- Viper Add
+		show = show == nil and true or show  -- ถ้าไม่ได้ส่งค่า -> ถือว่าเป็น true
 
-				if typeof(show) ~= "boolean" then
-					warn("❌ TabDisplaySection You must only send true or false!")
-					return
-				end
-				
-				if show == isTabDisplayShown then
-					return -- ถ้า state เดิมเหมือนกัน ไม่ต้องทำอะไร
-				end
+		if typeof(show) ~= "boolean" then
+			warn("❌ TabDisplaySection You must only send true or false!")
+			return
+		end
+		
+		if show == isTabDisplayShown then
+			return -- ถ้า state เดิมเหมือนกัน ไม่ต้องทำอะไร
+		end
 
-				isTabDisplayShown = show
+		isTabDisplayShown = show
 
-				if show then
-					v.TabDisplay.Visible = true
-					v.ContainerPosMotor:onStep(function(K)
-						v.ContainerHolder.Position = UDim2.fromOffset(t.TabWidth + 26, K)
-					end)
-				else
-					v.TabDisplay.Visible = false
-					v.ContainerHolder.Position = UDim2.fromOffset(t.TabWidth + 26, 50)
-				end
-			end
+		if show then
+			v.TabDisplay.Visible = true
+			v.ContainerPosMotor:onStep(function(K)
+				v.ContainerHolder.Position = UDim2.fromOffset(t.TabWidth + 26, K)
+			end)
+		else
+			v.TabDisplay.Visible = false
+			v.ContainerHolder.Position = UDim2.fromOffset(t.TabWidth + 26, 50)
+		end
+	    end
             m.AddSignal(
                 v.TabHolder:GetPropertyChangedSignal "CanvasPosition",
                 function()
