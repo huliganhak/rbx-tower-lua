@@ -7,6 +7,8 @@ local RunService = game:GetService("RunService")
 local player = Players.LocalPlayer
 local selectedWorldFarm = nil
 local FarmloopRunning = false
+local selectedIncubatorHatch = nil
+local HatchloopRunning = false
 
 Utils.locationPresets = {
 	World1 = { start = Vector3.new(-3.75, 5, -55), stairs = Vector3.new(-3.75, 5, -60), trophy = Vector3.new(-5, 14410, -65), down = Vector3.new(-3.75, 5, -55) },
@@ -40,6 +42,18 @@ end
 
 function Utils.getFarmloopRunning()
 	return FarmloopRunning
+end
+
+function Utils.setSelectedIncubatorHatch(name)
+	selectedIncubatorHatch = name
+end
+
+function Utils.setHatchloopRunning(state)
+	HatchloopRunning = state
+end
+
+function Utils.getHatchloopRunning()
+	return HatchloopRunning
 end
 
 -- ฟังก์ชันยูทิลิตี้
@@ -81,6 +95,32 @@ end
 function Utils.ClaimRewardMagicToken()
 	local args = {"\233\162\134\229\143\150\230\165\188\233\161\182MagicToken"}
 	game:GetService("ReplicatedStorage").Msg.RemoteEvent:FireServer(unpack(args))
+end
+
+-- ฟังก์ชันสุ่มไข่สัตย์เลี้ยง
+function Utils.HatchEgg(eggId)
+	local args = {eggId, 3}
+	game:GetService("ReplicatedStorage"):WaitForChild("Tool"):WaitForChild("DrawUp"):WaitForChild("Msg"):WaitForChild("DrawHero"):InvokeServer(unpack(args))
+end
+
+function Utils.BuildIncubatorMapAndOptions(presets)
+	local map = {}
+	local options = {}
+	local count = 0
+
+	for worldIndex = 1, 8 do
+		local world = "World" .. worldIndex
+		local eggs = presets[world]
+		if eggs then
+			for _, egg in ipairs(eggs) do
+				count += 1
+				local label = world .. " - " .. egg
+				map[label] = 7000000 + count -- 👈 ใช้ ID ไข่ ตรงนี้เลย
+				table.insert(options, label)
+			end
+		end
+	end
+	return map, options
 end
 
 -- ชุดฟังก์ชันตำแหน่ง
