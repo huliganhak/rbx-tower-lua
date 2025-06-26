@@ -52,17 +52,17 @@ do
 		Finished = false -- Only calls callback when you press enter
 	})
 	roundsBoxFarm:OnChanged(function()
-		print("InputRoundsFarm changed:", Options.InputRoundsFarm.Value)
+		--print("InputRoundsFarm changed:", Options.InputRoundsFarm.Value)
 	end)
 	
 	local ReceiveWins = Tabs.Main:AddToggle("shouldClaimWins", { Title = "Receive Trophy wins", Default = false})
 	ReceiveWins:OnChanged(function()
-		print("ReceiveWins changed:", Options.shouldClaimWins.Value)
+		--print("ReceiveWins changed:", Options.shouldClaimWins.Value)
 	end)
 	
 	local ReceiveCrystal = Tabs.Main:AddToggle("shouldClaimCrystal", { Title = "Receive Enchant Crystal", Default = false})	
 	ReceiveCrystal:OnChanged(function()
-		print("ReceiveCrystal changed:", Options.shouldClaimCrystal.Value)
+		--print("ReceiveCrystal changed:", Options.shouldClaimCrystal.Value)
 	end)
 	
 	local selectedWorldFarm = Tabs.Main:AddDropdown("DropdownWorldFarm", {
@@ -72,7 +72,7 @@ do
 		Default = 1
 	})
 	selectedWorldFarm:OnChanged(function(Value)
-		print("DropdownWorldFarm changed:", Options.DropdownWorldFarm.Value)
+		--print("DropdownWorldFarm changed:", Options.DropdownWorldFarm.Value)
 	end)
 	
 	function RunLoopFarm(roundsValue)
@@ -80,7 +80,7 @@ do
 		for i = 1, roundsValue do
 			if not Utils.getFarmloopRunning() then break end
 
-			label.Text = ("🔁 รอบที่ " .. i .. "/" .. roundsValue)
+			label.Text = ("🧗🏿 ปีน รอบที่ " .. i .. "/" .. roundsValue .. " 🧗")
 			Utils.TpPosStart() task.wait(1)
 			Utils.WalkToStairs() task.wait(1)
 			Utils.WalkUp() task.wait(3)
@@ -97,7 +97,7 @@ do
 
 			Utils.WalkDown() task.wait(5)
 		end
-		label.Text = ("✅ ครบ " .. roundsValue .. " รอบแล้ว")
+		label.Text = ("✅ ครบ ปีนเสร็จสิ้น " .. roundsValue .. " รอบแล้ว 🧗")
 		Utils.setFarmloopRunning(false)
 	end
 	local StartMain = Tabs.Main:AddButton({
@@ -107,8 +107,6 @@ do
 			local label = textFarm.Frame
 			local WorldValue = Options.DropdownWorldFarm.Value
 			local roundsValue = tonumber(Options.InputRoundsFarm.Value)
-			
-			print("WorldValue:", WorldValue)
 			
 			if not WorldValue then 
 				label.Text = ("⚠️ กรุณาเลือก World ก่อนเริ่ม") 
@@ -129,7 +127,7 @@ do
 				Utils.setFarmloopRunning(true)
 				Utils.setSelectedWorldFarm(WorldValue)
 				RunLoopFarm(roundsValue)
-				label.Text =("⏹️ เสร็จสิ้นการทำงาน")
+				label.Text =("⏹️ เสร็จสิ้นการทำงาน 💪")
 			end)
 		end
 	})
@@ -144,9 +142,9 @@ do
 		Callback = function()
 			if Utils.getFarmloopRunning() then
 				Utils.setFarmloopRunning(false)
-				textFarm.Frame.Text = ("⏹️ หยุดการทำงานแล้ว")
+				textFarm.Frame.Text = ("⏹️ หยุดการทำงานแล้ว 🧗")
 			else
-				textFarm.Frame.Text = ("⚠️ ยังไม่ได้เริ่มทำงาน")
+				textFarm.Frame.Text = ("⚠️ ยังไม่ได้เริ่มทำงาน 🧗")
 			end
 		end
 	})
@@ -171,7 +169,7 @@ do
 		Finished = false -- Only calls callback when you press enter
 	})
 	roundsBoxHatch:OnChanged(function(Value)
-		print("InputRoundsHatch changed:", Options.InputRoundsHatch.Value)
+		--print("InputRoundsHatch changed:", Options.InputRoundsHatch.Value)
 	end)
 
 	local eggIdMap, eggOptions = Utils.BuildIncubatorMapAndOptions(Utils.hatchPresets)
@@ -182,23 +180,19 @@ do
 		Default = 1
 	})
 	dropdownHatch:OnChanged(function(Value)
-		print("DropdownHatch changed:", Options.DropdownHatch.Value)
+		--print("DropdownHatch changed:", Options.DropdownHatch.Value)
 	end)
 
-	function RunLoopHatch(roundsValue, eggId)
-		
-		print("RunLoopHatch roundsValue :", roundsValue)
-		print("RunLoopHatch eggId :", eggId)
-		
+	function RunLoopHatch(roundsValue, eggId)		
 		local label = textHatch.Frame
 		for i = 1, roundsValue do
 			if not Utils.getHatchloopRunning() then break end
 
-			label.Text = ("🥚 กำลังฟักไข่ รอบที่ " .. i .. "/" .. roundsValue)
+			label.Text = ("🥚 สุ่มไข่ รอบที่ " .. i .. "/" .. roundsValue .. " 🐣")
 			Utils.HatchEgg(eggId)
 			task.wait(3)
 		end
-		label.Text = ("✅ ครบ ฟักไข่เสร็จสิ้น " .. roundsValue .. " รอบแล้ว")
+		label.Text = ("✅ ครบ สุ่มไข่เสร็จสิ้น " .. roundsValue .. " รอบแล้ว 🐣")
 		Utils.setHatchloopRunning(false)
 	end
 	local StartHatch = Tabs.Hatch:AddButton({
@@ -229,7 +223,7 @@ do
 				Utils.setHatchloopRunning(true)
 				Utils.setSelectedIncubatorHatch(IncubatorHatchValue)
 				RunLoopHatch(roundsValue, eggId)
-				label.Text =("⏹️ เสร็จสิ้นการทำงาน")
+				label.Text =("⏹️ เสร็จสิ้นการทำงาน 💪")
 			end)
 			
 		end
@@ -245,9 +239,9 @@ do
 		Callback = function()
 			if Utils.getHatchloopRunning() then
 				Utils.setHatchloopRunning(false)
-				textHatch.Frame.Text = ("⏹️ หยุดการทำงานแล้ว")
+				textHatch.Frame.Text = ("⏹️ หยุดการทำงานแล้ว 🐣")
 			else
-				textHatch.Frame.Text = ("⚠️ ยังไม่ได้เริ่มทำงาน")
+				textHatch.Frame.Text = ("⚠️ ยังไม่ได้เริ่มทำงาน 🐣")
 			end
 		end
 	})
