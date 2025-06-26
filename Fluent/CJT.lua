@@ -33,10 +33,7 @@ local WalkSpeed = nil
 local JumpPower = nil
 
 -- Hatch
-local hatchLoopRunning = false
-local hatchLoopCount = 0
 local textHatch = nil
-local selectedEggId = nil
 
 do
 	-------------------------------------------------------
@@ -45,7 +42,7 @@ do
 	Tabs.Main:AddSection("[⚙️]Main Options")
 	textFarm = Tabs.Main:AddParagraph({ Title = "", Content = ""})
 	textFarm.Frame.Text = "📜 Status Porcess....! 📜"
-	textFarm.Frame.TextColor3 = Color3.fromRGB(255, 255, 255)
+	textFarm.Frame.TextColor3 = Color3.fromRGB(0, 170, 127)
 
 	local roundsBoxFarm = Tabs.Main:AddInput("InputRoundsFarm", {
 		Title = "Rounds",
@@ -109,7 +106,7 @@ do
 		Callback = function()
 			local label = textFarm.Frame
 			local WorldValue = Options.DropdownWorldFarm.Value
-			local roundsValue = tonumber(roundsBoxFarm.Value)
+			local roundsValue = tonumber(Options.InputRoundsFarm.Value)
 			
 			print("WorldValue:", WorldValue)
 			
@@ -137,7 +134,9 @@ do
 		end
 	})
 	StartMain.Frame.Text = "Start"
-	StartMain.Frame.TextColor3 = Color3.fromRGB(255, 255, 255)
+	StartMain.Frame.TextColor3 = Color3.fromRGB(0, 170, 0)
+	StartMain.Frame.TextSize = 14
+	StartMain.Frame.Font = Enum.Font.GothamBold
 	
 	local StopMain = Tabs.Main:AddButton({
 		Title = "",
@@ -152,7 +151,9 @@ do
 		end
 	})
 	StopMain.Frame.Text = "Stop"
-	StopMain.Frame.TextColor3 = Color3.fromRGB(255, 255, 255)
+	StopMain.Frame.TextColor3 = Color3.fromRGB(255, 85, 0)
+	StopMain.Frame.TextSize = 14
+	StopMain.Frame.Font = Enum.Font.GothamBold
 	
 	-------------------------------------------------------
 	-- Hatch Eggs
@@ -160,7 +161,7 @@ do
 	Tabs.Hatch:AddSection("[⚙️]Hatch Eggs Options")
 	textHatch = Tabs.Hatch:AddParagraph({ Title = "", Content = ""})
 	textHatch.Frame.Text = "📜 Status Porcess....! 📜"
-	textHatch.Frame.TextColor3 = Color3.fromRGB(255, 255, 255)
+	textHatch.Frame.TextColor3 = Color3.fromRGB(0, 170, 172)
 
 	local roundsBoxHatch = Tabs.Hatch:AddInput("InputRoundsHatch", {
 		Title = "Rounds",
@@ -173,9 +174,10 @@ do
 		print("InputRoundsHatch changed:", Options.InputRoundsHatch.Value)
 	end)
 
+	local eggIdMap, eggOptions = Utils.BuildIncubatorMapAndOptions(Utils.hatchPresets)
 	local dropdownHatch = Tabs.Hatch:AddDropdown("DropdownHatch", {
 		Title = "Select Incubator",
-		Values = {"World1", "World2", "World3", "World4", "World5", "World6", "World7", "World8"},
+		Values = eggOptions,
 		Multi = false,
 		Default = 1
 	})
@@ -183,25 +185,76 @@ do
 		print("DropdownHatch changed:", Options.DropdownHatch.Value)
 	end)
 
+	function RunLoopHatch(roundsValue, eggId)
+		
+		print("RunLoopHatch roundsValue :", roundsValue)
+		print("RunLoopHatch eggId :", eggId)
+		
+		local label = textHatch.Frame
+		for i = 1, roundsValue do
+			if not Utils.getHatchloopRunning() then break end
+
+			label.Text = ("🥚 กำลังฟักไข่ รอบที่ " .. i .. "/" .. roundsValue)
+			Utils.HatchEgg(eggId)
+			task.wait(3)
+		end
+		label.Text = ("✅ ครบ ฟักไข่เสร็จสิ้น " .. roundsValue .. " รอบแล้ว")
+		Utils.setHatchloopRunning(false)
+	end
 	local StartHatch = Tabs.Hatch:AddButton({
 		Title = "",
 		Icon = false,
 		Callback = function()
+			local label = textHatch.Frame
+			local IncubatorHatchValue = Options.DropdownHatch.Value
+			local roundsValue = tonumber(Options.InputRoundsHatch.Value)
+			local eggId = eggIdMap[IncubatorHatchValue]
 
+			if not IncubatorHatchValue then 
+				label.Text = ("⚠️ กรุณาเลือก ที่สุ่มไข่ ก่อนเริ่ม") 
+				return
+			end
+			if Utils.getHatchloopRunning() then
+				label.Text = ("⚠️ กำลังทำงานอยู่ กรุณาหยุดก่อนเริ่มใหม่")
+				return
+			end
+
+			if not roundsValue or roundsValue <= 0 then
+				label.Text = ("❌ จำนวนรอบไม่ถูกต้อง กรุณากรอกตัวเลขมากกว่า 0")
+				return
+			end	
+			
+			task.spawn(function()
+				label.Text =("✅ เริ่มรอบใน " .. IncubatorHatchValue)
+				Utils.setHatchloopRunning(true)
+				Utils.setSelectedIncubatorHatch(IncubatorHatchValue)
+				RunLoopHatch(roundsValue, eggId)
+				label.Text =("⏹️ เสร็จสิ้นการทำงาน")
+			end)
+			
 		end
 	})
 	StartHatch.Frame.Text = "Start"
-	StartHatch.Frame.TextColor3 = Color3.fromRGB(255, 255, 255)
+	StartHatch.Frame.TextColor3 = Color3.fromRGB(0, 170, 0)
+	StartHatch.Frame.TextSize = 14
+	StartHatch.Frame.Font = Enum.Font.GothamBold
 
 	local StopHatch = Tabs.Hatch:AddButton({
 		Title = "",
 		Icon = false,
 		Callback = function()
-
+			if Utils.getHatchloopRunning() then
+				Utils.setHatchloopRunning(false)
+				textHatch.Frame.Text = ("⏹️ หยุดการทำงานแล้ว")
+			else
+				textHatch.Frame.Text = ("⚠️ ยังไม่ได้เริ่มทำงาน")
+			end
 		end
 	})
 	StopHatch.Frame.Text = "Stop"
-	StopHatch.Frame.TextColor3 = Color3.fromRGB(255, 255, 255)
+	StopHatch.Frame.TextColor3 = Color3.fromRGB(255, 85, 0)
+	StopHatch.Frame.TextSize = 14
+	StopHatch.Frame.Font = Enum.Font.GothamBold
 	
 	-------------------------------------------------------
 	-- Character
@@ -247,7 +300,9 @@ do
 		end
 	})
 	RefreshCharacter.Frame.Text = "Refresh value"
-	RefreshCharacter.Frame.TextColor3 = Color3.fromRGB(255, 255, 255)
+	RefreshCharacter.Frame.TextColor3 = Color3.fromRGB(0, 170, 0)
+	RefreshCharacter.Frame.TextSize = 14
+	RefreshCharacter.Frame.Font = Enum.Font.GothamBold
 
 	Tabs.Character:AddSection("[⚙️]Reward Options")
 	local GetFreeGift = Tabs.Character:AddToggle("GetFreeGift", { Title = "Receive Gift", Default = false})
@@ -273,7 +328,10 @@ do
 		end
 	})
 	HopeServer.Frame.Text = "Hope Server"
-	HopeServer.Frame.TextColor3 = Color3.fromRGB(255, 255, 255)
+	HopeServer.Frame.TextColor3 = Color3.fromRGB(0, 170, 0)
+	HopeServer.Frame.TextSize = 14
+	HopeServer.Frame.Font = Enum.Font.GothamBold
+	
 end
 
 
