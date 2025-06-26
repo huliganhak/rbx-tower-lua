@@ -274,12 +274,16 @@ do
 	Tabs.Character:AddSection("[⚙️]Reward Options")
 	local GetFreeGift = Tabs.Character:AddToggle("GetFreeGift", { Title = "Receive Gift", Default = false})
 	GetFreeGift:OnChanged(function(Value)
-		
+		if Value then
+			Utils.GetFreeGift()
+		end
 	end)
 	
 	local GetFreeSpin = Tabs.Character:AddToggle("GetFreeSpin", { Title = "Receive Spin", Default = false})
 	GetFreeSpin:OnChanged(function(Value)
-		
+		if Value then
+			Utils.GetFreeSpin()
+		end
 	end)
 	
 	Tabs.Character:AddSection("[⚙️]Hope Server")
