@@ -20,7 +20,6 @@ local Tabs = {
 	Character = Window:AddTab({ Title = "Character", Icon = "globe-2" }),
 	Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
 }
-
 Window.TabDisplayInSection(true) -- Display the tabs Title at the top of the window true / false
 
 local Options = Fluent.Options
@@ -263,11 +262,10 @@ do
 		Rounding = 0
 	})
 	WalkSpeed:OnChanged(function(Value)
-		local hum = Utils.GetHumanoid()
-		if hum then
-			hum.WalkSpeed = Value
-		end
+		--print("SliderWalkSpeed Changed")
+		Utils.SetTargetWalkSpeed(Options.SliderWalkSpeed.Value)
 	end)
+	
 	
 	JumpPower  = Tabs.Character:AddSlider("SliderJumpPower", {
 		Title = "Jump Power",
@@ -278,12 +276,10 @@ do
 		Rounding = 0
 	})
 	JumpPower:OnChanged(function(Value)
-		local hum = Utils.GetHumanoid()
-		if hum then
-			hum.UseJumpPower = true
-			hum.JumpPower = Value
-		end
+		--print("SliderJumpPower Changed")
+		Utils.SetTargetJumpPower(Options.SliderJumpPower.Value)
 	end)
+	
 	
 	local RefreshCharacter = Tabs.Character:AddButton({ 
 		Title = "", 
@@ -297,6 +293,17 @@ do
 	RefreshCharacter.Frame.TextColor3 = Color3.fromRGB(0, 170, 0)
 	RefreshCharacter.Frame.TextSize = 14
 	RefreshCharacter.Frame.Font = Enum.Font.GothamBold
+
+	local ToggleCharacter = Tabs.Character:AddToggle("ToggleCharacter", { Title = "Enable Character Setting", Default = false})
+	ToggleCharacter:OnChanged(function(Value)
+		if Value then
+			Utils.SetTargetWalkSpeed(Options.SliderWalkSpeed.Value)
+			Utils.SetTargetJumpPower(Options.SliderJumpPower.Value)
+			Utils.StartCharacterOverride()
+		else
+			Utils.StopCharacterOverride()
+		end
+	end)
 
 	Tabs.Character:AddSection("[⚙️]Reward Options")
 	local GetFreeGift = Tabs.Character:AddToggle("GetFreeGift", { Title = "Receive Gift", Default = false})
