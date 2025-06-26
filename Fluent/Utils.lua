@@ -1,5 +1,7 @@
 local Utils = {}
 
+local HttpService = game:GetService("HttpService")
+local TeleportService = game:GetService("TeleportService")
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local player = Players.LocalPlayer
@@ -124,6 +126,41 @@ end
 function Utils.GetFreeSpin()
 	for i = 1, 5 do
 		game:GetService("ReplicatedStorage"):WaitForChild("System"):WaitForChild("SystemDailyLottery"):WaitForChild("Spin"):InvokeServer()
+	end
+end
+
+function Utils.TeleportToRandomServer()
+	local url = "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100"
+	local nextCursor = nil
+	local targetServer = nil
+
+	local function ListServers(cursor)
+		local fullUrl = url .. ((cursor and "&cursor=" .. cursor) or "")
+		local raw = game:HttpGet(fullUrl)
+		return HttpService:JSONDecode(raw)
+	end
+
+	repeat
+		local servers = ListServers(nextCursor)
+		local data = servers.data
+
+		if #data > 0 then
+			-- เลือกเซิร์ฟเวอร์แบบสุ่ม จาก 1 ถึง ประมาณ 1/3 ของจำนวนทั้งหมด เพื่อกระจายความหนาแน่น
+			local index = math.random(1, math.max(1, math.floor(#data / 3)))
+			local candidate = data[index]
+
+			if candidate and candidate.playing < candidate.maxPlayers and candidate.id ~= game.JobId then
+				targetServer = candidate
+			end
+		end
+
+		nextCursor = servers.nextPageCursor
+	until targetServer or not nextCursor
+
+	if targetServer then
+		TeleportService:TeleportToPlaceInstance(game.PlaceId, targetServer.id, game.Players.LocalPlayer)
+	else
+		warn("Suitable target server not found.")
 	end
 end
 
