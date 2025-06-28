@@ -80,10 +80,10 @@ do
 			if not Utils.getFarmloopRunning() then break end
 
 			label.Text = ("🧗🏿 ปีน รอบที่ " .. i .. "/" .. roundsValue .. " 🧗")
-			Utils.TpPosStart() task.wait(1)
-			Utils.WalkToStairs() task.wait(1)
-			Utils.WalkUp() task.wait(3)
-			Utils.TpPosTrophy() task.wait(1)
+			Utils.TpPosStart() task.wait(2)
+			Utils.WalkToStairs() task.wait(2)
+			Utils.WalkUp() task.wait(5)
+			Utils.TpPosTrophy() task.wait(2)
 
 			if Options.shouldClaimWins.Value then 
 				Utils.ClaimRewardWins() 
