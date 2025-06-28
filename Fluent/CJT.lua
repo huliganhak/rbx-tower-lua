@@ -175,7 +175,7 @@ do
 			if not Utils.getFarmloopRunningOPMode() then break end
 
 			label.Text = ("🧗🏿 ปีน รอบที่ " .. i .. "/" .. roundsOPModeValue .. " 🧗")
-			Utils.OPMode() task.wait(3)
+			Utils.OPMode() task.wait(2)
 		end
 		label.Text = ("✅ ครบ ปีนเสร็จสิ้น " .. roundsOPModeValue .. " รอบแล้ว 🧗")
 		Utils.setFarmloopRunningOPMode(false)
