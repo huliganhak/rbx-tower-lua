@@ -94,7 +94,7 @@ do
 				task.wait(1) 
 			end
 
-			Utils.WalkDown() task.wait(5)
+			Utils.WalkDown() task.wait(10)
 		end
 		label.Text = ("✅ ครบ ปีนเสร็จสิ้น " .. roundsValue .. " รอบแล้ว 🧗")
 		Utils.setFarmloopRunning(false)
