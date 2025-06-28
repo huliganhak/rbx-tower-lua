@@ -93,13 +93,21 @@ function Utils.walkUp(duration)
 end
 
 function Utils.ClaimRewardWins()
+	--[[
 	local args = {"\233\162\134\229\143\150\230\165\188\233\161\182wins"}
 	game:GetService("ReplicatedStorage").Msg.RemoteEvent:FireServer(unpack(args))
+	]]
+	local args = {"\233\162\134\229\143\150\230\165\188\233\161\182wins"}
+	game:GetService("ReplicatedStorage"):WaitForChild("Msg"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
 end
 
 function Utils.ClaimRewardMagicToken()
+	--[[
 	local args = {"\233\162\134\229\143\150\230\165\188\233\161\182MagicToken"}
 	game:GetService("ReplicatedStorage").Msg.RemoteEvent:FireServer(unpack(args))
+	]]
+	local args = {"\233\162\134\229\143\150\230\165\188\233\161\182MagicToken"}
+	game:GetService("ReplicatedStorage"):WaitForChild("Msg"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
 end
 
 -- ฟังก์ชันสุ่มไข่สัตย์เลี้ยง
