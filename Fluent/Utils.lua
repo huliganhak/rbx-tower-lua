@@ -275,27 +275,27 @@ function Utils.OPMode()
 		14408.80
 	}
 	game:GetService("ReplicatedStorage"):WaitForChild("Msg"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
-	task.wait(2)
+	task.wait(1)
 
 	local args = {
 		"isAutoOn",
 		0
 	}
 	game:GetService("ReplicatedStorage"):WaitForChild("ServerMsg"):WaitForChild("Setting"):InvokeServer(unpack(args))
-	task.wait(2)
+	task.wait(1)
 
 	local args = {
 		"\232\181\183\232\183\179",
 		14400.80
 	}
 	game:GetService("ReplicatedStorage"):WaitForChild("Msg"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
-	task.wait(2)
+	task.wait(1)
 
 	local args = {
 		"\232\144\189\229\156\176"
 	}
 	game:GetService("ReplicatedStorage"):WaitForChild("Msg"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
-	task.wait(2)
+	task.wait(1)
 end
 
 
