@@ -34,7 +34,8 @@ Utils.hatchPresets = {
 	World5 = {"Egg 4.30cc", "Egg 6.50dd"},
 	World6 = {"Egg 9.70ee", "Egg 15ff"},
 	World7 = {"Egg 22gg", "Egg 2.20hh", "Egg 220hh"},
-	World8 = {"Egg 44ii", "Egg 4.40jj", "Egg 440jj"}
+	World8 = {"Egg 44ii", "Egg 4.40jj", "Egg 440jj"},
+	World9 = {"Egg 260kk", "Egg 21ll", "Egg 1.70mm"}
 }
 
 function Utils.setSelectedWorldFarm(name)
