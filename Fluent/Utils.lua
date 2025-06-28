@@ -270,7 +270,6 @@ end
 
 
 function Utils.OPMode()
-	print("RunLoopCHTM Called")
 	local args = {
 		"\232\181\183\232\183\179",
 		14408.80
