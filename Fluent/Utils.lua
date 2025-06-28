@@ -122,7 +122,7 @@ function Utils.BuildIncubatorMapAndOptions(presets)
 	local options = {}
 	local count = 0
 
-	for worldIndex = 1, 8 do
+	for worldIndex = 1, 9 do
 		local world = "World" .. worldIndex
 		local eggs = presets[world]
 		if eggs then
