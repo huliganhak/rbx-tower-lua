@@ -169,37 +169,37 @@ do
 		--print("InputRoundsFarm changed:", Options.InputRoundsFarm.Value)
 	end)
 	
-	function RunLoopFarmOPMode(roundsValue)
-		local label = textFarm.Frame
-		for i = 1, roundsValue do
-			if not Utils.getFarmloopRunning() then break end
+	function RunLoopFarmOPMode(roundsOPModeValue)
+		local label = textFarmOPMode.Frame
+		for i = 1, roundsOPModeValue do
+			if not Utils.getFarmloopRunningOPMode() then break end
 
-			label.Text = ("🧗🏿 ปีน รอบที่ " .. i .. "/" .. roundsValue .. " 🧗")
+			label.Text = ("🧗🏿 ปีน รอบที่ " .. i .. "/" .. roundsOPModeValue .. " 🧗")
 			Utils.OPMode() task.wait(1)
 		end
-		label.Text = ("✅ ครบ ปีนเสร็จสิ้น " .. roundsValue .. " รอบแล้ว 🧗")
-		Utils.setFarmloopRunning(false)
+		label.Text = ("✅ ครบ ปีนเสร็จสิ้น " .. roundsOPModeValue .. " รอบแล้ว 🧗")
+		Utils.setFarmloopRunningOPMode(false)
 	end
 	local StartMainOPMode = Tabs.Main:AddButton({
 		Title = "",
 		Icon = false,
 		Callback = function()
 			local label = textFarmOPMode.Frame
-			local roundsValue = tonumber(Options.InputRoundsFarmOPMode.Value)
+			local roundsOPModeValue = tonumber(Options.InputRoundsFarmOPMode.Value)
 
 			if Utils.getFarmloopRunningOPMode() then
 				label.Text = ("⚠️ กำลังทำงานอยู่ กรุณาหยุดก่อนเริ่มใหม่")
 				return
 			end
 
-			if not roundsValue or roundsValue <= 0 then
+			if not roundsOPModeValue or roundsOPModeValue <= 0 then
 				label.Text = ("❌ จำนวนรอบไม่ถูกต้อง กรุณากรอกตัวเลขมากกว่า 0")
 				return
 			end	
 
 			task.spawn(function()
 				Utils.setFarmloopRunningOPMode(true)
-				RunLoopFarmOPMode(roundsValue)
+				RunLoopFarmOPMode(roundsOPModeValue)
 				label.Text =("⏹️ เสร็จสิ้นการทำงาน 💪")
 			end)
 		end
