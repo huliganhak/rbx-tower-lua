@@ -7,6 +7,7 @@ local RunService = game:GetService("RunService")
 local player = Players.LocalPlayer
 local selectedWorldFarm = nil
 local FarmloopRunning = false
+local FarmloopRunningOPMode = false
 local selectedIncubatorHatch = nil
 local HatchloopRunning = false
 
@@ -256,5 +257,47 @@ function Utils.StopCharacterOverride()
 		hum.JumpPower = Utils.targetJumpPower
 	end
 end
+
+-- OP Mode New
+
+function Utils.setFarmloopRunningOPMode(state)
+	FarmloopRunningOPMode = state
+end
+
+function Utils.getFarmloopRunningOPMode()
+	return FarmloopRunningOPMode
+end
+
+
+function Utils.OPMode()
+	print("RunLoopCHTM Called")
+	local args = {
+		"\232\181\183\232\183\179",
+		14408.80
+	}
+	game:GetService("ReplicatedStorage"):WaitForChild("Msg"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
+	task.wait(2)
+
+	local args = {
+		"isAutoOn",
+		0
+	}
+	game:GetService("ReplicatedStorage"):WaitForChild("ServerMsg"):WaitForChild("Setting"):InvokeServer(unpack(args))
+	task.wait(2)
+
+	local args = {
+		"\232\181\183\232\183\179",
+		14400.80
+	}
+	game:GetService("ReplicatedStorage"):WaitForChild("Msg"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
+	task.wait(2)
+
+	local args = {
+		"\232\144\189\229\156\176"
+	}
+	game:GetService("ReplicatedStorage"):WaitForChild("Msg"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
+	task.wait(2)
+end
+
 
 return Utils
