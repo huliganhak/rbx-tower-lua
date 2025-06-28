@@ -23,7 +23,7 @@ Utils.locationPresets = {
 	World6 = { start = Vector3.new(25000, 5, -35), stairs = Vector3.new(25000, 5, -40), trophy = Vector3.new(25000, 14410, -45), down = Vector3.new(25000, 5, -35) },
 	World7 = { start = Vector3.new(30000, 5, -70), stairs = Vector3.new(30000, 5, -75), trophy = Vector3.new(30000, 14410, -85), down = Vector3.new(30000, 5, -70) },
 	World8 = { start = Vector3.new(35000, 5, -35), stairs = Vector3.new(35000, 5, -40), trophy = Vector3.new(35000, 14410, -45), down = Vector3.new(35000, 5, -35) },
-	World9 = { start = Vector3.new(40000, 5, -170), stairs = Vector3.new(40000, 5, -175), trophy = Vector3.new(40000, 14410, -185), down = Vector3.new(40000, 5, -170) }
+	World9 = { start = Vector3.new(40000, 5, -165), stairs = Vector3.new(40000, 5, -170), trophy = Vector3.new(40000, 14410, -185), down = Vector3.new(40000, 5, -165) }
 }
 
 Utils.hatchPresets = {
