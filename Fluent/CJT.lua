@@ -82,7 +82,7 @@ do
 			label.Text = ("🧗🏿 ปีน รอบที่ " .. i .. "/" .. roundsValue .. " 🧗")
 			Utils.TpPosStart() task.wait(2)
 			Utils.WalkToStairs() task.wait(2)
-			Utils.WalkUp() task.wait(5)
+			Utils.WalkUp() task.wait(4)
 			Utils.TpPosTrophy() task.wait(2)
 
 			if Options.shouldClaimWins.Value then 
@@ -94,7 +94,7 @@ do
 				task.wait(1) 
 			end
 
-			Utils.WalkDown() task.wait(10)
+			Utils.WalkDown() task.wait(8)
 		end
 		label.Text = ("✅ ครบ ปีนเสร็จสิ้น " .. roundsValue .. " รอบแล้ว 🧗")
 		Utils.setFarmloopRunning(false)
