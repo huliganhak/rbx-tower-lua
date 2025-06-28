@@ -26,6 +26,7 @@ local Options = Fluent.Options
 
 -- Farm
 local textFarm  = nil
+local textFarmOPMode  = nil
 
 -- Character
 local WalkSpeed = nil
@@ -80,10 +81,10 @@ do
 			if not Utils.getFarmloopRunning() then break end
 
 			label.Text = ("🧗🏿 ปีน รอบที่ " .. i .. "/" .. roundsValue .. " 🧗")
-			Utils.TpPosStart() task.wait(2)
-			Utils.WalkToStairs() task.wait(2)
-			Utils.WalkUp() task.wait(4)
-			Utils.TpPosTrophy() task.wait(2)
+			Utils.TpPosStart() task.wait(1)
+			Utils.WalkToStairs() task.wait(1)
+			Utils.WalkUp() task.wait(3)
+			Utils.TpPosTrophy() task.wait(1)
 
 			if Options.shouldClaimWins.Value then 
 				Utils.ClaimRewardWins() 
@@ -94,7 +95,7 @@ do
 				task.wait(1) 
 			end
 
-			Utils.WalkDown() task.wait(8)
+			Utils.WalkDown() task.wait(5)
 		end
 		label.Text = ("✅ ครบ ปีนเสร็จสิ้น " .. roundsValue .. " รอบแล้ว 🧗")
 		Utils.setFarmloopRunning(false)
@@ -151,6 +152,79 @@ do
 	StopMain.Frame.TextColor3 = Color3.fromRGB(255, 85, 0)
 	StopMain.Frame.TextSize = 14
 	StopMain.Frame.Font = Enum.Font.GothamBold
+	
+	Tabs.Main:AddSection("[⚙️]Main OP Mode Options")
+	textFarmOPMode = Tabs.Main:AddParagraph({ Title = "", Content = ""})
+	textFarmOPMode.Frame.Text = "📜 Status Porcess....! 📜"
+	textFarmOPMode.Frame.TextColor3 = Color3.fromRGB(0, 170, 127)
+	
+	local roundsBoxFarmOPMode = Tabs.Main:AddInput("InputRoundsFarmOPMode", {
+		Title = "Rounds",
+		Default = "5",
+		Placeholder = "Placeholder",
+		Numeric = true, -- Only allows numbers
+		Finished = false -- Only calls callback when you press enter
+	})
+	roundsBoxFarmOPMode:OnChanged(function()
+		--print("InputRoundsFarm changed:", Options.InputRoundsFarm.Value)
+	end)
+	
+	function RunLoopFarmOPMode(roundsValue)
+		local label = textFarm.Frame
+		for i = 1, roundsValue do
+			if not Utils.getFarmloopRunning() then break end
+
+			label.Text = ("🧗🏿 ปีน รอบที่ " .. i .. "/" .. roundsValue .. " 🧗")
+			Utils.OPMode() task.wait(1)
+		end
+		label.Text = ("✅ ครบ ปีนเสร็จสิ้น " .. roundsValue .. " รอบแล้ว 🧗")
+		Utils.setFarmloopRunning(false)
+	end
+	local StartMainOPMode = Tabs.Main:AddButton({
+		Title = "",
+		Icon = false,
+		Callback = function()
+			local label = textFarmOPMode.Frame
+			local roundsValue = tonumber(Options.InputRoundsFarmOPMode.Value)
+
+			if Utils.getFarmloopRunningOPMode() then
+				label.Text = ("⚠️ กำลังทำงานอยู่ กรุณาหยุดก่อนเริ่มใหม่")
+				return
+			end
+
+			if not roundsValue or roundsValue <= 0 then
+				label.Text = ("❌ จำนวนรอบไม่ถูกต้อง กรุณากรอกตัวเลขมากกว่า 0")
+				return
+			end	
+
+			task.spawn(function()
+				Utils.setFarmloopRunningOPMode(true)
+				RunLoopFarmOPMode(roundsValue)
+				label.Text =("⏹️ เสร็จสิ้นการทำงาน 💪")
+			end)
+		end
+	})
+	StartMainOPMode.Frame.Text = "Start"
+	StartMainOPMode.Frame.TextColor3 = Color3.fromRGB(0, 170, 0)
+	StartMainOPMode.Frame.TextSize = 14
+	StartMainOPMode.Frame.Font = Enum.Font.GothamBold
+
+	local StopMainOPMode = Tabs.Main:AddButton({
+		Title = "",
+		Icon = false,
+		Callback = function()
+			if Utils.getFarmloopRunningOPMode() then
+				Utils.setFarmloopRunningOPMode(false)
+				textFarmOPMode.Frame.Text = ("⏹️ หยุดการทำงานแล้ว 🧗")
+			else
+				textFarmOPMode.Frame.Text = ("⚠️ ยังไม่ได้เริ่มทำงาน 🧗")
+			end
+		end
+	})
+	StopMainOPMode.Frame.Text = "Stop"
+	StopMainOPMode.Frame.TextColor3 = Color3.fromRGB(255, 85, 0)
+	StopMainOPMode.Frame.TextSize = 14
+	StopMainOPMode.Frame.Font = Enum.Font.GothamBold
 	
 	-------------------------------------------------------
 	-- Hatch Eggs
