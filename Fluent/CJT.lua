@@ -66,7 +66,7 @@ do
 	
 	local selectedWorldFarm = Tabs.Main:AddDropdown("DropdownWorldFarm", {
 		Title = "Select Worlds",
-		Values = {"World1", "World2", "World3", "World4", "World5", "World6", "World7", "World8"},
+		Values = {"World1", "World2", "World3", "World4", "World5", "World6", "World7", "World8", "World9"},
 		Multi = false,
 		Default = 1
 	})
