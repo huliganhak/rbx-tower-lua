@@ -163,11 +163,11 @@ do
 	modeSuperAuto:OnChanged(function(Value)
 		if Value then
 			Utils.setAutoCollect(1, function(count)
-				textFarmSuperMode.Frame.Text = "isCelebrating count: " .. count
+				textFarmSuperMode.Frame.Text = ("🧗🏿 ปีน รอบที่ " .. count .. " 🧗")
 			end)
 		else
 			Utils.setAutoCollect(0, function()
-				textFarmSuperMode.Frame.Text = "isCelebrating ปิดแล้ว"
+				textFarmSuperMode.Frame.Text = ("⏹️ หยุดการทำงานแล้ว 🧗")
 			end)
 		end
 	end)
