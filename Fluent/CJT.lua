@@ -351,7 +351,7 @@ do
 		--Description = "This is a slider",
 		Default = 16,
 		Min = 1,
-		Max = 1000,
+		Max = 15000,
 		Rounding = 0
 	})
 	WalkSpeed:OnChanged(function(Value)
@@ -365,7 +365,7 @@ do
 		--Description = "This is a slider",
 		Default = 50,
 		Min = 1,
-		Max = 1000,
+		Max = 15000,
 		Rounding = 0
 	})
 	JumpPower:OnChanged(function(Value)
