@@ -267,14 +267,14 @@ function Utils.setAutoCollect(state, onCountChanged)
 	local auto = setting:WaitForChild("isAutoCllect")
 
 	auto.Value = (state == 1) and 1 or 0
-	print("AutoCollect:", auto.Value == 1 and "On" or "Off")
+	-- print("AutoCollect:", auto.Value == 1 and "On" or "Off")
 
 	if auto.Value == 1 then
 		Utils.setupCelebrationCounter(onCountChanged)
 	elseif isCelebratingProcess then
 		isCelebratingProcess:Disconnect()
 		isCelebratingRunning = false
-		print("❌ หยุดนับ isCelebrating แล้ว")
+		-- print("❌ หยุดนับ isCelebrating แล้ว")
 	end
 end
 
@@ -287,7 +287,7 @@ function Utils.setupCelebrationCounter(onCountChanged)
 	isCelebratingProcess = isCelebrating:GetPropertyChangedSignal("Value"):Connect(function()
 		if isCelebrating.Value then
 			isCelebratingcount += 1
-			print("🎉 isCelebrating count:", isCelebratingcount)
+			-- print("🎉 isCelebrating count:", isCelebratingcount)
 
 			-- ป้องกัน callback ถ้า toggle ถูกปิดทันที
 			if onCountChanged and isCelebratingRunning then
