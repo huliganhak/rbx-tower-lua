@@ -298,7 +298,6 @@ function Utils.setupCelebrationCounter(onCountChanged)
 end
 
 -- OP Mode New
-
 function Utils.setFarmloopRunningOPMode(state)
 	FarmloopRunningOPMode = state
 end
