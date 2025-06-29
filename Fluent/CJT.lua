@@ -26,6 +26,7 @@ local Options = Fluent.Options
 
 -- Farm
 local textFarm  = nil
+local textFarmSuperMode  = nil
 local textFarmOPMode  = nil
 
 -- Character
@@ -152,6 +153,24 @@ do
 	StopMain.Frame.TextColor3 = Color3.fromRGB(255, 85, 0)
 	StopMain.Frame.TextSize = 14
 	StopMain.Frame.Font = Enum.Font.GothamBold
+
+	Tabs.Main:AddSection("[⚙️]Main Super Mode Options")
+	textFarmSuperMode = Tabs.Main:AddParagraph({ Title = "", Content = ""})
+	textFarmSuperMode.Frame.Text = "📜 Status Porcess....! 📜"
+	textFarmSuperMode.Frame.TextColor3 = Color3.fromRGB(0, 170, 127)
+	
+	local modeSuperAuto = Tabs.Main:AddToggle("modeSuperAuto", { Title = "Mode Super Auto", Default = false})
+	modeSuperAuto:OnChanged(function(Value)
+		if Value then
+			Utils.setAutoCollect(1, function(count)
+				textFarmSuperMode.Frame.Text = "isCelebrating count: " .. count
+			end)
+		else
+			Utils.setAutoCollect(0, function()
+				textFarmSuperMode.Frame.Text = "isCelebrating ปิดแล้ว"
+			end)
+		end
+	end)
 	
 	Tabs.Main:AddSection("[⚙️]Main OP Mode Options")
 	textFarmOPMode = Tabs.Main:AddParagraph({ Title = "", Content = ""})
@@ -175,7 +194,7 @@ do
 			if not Utils.getFarmloopRunningOPMode() then break end
 
 			label.Text = ("🧗🏿 ปีน รอบที่ " .. i .. "/" .. roundsOPModeValue .. " 🧗")
-			Utils.OPMode() task.wait(2)
+			Utils.OPMode() task.wait(1)
 		end
 		label.Text = ("✅ ครบ ปีนเสร็จสิ้น " .. roundsOPModeValue .. " รอบแล้ว 🧗")
 		Utils.setFarmloopRunningOPMode(false)
@@ -332,7 +351,7 @@ do
 		--Description = "This is a slider",
 		Default = 16,
 		Min = 1,
-		Max = 15000,
+		Max = 1000,
 		Rounding = 0
 	})
 	WalkSpeed:OnChanged(function(Value)
@@ -346,7 +365,7 @@ do
 		--Description = "This is a slider",
 		Default = 50,
 		Min = 1,
-		Max = 15000,
+		Max = 1000,
 		Rounding = 0
 	})
 	JumpPower:OnChanged(function(Value)
