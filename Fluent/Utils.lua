@@ -10,6 +10,9 @@ local FarmloopRunning = false
 local FarmloopRunningOPMode = false
 local selectedIncubatorHatch = nil
 local HatchloopRunning = false
+local isCelebratingcount = 0
+local isCelebratingRunning = false
+local isCelebratingProcess = nil 
 
 Utils.characterOverride = false
 Utils.targetWalkSpeed = 16
@@ -258,6 +261,42 @@ function Utils.StopCharacterOverride()
 	end
 end
 
+-- Mode Super Auto 
+function Utils.setAutoCollect(state, onCountChanged)
+	local setting = player:WaitForChild("Setting")
+	local auto = setting:WaitForChild("isAutoCllect")
+
+	auto.Value = (state == 1) and 1 or 0
+	print("AutoCollect:", auto.Value == 1 and "On" or "Off")
+
+	if auto.Value == 1 then
+		Utils.setupCelebrationCounter(onCountChanged)
+	elseif isCelebratingProcess then
+		isCelebratingProcess:Disconnect()
+		isCelebratingRunning = false
+		print("❌ หยุดนับ isCelebrating แล้ว")
+	end
+end
+
+function Utils.setupCelebrationCounter(onCountChanged)
+	if isCelebratingRunning then return end
+	isCelebratingRunning = true
+	isCelebratingcount = 0
+
+	local isCelebrating = player:WaitForChild("isCelebrating")
+	isCelebratingProcess = isCelebrating:GetPropertyChangedSignal("Value"):Connect(function()
+		if isCelebrating.Value then
+			isCelebratingcount += 1
+			print("🎉 isCelebrating count:", isCelebratingcount)
+
+			-- ป้องกัน callback ถ้า toggle ถูกปิดทันที
+			if onCountChanged and isCelebratingRunning then
+				onCountChanged(isCelebratingcount)
+			end
+		end
+	end)
+end
+
 -- OP Mode New
 
 function Utils.setFarmloopRunningOPMode(state)
@@ -275,27 +314,27 @@ function Utils.OPMode()
 		14408.80
 	}
 	game:GetService("ReplicatedStorage"):WaitForChild("Msg"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
-	task.wait(1.5)
+	task.wait(2)
 
 	local args = {
 		"isAutoOn",
 		0
 	}
 	game:GetService("ReplicatedStorage"):WaitForChild("ServerMsg"):WaitForChild("Setting"):InvokeServer(unpack(args))
-	task.wait(1.5)
+	task.wait(2)
 
 	local args = {
 		"\232\181\183\232\183\179",
 		14400.80
 	}
 	game:GetService("ReplicatedStorage"):WaitForChild("Msg"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
-	task.wait(1.5)
+	task.wait(2)
 
 	local args = {
 		"\232\144\189\229\156\176"
 	}
 	game:GetService("ReplicatedStorage"):WaitForChild("Msg"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
-	task.wait(1.5)
+	task.wait(2)
 end
 
 
