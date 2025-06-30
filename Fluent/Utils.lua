@@ -5,6 +5,7 @@ local TeleportService = game:GetService("TeleportService")
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local player = Players.LocalPlayer
+local placeId = game.PlaceId  
 local selectedWorldFarm = nil
 local FarmloopRunning = false
 local FarmloopRunningOPMode = false
@@ -263,18 +264,23 @@ end
 
 -- Mode Super Auto 
 function Utils.setAutoCollect(state, onCountChanged)
+	if placeId ~= 123921593837160 then
+		print("⛔ AutoCollect Close ")
+		return
+	end
+	
 	local setting = player:WaitForChild("Setting")
 	local auto = setting:WaitForChild("isAutoCllect")
 
 	auto.Value = (state == 1) and 1 or 0
-	-- print("AutoCollect:", auto.Value == 1 and "On" or "Off")
+	--print("AutoCollect:", auto.Value == 1 and "On" or "Off")
 
 	if auto.Value == 1 then
 		Utils.setupCelebrationCounter(onCountChanged)
 	elseif isCelebratingProcess then
 		isCelebratingProcess:Disconnect()
 		isCelebratingRunning = false
-		-- print("❌ หยุดนับ isCelebrating แล้ว")
+		--print("❌ หยุดนับ isCelebrating แล้ว")
 	end
 end
 
