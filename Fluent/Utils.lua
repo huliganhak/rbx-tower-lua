@@ -267,7 +267,7 @@ end
 -- Mode Super Auto 
 function Utils.setAutoCollect(state, onCountChanged)
 	if placeId ~= 123921593837160 then
-		print("⛔ AutoCollect Close ")
+		print("⛔ CJT AutoCollect Close ")
 		return
 	end
 	
