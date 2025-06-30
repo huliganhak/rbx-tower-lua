@@ -15,6 +15,8 @@ local isCelebratingcount = 0
 local isCelebratingRunning = false
 local isCelebratingProcess = nil 
 
+-- print("PlaceId:", placeId)
+
 Utils.characterOverride = false
 Utils.targetWalkSpeed = 16
 Utils.targetJumpPower = 50
