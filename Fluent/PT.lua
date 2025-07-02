@@ -16,7 +16,6 @@ local Window = Fluent:CreateWindow({
 --Fluent provides Lucide Icons https://lucide.dev/icons/ for the tabs, icons are optional
 local Tabs = {
 	Main = Window:AddTab({ Title = "Main", Icon = "globe-2" }),
-	Hatch = Window:AddTab({ Title = "Hatch Eggs", Icon = "globe-2" }),
 	Character = Window:AddTab({ Title = "Character", Icon = "globe-2" }),
 	Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
 }
@@ -74,7 +73,7 @@ do
 	end)
 
 	function RunLoopEnergy()
-		UtilsPT.processParallel()
+		Utils.processParallel()
 	end
 	local StartMain = Tabs.Main:AddButton({
 		Title = "",
@@ -89,7 +88,7 @@ do
 				label.Text = ("⚠️ กรุณาเลือก Platform ก่อนเริ่ม") 
 				return
 			end
-			if UtilsPT.getWorksloopRunning() then
+			if Utils.getWorksloopRunning() then
 				label.Text = ("⚠️ กำลังทำงานอยู่ กรุณาหยุดก่อนเริ่มใหม่")
 				return
 			end
@@ -112,10 +111,10 @@ do
 			
 			task.spawn(function()
 				label.Text =("✅ เริ่มใน " .. PlatformData)
-				UtilsPT.setWorksloopRunning(true)
-				UtilsPT.setselectedPlatform(PlatformValue)
-				UtilsPT.setroundsWorks(WorksValue)
-				UtilsPT.setroundsParallel(ParallelValue)
+				Utils.setWorksloopRunning(true)
+				Utils.setselectedPlatform(PlatformValue)
+				Utils.setroundsWorks(WorksValue)
+				Utils.setroundsParallel(ParallelValue)
 				RunLoopEnergy()
 				label.Text =("⏹️ เสร็จสิ้นการทำงาน 💪")
 			end)
@@ -130,8 +129,8 @@ do
 		Title = "",
 		Icon = false,
 		Callback = function()
-			if UtilsPT.getWorksloopRunning() then
-				UtilsPT.setWorksloopRunning(false)
+			if Utils.getWorksloopRunning() then
+				Utils.setWorksloopRunning(false)
 				textFarm.Frame.Text = ("⏹️ หยุดการทำงานแล้ว 🧗")
 			else
 				textFarm.Frame.Text = ("⚠️ ยังไม่ได้เริ่มทำงาน 🧗")
@@ -158,7 +157,7 @@ do
 	})
 	WalkSpeed:OnChanged(function(Value)
 		--print("SliderWalkSpeed Changed")
-		UtilsPT.SetTargetWalkSpeed(Options.SliderWalkSpeed.Value)
+		Utils.SetTargetWalkSpeed(Options.SliderWalkSpeed.Value)
 	end)
 
 
@@ -172,7 +171,7 @@ do
 	})
 	JumpPower:OnChanged(function(Value)
 		--print("SliderJumpPower Changed")
-		UtilsPT.SetTargetJumpPower(Options.SliderJumpPower.Value)
+		Utils.SetTargetJumpPower(Options.SliderJumpPower.Value)
 	end)
 
 
@@ -192,11 +191,11 @@ do
 	local ToggleCharacter = Tabs.Character:AddToggle("ToggleCharacter", { Title = "Enable Character Setting", Default = false})
 	ToggleCharacter:OnChanged(function(Value)
 		if Value then
-			UtilsPT.SetTargetWalkSpeed(Options.SliderWalkSpeed.Value)
-			UtilsPT.SetTargetJumpPower(Options.SliderJumpPower.Value)
-			UtilsPT.StartCharacterOverride()
+			Utils.SetTargetWalkSpeed(Options.SliderWalkSpeed.Value)
+			Utils.SetTargetJumpPower(Options.SliderJumpPower.Value)
+			Utils.StartCharacterOverride()
 		else
-			UtilsPT.StopCharacterOverride()
+			Utils.StopCharacterOverride()
 		end
 	end)
 
@@ -205,7 +204,7 @@ do
 		Title = "", 
 		Icon = false,
 		Callback = function()
-			UtilsPT.TeleportToRandomServer()
+			Utils.TeleportToRandomServer()
 		end
 	})
 	HopeServer.Frame.Text = "Hope Server"
