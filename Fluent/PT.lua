@@ -80,9 +80,9 @@ do
 		end
 		
 		if Value then
-			Utils.ToggleMainUI(true)
-		else
 			Utils.ToggleMainUI(false)
+		else
+			Utils.ToggleMainUI(true)
 		end	
 	end)
 
