@@ -71,6 +71,15 @@ do
 	roundsBoxWorks:OnChanged(function()
 		--print("InputRoundsFarm changed:", Options.InputRoundsFarm.Value)
 	end)
+	
+	local ToggleMainUI = Tabs.Main:AddToggle("ToggleHideUI", { Title = "Hide UI Setting", Default = false})
+	ToggleMainUI:OnChanged(function(Value)
+		if Value then
+			Utils.ToggleMainUI(true) 
+		else
+			Utils.ToggleMainUI(false) 
+		end
+	end)
 
 	function RunLoopEnergy()
 		Utils.processParallel()
@@ -211,6 +220,7 @@ do
 	HopeServer.Frame.TextColor3 = Color3.fromRGB(0, 170, 0)
 	HopeServer.Frame.TextSize = 14
 	HopeServer.Frame.Font = Enum.Font.GothamBold
+	
 end
 
 -- Addons:
