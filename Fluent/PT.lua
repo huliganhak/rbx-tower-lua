@@ -73,7 +73,12 @@ do
 	end)
 	
 	local ToggleMainUI = Tabs.Main:AddToggle("ToggleHideUI", { Title = "Hide UI Setting", Default = false})
-	ToggleMainUI:OnChanged(function(Value)
+	ToggleMainUI:OnChanged(function(Value)	
+		if not initialized_UI then
+			initialized_UI = true
+			return -- ข้ามครั้งแรก (Fluent เรียกเอง)
+		end
+		
 		Utils.ToggleMainUI(Value) 
 	end)
 
