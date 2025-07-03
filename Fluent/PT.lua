@@ -72,7 +72,7 @@ do
 		--print("InputRoundsFarm changed:", Options.InputRoundsFarm.Value)
 	end)
 	
-	local ToggleMainUI = Tabs.Main:AddToggle("ToggleHideUI", { Title = "Hide UI Setting", Default = true})
+	local ToggleMainUI = Tabs.Main:AddToggle("ToggleHideUI", { Title = "Hide UI Setting", Default = false})
 	ToggleMainUI:OnChanged(function(Value)
 		if Value then
 			Utils.ToggleMainUI(false) 
