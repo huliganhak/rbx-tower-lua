@@ -79,7 +79,11 @@ do
 			return -- ข้ามครั้งแรก (Fluent เรียกเอง)
 		end
 		
-		Utils.ToggleMainUI(Value) 
+		if Value then
+			Utils.ToggleMainUI(true)
+		else
+			Utils.ToggleMainUI(false)
+		end	
 	end)
 
 	function RunLoopEnergy()
