@@ -66,6 +66,15 @@ function Utils.processParallel()
 	end
 end
 
+function Utils.ToggleMainUI(state)
+	local mainUI = player:WaitForChild("PlayerGui"):WaitForChild("MainUI")
+	if mainUI and mainUI:IsA("ScreenGui") then
+		mainUI.Enabled = state
+	else
+		warn("❌ ไม่พบ MainUI ใน PlayerGui หรือไม่ใช่ ScreenGui")
+	end
+end
+
 -- ฟังก์ชันย้าย server
 function Utils.TeleportToRandomServer()
 	local url = "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100"
