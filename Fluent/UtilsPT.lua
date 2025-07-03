@@ -71,7 +71,7 @@ function Utils.ToggleMainUI(state)
 	if mainUI and mainUI:IsA("ScreenGui") then
 		mainUI.Enabled = state
 	else
-		warn("❌ ไม่พบ MainUI ใน PlayerGui หรือไม่ใช่ ScreenGui")
+		warn("❌ ไม่พบ MainUI ใน PlayerGui หรือไม่มี ScreenGui")
 	end
 end
 
