@@ -75,9 +75,9 @@ do
 	local ToggleMainUI = Tabs.Main:AddToggle("ToggleHideUI", { Title = "Hide UI Setting", Default = false})
 	ToggleMainUI:OnChanged(function(Value)
 		if Value then
-			Utils.ToggleMainUI(false) 
-		else
 			Utils.ToggleMainUI(true) 
+		else
+			Utils.ToggleMainUI(false) 
 		end
 	end)
 
